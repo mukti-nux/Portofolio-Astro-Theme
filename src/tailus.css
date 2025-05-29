@@ -5,3 +5,11 @@
     --color-secondary : var(--color-orange-600);
     --color-info : var(--color-blue-600);
 }
+
+html, body {
+  overflow-x: hidden;
+}
+
+* {
+  outline: 1px solid red; /* bisa dihapus nanti kalau udah fix */
+}
