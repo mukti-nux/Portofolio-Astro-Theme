@@ -9,7 +9,3 @@
 html, body {
   overflow-x: hidden;
 }
-
-* {
-  outline: 1px solid red; /* bisa dihapus nanti kalau udah fix */
-}
