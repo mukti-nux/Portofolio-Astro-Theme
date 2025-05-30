@@ -5,8 +5,8 @@ const { title, description, imageUrl, link } = Astro.props;
 
 <Container>
   <div
-    class="max-w-4xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8 border-2 transition duration-300"
-    style="animation: rgbBorderGlow 4s linear infinite; border-style: solid;"
+    class="group max-w-4xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg border-2 border-[rgb(59,130,246)] transition duration-300 grup-hover:animate-hover-rgb-shadow
+           flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8"
   >
     <img
       src={imageUrl}
@@ -19,37 +19,13 @@ const { title, description, imageUrl, link } = Astro.props;
       <div>
         <a
           href={link}
-          class="relative inline-flex h-11 items-center justify-center px-6 rounded-full bg-primary text-white font-semibold border-2 transition duration-300"
-          style="animation: rgbBorderGlow 4s linear infinite; border-style: solid;"
+          class="relative inline-flex h-11 items-center justify-center px-6 rounded-full bg-primary text-white font-semibold border-2 border-[rgb(59,130,246)]
+                 transition duration-300 group-hover:animate-hover-rgb-shadow"
+          style="box-shadow: none;"
         >
           GET HERE
         </a>
       </div>
     </div>
   </div>
-
-  <style>
-    @keyframes rgbBorderGlow {
-      0% {
-        border-color: rgb(255, 0, 0);
-        box-shadow: 0 0 10px rgb(255, 0, 0);
-      }
-      25% {
-        border-color: rgb(0, 255, 0);
-        box-shadow: 0 0 10px rgb(0, 255, 0);
-      }
-      50% {
-        border-color: rgb(0, 0, 255);
-        box-shadow: 0 0 10px rgb(0, 0, 255);
-      }
-      75% {
-        border-color: rgb(255, 255, 0);
-        box-shadow: 0 0 10px rgb(255, 255, 0);
-      }
-      100% {
-        border-color: rgb(255, 0, 0);
-        box-shadow: 0 0 10px rgb(255, 0, 0);
-      }
-    }
-  </style>
 </Container>
