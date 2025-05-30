@@ -1,6 +1,18 @@
 ---
-import Container from "./Container.astro";
-import Layout from "../layouts/Layout.astro";
+import Layout from "../layouts/Layout.astro"
+import Container from "../components/Container.astro"
+import DokumentasiCard from "../components/DocumentationCard.astro"
+
+const dokumentasiList = [
+  {
+    id: "DokSekolahPresenSD",
+    title: "Dok. Sekolah PresentSD",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit...",
+    imageUrl: "https://github.com/mukti-nux/Framer-asset/raw/refs/heads/main/dok%20present%20sd.avif",
+    link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolahPresenSD",
+  },
+  // ... data dokumentasi lain nya
+]
 ---
 
 <Layout title="UpdatePage">
@@ -13,35 +25,20 @@ import Layout from "../layouts/Layout.astro";
 
       <div class="relative">
         <h1 class="text-center text-4xl font-bold text-gray-800 dark:text-white md:text-5xl">Update Page</h1>
-        <p class="text-center text-xl text-gray-600 dark:text-gray-300">
+        <p class="text-center text-xl text-gray-600 dark:text-gray-300 mb-10">
           ✨You can search for your documents on this page.✨
         </p>
-      </div>
-      
-      <!-- kotak start kode e -->
-<div class="max-w-4xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8">
-  <img
-    src="https://github.com/mukti-nux/Framer-asset/raw/refs/heads/main/dok%20present%20sd.avif"
-    alt="thumbnail dokumentasi"
-    class="w-32 h-32 rounded-md object-cover flex-shrink-0"
-  />
-  <div class="flex flex-col flex-1">
-    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Dok. Sekolah PresentSD</h2>
-    <p class="text-gray-700 dark:text-gray-300 mb-6">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat maxime voluptates aliquam sunt, et sint pariatur error adipisci quidem iste optio laudantium, reiciendis aperiam eos natus dolorem! Ipsa, maxime voluptate.
-    </p>
-    <div>
-      <a
-        href="http://seeker-project-vcl.vercel.app/index.html?id=DokSekolahPresenSD"
-        class="relative inline-flex h-11 items-center justify-center px-6 rounded-full bg-primary text-white font-semibold transition duration-300 hover:bg-primary-dark active:bg-primary-darker"
-      >
-        GET HERE
-      </a>
-    </div>
-  </div>
-</div>
-<!-- kotak end kode -->
 
+        {dokumentasiList.map(doc => (
+          <DokumentasiCard
+            key={doc.id}
+            title={doc.title}
+            description={doc.description}
+            imageUrl={doc.imageUrl}
+            link={doc.link}
+          />
+        ))}
+      </div>
     </Container>
   </div>
 </Layout>
