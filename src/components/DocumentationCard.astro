@@ -4,11 +4,11 @@ const { title, description, imageUrl, link } = Astro.props;
 ---
 
 <Container>
-  <div class="relative max-w-2xl mx-auto mt-16 rounded-xl p-6 bg-white dark:bg-gray-900 shadow-lg transition-all duration-300 border border-transparent hover:border-[3px] hover:border-[rgb(0,255,255)] group">
+  <div class="relative max-w-2xl mx-auto mt-16 rounded-xl p-6 bg-white dark:bg-gray-900 shadow-lg transition-all duration-300 border border-transparent hover:border-[3px] hover:border-[rgb(0,255,255)] group flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
 
     <!-- Animated Gradient Glow Background -->
     <div class="absolute inset-0 animate-gradient-move bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
-              bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"></div>
+                bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"></div>
 
     <!-- Image -->
     <img
@@ -33,6 +33,3 @@ const { title, description, imageUrl, link } = Astro.props;
     </div>
   </div>
 </Container>
-
-relative max-w-4xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg border-2 border-[rgb(59,130,246)] transition duration-300
-              flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8 overflow-hidden
