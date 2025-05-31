@@ -4,36 +4,31 @@ const { title, description, imageUrl, link } = Astro.props;
 ---
 
 <Container>
-  <div class="relative max-w-4xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg border-2 border-transparent transition-300 flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8
-              overflow-hidden hover:border-[3px] hover:border-[rgb(0,255,255)] group">
-
-    <!-- Animated Gradient Glow Background -->
-    <div class="absolute inset-0 animate-gradient-move bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
-              bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"></div>
-
-    <!-- Image -->
+  <div
+    class="relative max-w-2xl mx-auto mt-16 rounded-xl p-6 bg-white dark:bg-gray-900 
+           transition-all duration-300 border border-transparent flex items-center space-x-6
+           before:absolute before:inset-0 before:-z-10 before:rounded-xl
+           before:bg-gradient-to-r before:from-cyan-400 before:via-purple-500 before:to-pink-500
+           before:bg-[length:200%_200%] before:animate-gradient-move before:opacity-70 before:blur-3xl"
+  >
+    <!-- Gambar -->
     <img
       src={imageUrl}
-      alt={`thumbnail ${title}`}
+      alt={title}
       class="w-32 h-32 rounded-md object-cover flex-shrink-0"
     />
 
-    <!-- Content -->
-    <div class="flex flex-col flex-1">
-      <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">{title}</h2>
-      <p class="text-gray-700 dark:text-gray-300 mb-6">{description}</p>
-      <div>
-        <a
-          href={link}
-          class="relative inline-flex h-11 items-center justify-center px-6 rounded-full bg-primary text-white font-semibold 
-                 border-2 border-[rgb(59,130,246)] transition duration-300 animate-hover-rgb-shadow"
-        >
-          GET HERE
-        </a>
-      </div>
+    <!-- Konten teks -->
+    <div class="flex-1">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">{title}</h2>
+      <p class="text-gray-700 dark:text-gray-300">{description}</p>
+      <a
+        href={link}
+        class="inline-block mt-4 px-6 py-3 rounded-full bg-primary text-white font-semibold
+               border-2 border-[rgb(59,130,246)] transition duration-300 hover:bg-[rgb(59,130,246)]"
+      >
+        GET HERE
+      </a>
     </div>
   </div>
 </Container>
-
-relative max-w-4xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg border-2 border-[rgb(59,130,246)] transition duration-300
-              flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8 overflow-hidden
