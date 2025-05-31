@@ -9,12 +9,46 @@ import Blog from '../components/Blog.astro';
 ---
 
 <Layout title="Welcome to Astrolus.">
-	<main class="space-y-40 mb-40">
-		<HeroSection/>
-		<Features/>
-		<Stats/>
-		<Testimonials/>
-		<CallToAction/>
-		<Blog/>
-	</main>
+  <!-- 🟠 WELCOME OVERLAY -->
+  <div id="overlay" 
+    class="fixed inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-white z-50 cursor-pointer">
+
+    <!-- 🔵 Logo SVG -->
+    <div class="w-32 h-32 mb-4 animasi-muncul">
+      <!-- Ganti isi SVG berikut dengan logoporto.svg -->
+      <img src="/logoporto.svg" alt="logo" class="w-full h-full"/>
+    </div>
+
+    <!-- 🟢 Teks Welcome -->
+    <h1 class="text-2xl font-bold mb-2 animasi-muncul">Selamat Datang</h1>
+    <p class="text-sm opacity-75 animasi-muncul">Klik di mana saja untuk melanjutkan</p>
+  </div>
+
+  <!-- Script untuk menghapus overlay saat diklik -->
+  <script is:client>
+    document.getElementById('overlay')?.addEventListener('click', () => {
+      document.getElementById('overlay')?.remove();
+    });
+  </script>
+
+  <!-- Style animasi muncul -->
+  <style>
+    @keyframes muncul {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animasi-muncul {
+      animation: muncul 1s ease-out forwards;
+    }
+  </style>
+
+  <!-- 🟢 Konten Halaman -->
+  <main class="space-y-40 mb-40">
+    <HeroSection/>
+    <Features/>
+    <Stats/>
+    <Testimonials/>
+    <CallToAction/>
+    <Blog/>
+  </main>
 </Layout>

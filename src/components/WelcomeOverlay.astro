@@ -1,0 +1,28 @@
+---
+import { onMount } from 'astro/client';
+import Container from './Container.astro';
+
+onMount(() => {
+  const overlay = document.getElementById('overlay');
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      overlay.remove();
+    });
+  }
+});
+---
+<div id="overlay" 
+     class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 cursor-pointer">
+  
+  <Container>
+    <div class="w-32 h-32 mb-4 animasi-muncul mx-auto">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="white">
+        <circle cx="50" cy="50" r="40" />
+      </svg>
+    </div>
+
+    <h1 class="text-2xl font-bold mb-2 animasi-muncul text-center">Selamat Datang</h1>
+    <p class="text-sm opacity-75 animasi-muncul text-center">Klik di mana saja untuk melanjutkan</p>
+  </Container>
+
+</div>
