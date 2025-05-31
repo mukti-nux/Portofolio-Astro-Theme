@@ -10,20 +10,26 @@ import Container from "./Container.astro"
       </h2>
     </div>
     <div class="md:columns-2 lg:columns-3 gap-8 space-y-8">
-      <div class="relative aspect-auto p-8 border border-gray-100 rounded-3xl bg-white dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
-        <!-- shadow -->
-         <div class="absolute inset-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
-                bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-3xl z-[-1] animate-gradient-move">
-        <div class="flex gap-4 relative z-10">
-          <img class="w-12 h-12 rounded-full" src="./images/avatars/eko.png" alt="user avatar" width="400" height="400" loading="lazy">
-          <div>
-            <h6 class="text-lg font-medium text-gray-700 dark:text-white">Eko Adi P</h6>
-            <p class="text-sm text-gray-500 dark:text-gray-300">Mobile Dev</p>
-          </div>
-          </div>
-        </div>
-        <p class="mt-8">In my opinion, Hasan is a person who is meticulous in everything, he has also made mistakes in doing trivial things but thanks to his hard work, trivial things become easy for him.</p>
+  <div class="relative aspect-auto p-8 border border-gray-100 rounded-3xl bg-white dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+    
+    <!-- 🔮 Gradient Shadow Layer -->
+    <div class="absolute inset-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
+                bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-3xl z-[-1] animate-gradient-move"></div>
+    
+    <div class="flex gap-4 relative z-10">
+      <img class="w-12 h-12 rounded-full" src="./images/avatars/eko.png" alt="user avatar" width="400" height="400" loading="lazy">
+      <div>
+        <h6 class="text-lg font-medium text-gray-700 dark:text-white">Eko Adi P</h6>
+        <p class="text-sm text-gray-500 dark:text-gray-300">Mobile Dev</p>
       </div>
+    </div>
+    
+    <p class="mt-8 relative z-10">
+      In my opinion, Hasan is a person who is meticulous in everything, he has also made mistakes in doing trivial things
+      but thanks to his hard work, trivial things become easy for him.
+    </p>
+  </div>
+</div>
       <div class="aspect-auto p-8 border border-gray-100 rounded-3xl bg-white dark:bg-gray-800 dark:border-gray-700 shadow-2xl shadow-gray-600/10 dark:shadow-none">
         <div class="flex gap-4">
           <img class="w-12 h-12 rounded-full" src="./images/avatars/shq.png" alt="user avatar" width="200" height="200" loading="lazy">
