@@ -5,8 +5,8 @@ const { title, description, imageUrl, link } = Astro.props;
 
 <Container>
   <div
-    class="group max-w-4xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg border-2 border-[rgb(59,130,246)] transition duration-300
-           flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8"
+    class="absolute inset-0 animate-gradient-move bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
+              bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"
   >
     <img
       src={imageUrl}
@@ -19,8 +19,8 @@ const { title, description, imageUrl, link } = Astro.props;
       <div>
         <a
           href={link}
-          class="relative inline-flex h-11 items-center justify-center px-6 rounded-full bg-primary text-white font-semibold border-2 border-[rgb(59,130,246)]
-                 transition duration-300 group-hover:animate-hover-rgb-shadow"
+          class="relative inline-flex h-11 items-center justify-center px-6 rounded-full bg-primary text-white font-semibold 
+         border-2 border-[rgb(59,130,246)] transition duration-300 animate-hover-rgb-shadow"
           style="box-shadow: none;"
         >
           GET HERE
