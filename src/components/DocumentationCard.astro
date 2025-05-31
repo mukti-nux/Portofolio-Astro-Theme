@@ -4,27 +4,20 @@ const { title, description, imageUrl, link } = Astro.props;
 ---
 
 <Container>
-  <div
-    class="relative max-w-4xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg border-2 border-[rgb(59,130,246)] transition duration-300
-           flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8 overflow-hidden"
-    style="
-      box-shadow:
-        0 0 10px cyan,
-        0 0 20px purple,
-        0 0 30px cyan,
-        0 0 40px purple;
-    "
-  >
-    <!-- background gradient bergerak tetap pakai tailwind -->
-    <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
-                bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-lg z-[-1] animate-gradient-move"></div>
+  <div class="relative max-w-4xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg border-2 border-[rgb(59,130,246)] transition duration-300 border-transparent hover:border-[3px] hover:border-[rgb(0,255,255)] group">
 
+    <!-- Animated Gradient Glow Background -->
+    <div class="absolute inset-0 animate-gradient-move bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
+              bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"></div>
+
+    <!-- Image -->
     <img
       src={imageUrl}
       alt={`thumbnail ${title}`}
       class="w-32 h-32 rounded-md object-cover flex-shrink-0"
     />
 
+    <!-- Content -->
     <div class="flex flex-col flex-1">
       <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">{title}</h2>
       <p class="text-gray-700 dark:text-gray-300 mb-6">{description}</p>
@@ -32,7 +25,7 @@ const { title, description, imageUrl, link } = Astro.props;
         <a
           href={link}
           class="relative inline-flex h-11 items-center justify-center px-6 rounded-full bg-primary text-white font-semibold 
-                 border-2 border-[rgb(59,130,246)] transition duration-300"
+                 border-2 border-[rgb(59,130,246)] transition duration-300 animate-hover-rgb-shadow"
         >
           GET HERE
         </a>
@@ -40,4 +33,3 @@ const { title, description, imageUrl, link } = Astro.props;
     </div>
   </div>
 </Container>
-
