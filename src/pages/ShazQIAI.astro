@@ -59,7 +59,7 @@ import Container from "../components/Container.astro";
       messages.scrollTop = messages.scrollHeight;
 
       try {
-        const res = await fetch('https://shazqi-ai-backend-deploy.vercel.app/', {
+        const res = await fetch('https://shazqi-ai-backend-deploy.vercel.app/api/gemini', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: text })
