@@ -1,51 +1,57 @@
-// pages/api/sendEmail.ts
-import type { NextApiRequest, NextApiResponse } from "next";
-import nodemailer from "nodemailer";
+import type { APIRoute } from "astro";
 import admin from "firebase-admin";
+import nodemailer from "nodemailer";
+
+export const prerender = false
 
 // Inisialisasi Firebase Admin
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
-      projectId: "YOUR_PROJECT_ID",
-      clientEmail: "YOUR_CLIENT_EMAIL",
-      privateKey: "YOUR_PRIVATE_KEY".replace(/\\n/g, '\n'),
+      projectId: import.meta.env.FIREBASE_PROJECT_ID,
+      clientEmail: import.meta.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: import.meta.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
     }),
+    databaseURL: "https://shazqiai-notif-login-default-rtdb.asia-southeast1.firebasedatabase.app/", // Ganti sesuai project
   });
 }
 
-const db = admin.firestore();
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: import.meta.env.GMAIL_USER,
+    pass: import.meta.env.GMAIL_PASS,
+  },
+});
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") return res.status(405).end("Method not allowed");
-
+export const POST: APIRoute = async () => {
   try {
-    const usersRef = db.collection("users");
-    const snapshot = await usersRef.where("subscribed", "==", true).get();
+    const db = admin.database();
+    const snapshot = await db.ref("users").once("value");
 
-    const emails = snapshot.docs.map(doc => doc.data().email);
-    if (!emails.length) return res.status(200).json({ message: "No subscribers found." });
+    const emails: string[] = [];
 
-    // Setup email transport
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "emailkamu@gmail.com",
-        pass: "app-password-kamu", // bukan password Gmail, tapi [App Password](https://myaccount.google.com/apppasswords)
-      },
+    snapshot.forEach((child) => {
+      const data = child.val();
+      if (data.subscribed === true && data.email) {
+        emails.push(data.email);
+      }
     });
 
-    const info = await transporter.sendMail({
-      from: '"ShazqIAI Bot" <emailkamu@gmail.com>',
-      to: emails.join(","),
-      subject: "📄 Dokumentasi Baru ShazqIAI!",
-      text: "Hai, ada dokumentasi baru yang tersedia. Yuk cek sekarang di website!",
-      html: "<p>Hai, ada <strong>dokumentasi baru</strong> yang tersedia.<br/>Yuk cek sekarang di <a href='https://shazqiai.com'>website</a>!</p>",
+    if (emails.length === 0) {
+      return new Response(JSON.stringify({ success: false, message: "No subscribed emails found." }), { status: 400 });
+    }
+
+    await transporter.sendMail({
+      from: `"ShazqIAI" <${import.meta.env.GMAIL_USER}>`,
+      to: emails.join(", "),
+      subject: "📢 Dokumentasi Baru Telah Diunggah!",
+      text: "Hai! Ada dokumentasi baru dari ShazqIAI. Cek sekarang di situs kami.",
     });
 
-    res.status(200).json({ message: "Emails sent!", info });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Gagal mengirim email." });
+    return new Response(JSON.stringify({ success: true, sent: emails }), { status: 200 });
+  } catch (err) {
+    console.error("Email send error:", err);
+    return new Response(JSON.stringify({ success: false, message: "Gagal mengirim email." }), { status: 500 });
   }
-}
+};
