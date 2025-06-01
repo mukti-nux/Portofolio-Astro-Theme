@@ -1,22 +1,24 @@
 import type { APIRoute } from "astro";
 import admin from "firebase-admin";
-import dotenv from "dotenv";
-dotenv.config();
 
 export const prerender = false;
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-    }),
-    databaseURL: "https://shazqiai-notif-login-default-rtdb.asia-southeast1.firebasedatabase.app/", // ganti sesuai milikmu
-  });
-}
-
 export const POST: APIRoute = async ({ request }) => {
+  if (!admin.apps.length) {
+    const projectId = import.meta.env.FIREBASE_PROJECT_ID;
+    const clientEmail = import.meta.env.FIREBASE_CLIENT_EMAIL;
+    const privateKey = import.meta.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId,
+        clientEmail,
+        privateKey,
+      }),
+      databaseURL: "https://shazqiai-notif-login-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    });
+  }
+
   const formData = await request.formData();
   const email = formData.get("email")?.toString();
 
