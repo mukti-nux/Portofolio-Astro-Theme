@@ -1,16 +1,13 @@
 import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
+import vercel from '@astrojs/vercel';
+import tailwind from '@astrojs/tailwind';
 import dotenv from 'dotenv';
 
-// 👇 Ini harus dipanggil sebelum defineConfig
 dotenv.config();
 
-// https://astro.build/config
 export default defineConfig({
-  darkMode: "class",
-  output: "static",
+  adapter: vercel(),
+  output: 'server',
 
-  vite: {
-    plugins: [tailwindcss()]
-  }
+  integrations: [tailwind()],
 });
