@@ -1,11 +1,15 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-    --color-primary : var(--color-indigo-600);
-    --color-secondary : var(--color-orange-600);
-    --color-info : var(--color-blue-600);
+/* Custom theme CSS vars */
+:root {
+  --color-primary: #4f46e5;   /* indigo-600 */
+  --color-secondary: #f97316; /* orange-600 */
+  --color-info: #2563eb;      /* blue-600 */
 }
 
+/* Optional: Custom scroll fix */
 html, body {
   overflow-x: hidden;
 }
