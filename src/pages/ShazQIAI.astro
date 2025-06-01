@@ -62,7 +62,7 @@ import Container from "../components/Container.astro";
         const res = await fetch('https://shazqi-ai-backend-deploy.vercel.app/api/gemini', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: text })
+          body: JSON.stringify({ message: text })
         });
 
         const { result } = await res.json();
