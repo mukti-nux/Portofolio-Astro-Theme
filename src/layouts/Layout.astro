@@ -6,32 +6,39 @@ import "./../tailus.css"
 ---
 
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="generator" content={Astro.generator} />
-        <meta name="description" content="Template built with tailwindcss using Tailus blocks v2" />
-        <title>PortofolioMuktiV2</title>
+<html lang="en" class="">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content="Template built with tailwindcss using Tailus blocks v2" />
+    <title>PortofolioMuktiV2</title>
 
-        <AstroFont
-            config={[
-                {
-                    src: [],
-                    name: "Urbanist",
-                    preload: true,
-                    display: "swap",
-                    selector: "html",
-                    fallback: "sans-serif",
-                    googleFontsURL: 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap',
-                },
-            ]}
-        />
-    </head>
-    <body class="overflow-x-hidden bg-white dark:bg-gray-950">
-        <AppHeader />
-        <slot />
-        <AppFooter />
-    </body>
+    <AstroFont
+      config={[
+        {
+          src: [],
+          name: "Urbanist",
+          preload: true,
+          display: "swap",
+          selector: "html",
+          fallback: "sans-serif",
+          googleFontsURL: 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap',
+        },
+      ]}
+    />
+  </head>
+  <body class="overflow-x-hidden bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300">
+    <AppHeader />
+    <slot />
+    <AppFooter />
+
+    <!-- Auto apply dark mode class if system prefers dark -->
+    <script is:client>
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+  </body>
 </html>
