@@ -1,8 +1,11 @@
-// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,js,astro,ts,tsx,vue,svelte}", // Sesuaikan dengan project-mu
+    "./src/**/*.{html,js,astro,ts,tsx,vue,svelte}",
+    "./components/**/*.{astro,js,ts,jsx,tsx}",
+    "./layouts/**/*.{astro,js,ts,jsx,tsx}"
   ],
+  darkMode: 'class', // 🌙 Enable dark mode via class
   theme: {
     extend: {
       keyframes: {
