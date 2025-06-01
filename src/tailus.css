@@ -14,5 +14,5 @@ html, body {
 
 /* Gunakan class-based dark mode langsung dengan Tailwind */
 body {
-  @apply bg-white text-black dark:gray-950 dark:text-white;
+  @apply bg-white text-black dark:bg-gray-950 dark:text-white;
 }
