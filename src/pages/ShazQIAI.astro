@@ -37,13 +37,16 @@ import Container from "../components/Container.astro";
     const form = document.getElementById('chat-form');
     const input = document.getElementById('chat-input');
     const messages = document.getElementById('chat-messages');
+    const history = ["AI: Halo! Ada yang bisa aku bantu?"]; // 🧠 simpan riwayat
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const text = input.value.trim();
       if (!text) return;
 
-      // Tampilkan pesan user
+      // Simpan pesan user ke history
+      history.push(`User: ${text}`);
+
       const userMsg = document.createElement('div');
       userMsg.textContent = "🧑 " + text;
       userMsg.className = "text-left";
@@ -51,7 +54,6 @@ import Container from "../components/Container.astro";
 
       input.value = "";
 
-      // Tampilkan placeholder 'typing...'
       const botMsg = document.createElement('div');
       botMsg.textContent = "🤖 Sedang mengetik...";
       botMsg.className = "text-left italic text-gray-500";
@@ -62,12 +64,15 @@ import Container from "../components/Container.astro";
         const res = await fetch('https://shazqi-ai-backend-deploy.vercel.app/api/gemini', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text })
+          body: JSON.stringify({ messages: history.join("\n") }) // kirim riwayat
         });
 
         const { reply } = await res.json();
         botMsg.textContent = "🤖 " + reply;
         botMsg.classList.remove("italic", "text-gray-500");
+
+        // Simpan balasan AI ke history
+        history.push(`AI: ${reply}`);
       } catch (err) {
         botMsg.textContent = "🤖 Maaf, terjadi kesalahan.";
         botMsg.classList.remove("italic", "text-gray-500");
