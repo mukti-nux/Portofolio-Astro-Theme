@@ -1,26 +1,26 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,js,astro,ts,tsx,vue,svelte}",
+    "./src/**/*.{astro,html,js,ts,jsx,tsx,vue,svelte}",
     "./components/**/*.{astro,js,ts,jsx,tsx}",
-    "./layouts/**/*.{astro,js,ts,jsx,tsx}"
+    "./layouts/**/*.{astro,js,ts,jsx,tsx}",
   ],
-  darkMode: 'class', // 🌙 Enable dark mode via class
+  darkMode: 'class',
   theme: {
     extend: {
       keyframes: {
         rgbGlow: {
-          '0%':   { borderColor: 'rgb(255,0,0)' },
-          '25%':  { borderColor: 'rgb(0,255,0)' },
-          '50%':  { borderColor: 'rgb(0,0,255)' },
-          '75%':  { borderColor: 'rgb(255,255,0)' },
+          '0%': { borderColor: 'rgb(255,0,0)' },
+          '25%': { borderColor: 'rgb(0,255,0)' },
+          '50%': { borderColor: 'rgb(0,0,255)' },
+          '75%': { borderColor: 'rgb(255,255,0)' },
           '100%': { borderColor: 'rgb(255,0,0)' },
         },
         rgbShadow: {
-          '0%':   { boxShadow: '0 0 10px rgb(255,0,0)' },
-          '25%':  { boxShadow: '0 0 10px rgb(0,255,0)' },
-          '50%':  { boxShadow: '0 0 10px rgb(0,0,255)' },
-          '75%':  { boxShadow: '0 0 10px rgb(255,255,0)' },
+          '0%': { boxShadow: '0 0 10px rgb(255,0,0)' },
+          '25%': { boxShadow: '0 0 10px rgb(0,255,0)' },
+          '50%': { boxShadow: '0 0 10px rgb(0,0,255)' },
+          '75%': { boxShadow: '0 0 10px rgb(255,255,0)' },
           '100%': { boxShadow: '0 0 10px rgb(255,0,0)' },
         },
         gradientMove: {

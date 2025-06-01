@@ -2,22 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom theme CSS vars */
 :root {
-  --color-primary: #4f46e5;   /* indigo-600 */
-  --color-secondary: #f97316; /* orange-600 */
-  --color-info: #2563eb;      /* blue-600 */
+  --color-primary: #4f46e5;
+  --color-secondary: #f97316;
+  --color-info: #2563eb;
 }
 
-/* Optional: Custom scroll fix */
 html, body {
   overflow-x: hidden;
 }
 
-body{
-  @apply bg-white text-black;
-}
-
-.dark body{
-  @apply bg-black text-white;
+/* Gunakan class-based dark mode langsung dengan Tailwind */
+body {
+  @apply bg-white text-black dark:bg-black dark:text-white;
 }
