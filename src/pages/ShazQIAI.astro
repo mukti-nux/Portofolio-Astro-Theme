@@ -65,7 +65,7 @@ import Container from "../components/Container.astro";
           body: JSON.stringify({ message: text })
         });
 
-        const { result } = await res.json();
+        const { reply } = await res.json();
         botMsg.textContent = "🤖 " + reply;
         botMsg.classList.remove("italic", "text-gray-500");
       } catch (err) {
