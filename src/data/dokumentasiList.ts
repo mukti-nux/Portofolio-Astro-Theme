@@ -1,4 +1,12 @@
-const dokumentasiList = [
+export interface DokumentasiItem {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  link: string;
+}
+
+const dokumentasiList: DokumentasiItem[] = [
   {
     id: "DokSekolahPresenSD",
     title: "Dok. Sekolah PresentSD",
