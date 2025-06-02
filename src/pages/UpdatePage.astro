@@ -1,110 +1,73 @@
 ---
 import Layout from "../layouts/Layout.astro"
 import Container from "../components/Container.astro"
-// Catatan: DokumentasiCard tidak dipakai langsung di hasil JS
-// import DokumentasiCard from "../components/DocumentationCard.astro"
-
-const dokumentasiList = [
-  {
-    id: "DokSekolahPresenSD",
-    title: "Dok. Sekolah PresentSD",
-    description: "Documentation of Presentation and Promotion activities to Elementary Schools",
-    imageUrl: "https://github.com/mukti-nux/Framer-asset/raw/refs/heads/main/dok%20present%20sd.avif",
-    link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolahPresenSD",
-  },
-  {
-    id: "DokSekolah17052025",
-    title: "Dok. Sekolah 17052025",
-    description: "Documentation of the BPK-RI Museum Magelang visit activities",
-    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/IMG_0534.jpg?raw=true",
-    link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolah17052025",
-  },
-  {
-    id: "DokSekolah02052025",
-    title: "Dok. Sekolah 02052025",
-    description: "Documentation of National Education Day Ceremony activities",
-    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/IMG_0340.JPG?raw=true",
-    link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolah02052025",
-  },
-]
+import dokumentasiList from "../data/dokumentasiList";
 ---
 
 <Layout title="UpdatePage">
   <div class="relative pt-36" id="updates">
     <Container>
-      <!-- 🔵 Background Blur -->
       <div aria-hidden="true" class="absolute inset-0 h-max w-full m-auto grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
         <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
         <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
       </div>
 
-      <!-- 🔤 Judul dan Search -->
-      <div class="relative z-10">
+      <div class="relative">
         <h1 class="text-center text-4xl font-bold text-gray-800 dark:text-white md:text-5xl">Update Page</h1>
         <p class="text-center text-xl text-gray-600 dark:text-gray-300 mb-10">
           ✨You can search for your Documents on this page.✨
         </p>
 
-        <!-- 🔍 Input Search -->
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Cari dokumentasi..."
-          class="w-full mb-8 px-4 py-3 rounded-xl bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
-        />
+        <!-- 🔍 Search Component -->
+        <div id="search-container" class="max-w-xl mx-auto mb-10">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Search documentation..."
+            class="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
 
-        <!-- 🧾 Tempat hasil pencarian -->
-        <div id="resultContainer" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+        <div id="results" class="flex flex-col items-center space-y-10"></div>
       </div>
     </Container>
   </div>
 
-  <!-- 🧠 Fuse.js Script -->
-  <script is:client type="module">
+  <!-- ✅ Client script to handle Fuse.js search -->
+  <script type="module" is:client>
     import Fuse from 'fuse.js';
+    import DocumentationCard from '../components/DocumentationCard.jsx';
+    import dokumentasiList from '../data/dokumentasiList';
+    import { render } from 'preact';
 
-    const data = JSON.parse(`<!--#-->${JSON.stringify(dokumentasiList)}<!--#-->`);
-    const input = document.getElementById('searchInput');
-    const resultContainer = document.getElementById('resultContainer');
+    const input = document.getElementById("search-input");
+    const resultsContainer = document.getElementById("results");
 
-    const fuse = new Fuse(data, {
-      keys: ['title', 'description'],
+    const fuse = new Fuse(dokumentasiList, {
+      keys: ['title', 'description', 'id'],
       threshold: 0.3,
     });
 
-    function renderResults(results) {
-      resultContainer.innerHTML = '';
-
-      if (results.length === 0) {
-        resultContainer.innerHTML = `<p class="text-gray-400 col-span-full">Tidak ada hasil ditemukan.</p>`;
-        return;
-      }
-
-      for (const { item } of results) {
-        const card = document.createElement('a');
-        card.href = item.link;
-        card.className = "block rounded-xl overflow-hidden shadow-md bg-gray-900 text-white hover:shadow-lg transition duration-300 border border-gray-800";
-        card.innerHTML = `
-          <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-40 object-cover">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold mb-1">${item.title}</h3>
-            <p class="text-sm text-gray-300">${item.description}</p>
-          </div>
-        `;
-        resultContainer.appendChild(card);
-      }
+    function renderResults(docs) {
+      resultsContainer.innerHTML = "";
+      docs.forEach(doc => {
+        const wrapper = document.createElement("div");
+        render(DocumentationCard(doc.item), wrapper);
+        resultsContainer.appendChild(wrapper);
+      });
     }
 
-    input?.addEventListener('input', () => {
+    // Initial render semua
+    renderResults(dokumentasiList.map(item => ({ item })));
+
+    input.addEventListener("input", () => {
       const keyword = input.value.trim();
       if (!keyword) {
-        renderResults(data.map(item => ({ item })));
-        return;
+        renderResults(dokumentasiList.map(item => ({ item })));
+      } else {
+        const results = fuse.search(keyword);
+        renderResults(results);
       }
-      const results = fuse.search(keyword);
-      renderResults(results);
     });
-
-    renderResults(data.map(item => ({ item })));
   </script>
 </Layout>
