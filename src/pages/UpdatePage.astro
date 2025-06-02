@@ -1,7 +1,7 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import Container from "../components/Container.astro"
-import dokumentasiList from "../data/dokumentasiList";
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+import SearchDokumentasi from "../components/SearchDocumentation.jsx"; // 👈 Pakai komponen interaktif
 ---
 
 <Layout title="UpdatePage">
@@ -18,56 +18,9 @@ import dokumentasiList from "../data/dokumentasiList";
           ✨You can search for your Documents on this page.✨
         </p>
 
-        <!-- 🔍 Search Component -->
-        <div id="search-container" class="max-w-xl mx-auto mb-10">
-          <input
-            id="search-input"
-            type="text"
-            placeholder="Search documentation..."
-            class="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-        </div>
-
-        <div id="results" class="flex flex-col items-center space-y-10"></div>
+        <!-- ✅ Ganti dengan komponen interaktif -->
+        <SearchDokumentasi client:load />
       </div>
     </Container>
   </div>
-
-  <!-- ✅ Client script to handle Fuse.js search -->
-  <script type="module" is:client>
-    import Fuse from 'fuse.js';
-    import DocumentationCard from '../components/DocumentationCard.jsx';
-    import dokumentasiList from '../data/dokumentasiList';
-    import { render } from 'preact';
-
-    const input = document.getElementById("search-input");
-    const resultsContainer = document.getElementById("results");
-
-    const fuse = new Fuse(dokumentasiList, {
-      keys: ['title', 'description', 'id'],
-      threshold: 0.3,
-    });
-
-    function renderResults(docs) {
-      resultsContainer.innerHTML = "";
-      docs.forEach(doc => {
-        const wrapper = document.createElement("div");
-        render(DocumentationCard(doc.item), wrapper);
-        resultsContainer.appendChild(wrapper);
-      });
-    }
-
-    // Initial render semua
-    renderResults(dokumentasiList.map(item => ({ item })));
-
-    input.addEventListener("input", () => {
-      const keyword = input.value.trim();
-      if (!keyword) {
-        renderResults(dokumentasiList.map(item => ({ item })));
-      } else {
-        const results = fuse.search(keyword);
-        renderResults(results);
-      }
-    });
-  </script>
 </Layout>
