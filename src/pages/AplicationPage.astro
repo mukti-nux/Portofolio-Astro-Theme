@@ -1,0 +1,59 @@
+---
+import Layout from "../layouts/Layout.astro"
+import Container from "../components/Container.astro"
+import DokumentasiCard from "../components/DocumentationCard.astro"
+
+const dokumentasiList = [
+  {
+    id: "DokSekolahPresenSD",
+    title: "Dok. Sekolah PresentSD",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit...",
+    imageUrl: "https://github.com/mukti-nux/Framer-asset/raw/refs/heads/main/dok%20present%20sd.avif",
+    link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolahPresenSD",
+  },
+  {
+    id: "DokSekolah17052025",
+    title: "Dok. Sekolah 17052025",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit...",
+    imageUrl: "https://github.com/mukti-nux/Framer-asset/raw/refs/heads/main/dok%20present%20sd.avif",
+    link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolahPresenSD",
+  },
+  {
+    id: "DokSekolah02052025",
+    title: "Dok. Sekolah 02052025",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit...",
+    imageUrl: "https://github.com/mukti-nux/Framer-asset/raw/refs/heads/main/dok%20present%20sd.avif",
+    link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolahPresenSD",
+  },
+  // ... data dokumentasi lain nya
+]
+---
+
+<Layout title="ApplicationPage">
+  <div class="relative pt-36" id="app">
+    <Container>
+      <div aria-hidden="true" class="absolute inset-0 h-max w-full m-auto grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
+        <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
+        <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
+      </div>
+
+      <div class="relative">
+        <h1 class="text-center text-4xl font-bold text-gray-800 dark:text-white md:text-5xl">Application Page</h1>
+        <p class="text-center text-xl text-gray-600 dark:text-gray-300 mb-10">
+          ✨You can search and use my Application on this page.✨
+        </p>
+
+        {dokumentasiList.map(doc => (
+          <DokumentasiCard
+            key={doc.id}
+            title={doc.title}
+            description={doc.description}
+            imageUrl={doc.imageUrl}
+            link={doc.link}
+          />
+        ))}
+      </div>
+    </Container>
+  </div>
+</Layout>
+    
