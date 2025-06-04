@@ -1,0 +1,7 @@
+name = "nama-worker-kamu"
+main = "src/index.ts"
+compatibility_date = "2025-06-04"
+
+# kalau perlu, bisa tambah environment atau kv namespace nanti
+# [env.production]
+# main = "src/index.ts"
