@@ -86,7 +86,7 @@ import Container from "../components/Container.astro";
       try {
         // Pilih endpoint sesuai model yang dipilih
         const model = modelSelect.value;
-        let apiUrl = "https://shazqi-ai-backend-deploy.vercel.app/api/chat";
+        let apiUrl = "https://shazqi-ai-backend-deploy.vercel.app/api/groq";
         if (model === "gemini") {
           apiUrl = "https://shazqi-ai-backend-deploy.vercel.app/api/gemini";
         }
