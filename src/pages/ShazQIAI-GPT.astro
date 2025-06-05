@@ -54,7 +54,7 @@ import Container from "../components/Container.astro";
         const res = await fetch("https://shazqi-ai-backend-deploy.vercel.app/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: history }),
+          body: JSON.stringify({ messages: history }),
         });
 
         const data = await res.json();
