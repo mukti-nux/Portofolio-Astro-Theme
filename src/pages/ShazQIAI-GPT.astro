@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+---
+
+<Layout title="Chat GPT 3.5 Turbo">
+  <div class="pt-36">
+    <Container>
+      <div class="relative max-w-2xl mx-auto mt-16 rounded-xl p-6 bg-white dark:bg-gray-900 shadow-lg">
+        <div id="chat-messages" class="mb-4 space-y-3 max-h-64 overflow-y-auto text-gray-900 dark:text-white text-sm">
+          <div class="text-left">🤖 Halo! Ada yang bisa aku bantu?</div>
+        </div>
+        <form id="chat-form" class="flex space-x-2">
+          <input id="chat-input" class="flex-1 rounded-md p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" placeholder="Tulis pertanyaanmu..." />
+          <button type="submit" class="bg-primary text-white px-4 py-2 rounded-md hover:brightness-110 transition">Kirim</button>
+        </form>
+      </div>
+    </Container>
+  </div>
+
+  <script is:inline>
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("chat-input");
+    const messages = document.getElementById("chat-messages");
+
+    const history = [{ role: "system", content: "🤖 Halo! Ada yang bisa aku bantu?" }];
+
+    function renderMessage(role, text) {
+      const div = document.createElement("div");
+      div.className = role === "user" ? "text-left" : "text-left font-semibold";
+      div.textContent = (role === "user" ? "🧑 " : "🤖 ") + text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    renderMessage("assistant", "Halo! Ada yang bisa aku bantu?");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      renderMessage("user", text);
+      history.push({ role: "user", content: text });
+      input.value = "";
+
+      const botMsgDiv = document.createElement("div");
+      botMsgDiv.textContent = "🤖 Sedang mengetik...";
+      botMsgDiv.className = "text-left italic text-gray-500";
+      messages.appendChild(botMsgDiv);
+      messages.scrollTop = messages.scrollHeight;
+
+      try {
+        const res = await fetch("https://shazqi-ai-backend-deploy.vercel.app/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: history }),
+        });
+
+        const data = await res.json();
+        const reply = data.reply || "Maaf, tidak ada jawaban.";
+
+        botMsgDiv.textContent = "🤖 " + reply;
+        botMsgDiv.classList.remove("italic", "text-gray-500");
+        history.push({ role: "assistant", content: reply });
+      } catch {
+        botMsgDiv.textContent = "🤖 Maaf, terjadi kesalahan.";
+        botMsgDiv.classList.remove("italic", "text-gray-500");
+        botMsgDiv.classList.add("text-red-500");
+      }
+
+      messages.scrollTop = messages.scrollHeight;
+    });
+  </script>
+</Layout>
