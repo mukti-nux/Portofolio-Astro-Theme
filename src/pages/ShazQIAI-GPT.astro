@@ -58,7 +58,7 @@ import Container from "../components/Container.astro";
         });
 
         const data = await res.json();
-        const reply = data.reply || "Maaf, tidak ada jawaban.";
+        const reply = data.content || "Maaf, tidak ada jawaban.";
 
         botMsgDiv.textContent = "🤖 " + reply;
         botMsgDiv.classList.remove("italic", "text-gray-500");
