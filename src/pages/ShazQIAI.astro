@@ -6,11 +6,9 @@ import Container from "../components/Container.astro";
 <Layout title="ShazQIAI">
   <div class="pt-36">
     <Container>
-      <!-- ChatBoxStart -->
       <div
         class="relative max-w-2xl mx-auto mt-16 rounded-xl p-6 bg-white dark:bg-gray-900 shadow-lg transition-all duration-300 border border-transparent hover:border-[3px] hover:border-[rgb(0,255,255)] group"
       >
-        <!-- Gradient Glow Border -->
         <div
           class="absolute inset-0 animate-gradient-move bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
                 bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"
@@ -23,7 +21,7 @@ import Container from "../components/Container.astro";
             id="model-select"
             class="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-1 focus:outline-none focus:ring-2 focus:ring-primary"
           >
-            <option value="gpt">GPT</option>
+            <option value="gpt">GPT 3.5 Turbo</option>
             <option value="gemini">Gemini 2.0</option>
           </select>
         </div>
@@ -51,7 +49,6 @@ import Container from "../components/Container.astro";
           </button>
         </form>
       </div>
-      <!-- ChatBoxEnd -->
     </Container>
   </div>
 
@@ -60,55 +57,62 @@ import Container from "../components/Container.astro";
     const input = document.getElementById("chat-input");
     const messages = document.getElementById("chat-messages");
     const modelSelect = document.getElementById("model-select");
-    const history = ["AI: Halo! Ada yang bisa aku bantu?"]; // 🧠 simpan riwayat
+
+    // Simpan riwayat sebagai array supaya bisa untuk GPT dan Gemini (untuk Gemini nanti diubah jadi string)
+    const history = [{ role: "system", content: "🤖 Halo! Ada yang bisa aku bantu?" }];
+
+    function renderMessage(role, text) {
+      const div = document.createElement("div");
+      div.className = role === "user" ? "text-left" : "text-left font-semibold";
+      div.textContent = (role === "user" ? "🧑 " : "🤖 ") + text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Render pesan awal
+    renderMessage("assistant", "Halo! Ada yang bisa aku bantu?");
 
     form?.addEventListener("submit", async (e) => {
       e.preventDefault();
       const text = input.value.trim();
       if (!text) return;
 
-      // Simpan pesan user ke history
-      history.push(`User: ${text}`);
-
-      const userMsg = document.createElement("div");
-      userMsg.textContent = "🧑 " + text;
-      userMsg.className = "text-left";
-      messages.appendChild(userMsg);
+      // Tampilkan pesan user di chat dan simpan di history
+      renderMessage("user", text);
+      history.push({ role: "user", content: text });
 
       input.value = "";
 
-      const botMsg = document.createElement("div");
-      botMsg.textContent = "🤖 Sedang mengetik...";
-      botMsg.className = "text-left italic text-gray-500";
-      messages.appendChild(botMsg);
+      const botMsgDiv = document.createElement("div");
+      botMsgDiv.textContent = "🤖 Sedang mengetik...";
+      botMsgDiv.className = "text-left italic text-gray-500";
+      messages.appendChild(botMsgDiv);
       messages.scrollTop = messages.scrollHeight;
 
       try {
-        // Pilih endpoint sesuai model yang dipilih
         const model = modelSelect.value;
-        let apiUrl = "https://shazqi-ai-backend-deploy.vercel.app/api/chat";
-        if (model === "gemini") {
-          apiUrl = "https://shazqi-ai-backend-deploy.vercel.app/api/gemini";
-        }
+        const payload = model === "gpt"
+          ? { model: "gpt", message: history }
+          : { model: "gemini", messages: history.map(m => `${m.role === "user" ? "User" : "AI"}: ${m.content}`).join("\n") };
 
-        const res = await fetch(apiUrl, {
+        const res = await fetch("https://shazqi-ai-backend-deploy.vercel.app/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: history.join("\n") }),
+          body: JSON.stringify(payload),
         });
 
         const data = await res.json();
         const reply = data.reply || "Maaf, tidak ada jawaban.";
 
-        botMsg.textContent = "🤖 " + reply;
-        botMsg.classList.remove("italic", "text-gray-500");
+        botMsgDiv.textContent = "🤖 " + reply;
+        botMsgDiv.classList.remove("italic", "text-gray-500");
 
-        // Simpan balasan AI ke history
-        history.push(`AI: ${reply}`);
+        // Simpan balasan AI ke history dan tampilkan
+        history.push({ role: "assistant", content: reply });
       } catch (err) {
-        botMsg.textContent = "🤖 Maaf, terjadi kesalahan.";
-        botMsg.classList.remove("italic", "text-gray-500");
-        botMsg.classList.add("text-red-500");
+        botMsgDiv.textContent = "🤖 Maaf, terjadi kesalahan.";
+        botMsgDiv.classList.remove("italic", "text-gray-500");
+        botMsgDiv.classList.add("text-red-500");
       }
 
       messages.scrollTop = messages.scrollHeight;
