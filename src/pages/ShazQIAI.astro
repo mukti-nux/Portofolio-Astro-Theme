@@ -25,15 +25,15 @@ import Container from "../components/Container.astro";
         </div>
 
         <!-- Input -->
-        <form id="chat-form" class="flex space-x-2">
+        <form id="chat-form" class="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0">
           <input
             id="chat-input"
-            class="flex-1 rounded-md p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
+            class="rounded-md p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary w-full"
             placeholder="Tulis pertanyaanmu..."
           />
           <button
             type="submit"
-            class="bg-primary text-white px-4 py-2 rounded-md hover:brightness-110 transition"
+            class="bg-primary text-white px-4 py-2 rounded-md hover:brightness-110 transition w-full sm:w-auto"
           >
             Kirim
           </button>
