@@ -9,118 +9,61 @@ import Blog from '../components/Blog.astro';
 ---
 
 <Layout title="Welcome to Astrolus.">
-
-  <!-- Overlay sambutan -->
+  <!-- 🟠 WELCOME OVERLAY -->
   <div id="overlay" 
     class="fixed inset-0 bg-black/80 flex flex-col items-center justify-center text-white z-50 cursor-pointer">
+
+    <!-- 🔵 Logo SVG -->
     <div class="w-80 h-auto mb-4 animasi-muncul">
       <img src="https://raw.githubusercontent.com/mukti-nux/Framer-asset/8fe14136d42b29b83cd3cd53484460e5b859ca04/svgviewer-output%20(1).svg" alt="logo" class="w-full h-full"/>
     </div>
+
+    <!-- 🟢 Teks Welcome -->
     <h1 class="text-2xl font-bold mb-2 animasi-muncul">Welcome To Portofolio Mukti Ver.2</h1>
     <p class="text-sm opacity-75 animasi-muncul">Click anywhere to start. Using desktop for better experience</p>
   </div>
 
-  <!-- Popup AI -->
+  <!-- 🟣 Popup Sambutan ShazQIAI -->
   <div
     id="shazqi-popup"
-    class="fixed bottom-6 right-6 max-w-xs p-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl shadow-lg border dark:border-gray-700 z-40 cursor-pointer transform transition-all duration-500 ease-in-out translate-x-full opacity-0"
+    class="fixed bottom-6 right-6 max-w-xs p-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl shadow-lg border dark:border-gray-700 transform transition-all duration-500 ease-in-out translate-x-full opacity-0 z-40 cursor-pointer"
     onclick="closePopup()"
   >
     <div class="text-base font-semibold mb-1">👋 Halo!</div>
     <div class="text-sm">Aku <strong>ShazQIAI</strong>, siap bantu kamu hari ini ✨</div>
   </div>
 
-  <!-- Canvas 3D model di pojok kanan bawah (hidden awalnya) -->
-  <canvas id="model-canvas" style="
-    position: fixed;
-    bottom: 6rem; /* di atas popup */
-    right: 1rem;
-    width: 150px;
-    height: 150px;
-    z-index: 45;
-    display: none;
-    border-radius: 1rem;
-    background: transparent;
-  "></canvas>
+  <body>
+     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+  </body>
 
-  <!-- Script dan loader -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
-
+  <!-- 🔧 Script Client -->
   <script is:client>
     const overlay = document.getElementById('overlay');
     const popup = document.getElementById('shazqi-popup');
-    const canvas = document.getElementById('model-canvas');
 
     function closePopup() {
       popup?.classList.add("translate-x-full", "opacity-0");
     }
 
     overlay?.addEventListener('click', () => {
-      // Hilangkan overlay
       overlay.remove();
 
-      // Tampilkan popup AI
+      // Tampilkan popup ShazQIAI setelah overlay ditutup
       setTimeout(() => {
         popup?.classList.remove("translate-x-full", "opacity-0");
       }, 300);
 
-      // Tampilkan canvas model 3D
-      canvas.style.display = "block";
-
-      // Setup Three.js di canvas ini
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-      camera.position.z = 3;
-
-      const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-      renderer.setClearColor(0x000000, 0); // transparan
-
-      // Lighting
-      const light = new THREE.DirectionalLight(0xffffff, 1);
-      light.position.set(1, 1, 1);
-      scene.add(light);
-
-      // Load model (ganti 'model.glb' dengan path model kamu)
-      const loader = new THREE.GLTFLoader();
-      let model;
-      loader.load('model.glb', (gltf) => {
-        model = gltf.scene;
-        model.scale.set(0.5, 0.5, 0.5);
-        scene.add(model);
-      });
-
-      // Gerak model kecil mengikuti kursor di area canvas
-      let mouse = { x: 0, y: 0 };
-      canvas.addEventListener('mousemove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-        mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-      });
-
-      function animate() {
-        requestAnimationFrame(animate);
-        if (model) {
-          // Model mengikuti mouse dengan lerp halus
-          model.position.x += (mouse.x * 0.5 - model.position.x) * 0.1;
-          model.position.y += (mouse.y * 0.5 - model.position.y) * 0.1;
-
-          // Rotasi model pelan biar hidup
-          model.rotation.y += 0.01;
-        }
-        renderer.render(scene, camera);
-      }
-      animate();
-
-      // Auto-close popup dan canvas setelah 15 detik
+      // Auto-close popup setelah 6 detik
       setTimeout(() => {
         closePopup();
-        canvas.style.display = "none";
       }, 15000);
     });
+
   </script>
 
+  <!-- 🎨 Style Animasi -->
   <style>
     @keyframes muncul {
       from { opacity: 0; transform: scale(0.8); }
@@ -131,6 +74,7 @@ import Blog from '../components/Blog.astro';
     }
   </style>
 
+  <!-- 🟢 Konten Halaman -->
   <main class="space-y-40 mb-40">
     <HeroSection/>
     <Features/>
