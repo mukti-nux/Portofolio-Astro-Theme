@@ -16,18 +16,6 @@ import Container from "../components/Container.astro";
                 bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"
         ></div>
 
-        <!-- Model selector -->
-        <div class="mb-4 flex items-center space-x-2">
-          <label for="model-select" class="text-gray-900 dark:text-white font-semibold">Pilih Model:</label>
-          <select
-            id="model-select"
-            class="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-1 focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="gpt">GPT 3.5 Turbo</option>
-            <option value="gemini">Gemini 2.0</option>
-          </select>
-        </div>
-
         <!-- Chat Content -->
         <div
           id="chat-messages"
@@ -54,64 +42,55 @@ import Container from "../components/Container.astro";
       <!-- ChatBoxEnd -->
     </Container>
   </div>
+<script is:inline>
+  const form = document.getElementById("chat-form");
+  const input = document.getElementById("chat-input");
+  const messages = document.getElementById("chat-messages");
+  const history = [
+    { role: "assistant", content: "Halo! Ada yang bisa aku bantu?" }
+  ];
 
-  <script is:inline>
-    const form = document.getElementById("chat-form");
-    const input = document.getElementById("chat-input");
-    const messages = document.getElementById("chat-messages");
-    const modelSelect = document.getElementById("model-select");
-    const history = ["AI: Halo! Ada yang bisa aku bantu?"]; // 🧠 simpan riwayat
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
 
-    form?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const text = input.value.trim();
-      if (!text) return;
+    history.push({ role: "user", content: text });
 
-      // Simpan pesan user ke history
-      history.push(`User: ${text}`);
+    const userMsg = document.createElement("div");
+    userMsg.textContent = "🧑 " + text;
+    userMsg.className = "text-left";
+    messages.appendChild(userMsg);
 
-      const userMsg = document.createElement("div");
-      userMsg.textContent = "🧑 " + text;
-      userMsg.className = "text-left";
-      messages.appendChild(userMsg);
+    input.value = "";
 
-      input.value = "";
+    const botMsg = document.createElement("div");
+    botMsg.textContent = "🤖 Sedang mengetik...";
+    botMsg.className = "text-left italic text-gray-500";
+    messages.appendChild(botMsg);
+    messages.scrollTop = messages.scrollHeight;
 
-      const botMsg = document.createElement("div");
-      botMsg.textContent = "🤖 Sedang mengetik...";
-      botMsg.className = "text-left italic text-gray-500";
-      messages.appendChild(botMsg);
-      messages.scrollTop = messages.scrollHeight;
+    try {
+      const res = await fetch("https://shazqi-ai-backend-deploy.vercel.app/api/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history }),
+      });
 
-      try {
-        // Pilih endpoint sesuai model yang dipilih
-        const model = modelSelect.value;
-        let apiUrl = "https://shazqi-ai-backend-deploy.vercel.app/api/groq";
-        if (model === "gemini") {
-          apiUrl = "https://shazqi-ai-backend-deploy.vercel.app/api/gemini";
-        }
+      const data = await res.json();
+      const reply = data.reply || "Maaf, tidak ada jawaban.";
 
-        const res = await fetch(apiUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: history.join("\n") }),
-        });
+      botMsg.textContent = "🤖 " + reply;
+      botMsg.classList.remove("italic", "text-gray-500");
 
-        const data = await res.json();
-        const reply = data.reply || "Maaf, tidak ada jawaban.";
+      history.push({ role: "assistant", content: reply });
+    } catch (err) {
+      botMsg.textContent = "🤖 Maaf, terjadi kesalahan.";
+      botMsg.classList.remove("italic", "text-gray-500");
+      botMsg.classList.add("text-red-500");
+    }
 
-        botMsg.textContent = "🤖 " + reply;
-        botMsg.classList.remove("italic", "text-gray-500");
-
-        // Simpan balasan AI ke history
-        history.push(`AI: ${reply}`);
-      } catch (err) {
-        botMsg.textContent = "🤖 Maaf, terjadi kesalahan.";
-        botMsg.classList.remove("italic", "text-gray-500");
-        botMsg.classList.add("text-red-500");
-      }
-
-      messages.scrollTop = messages.scrollHeight;
-    });
-  </script>
+    messages.scrollTop = messages.scrollHeight;
+  });
+</script>
 </Layout>
