@@ -1,31 +1,86 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import Container from "../components/Container.astro"
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
 ---
 
-<Layout title="KoalaPage">
-  <div class="relative pt-36" id="Koala">
+<Layout title="ApplicationPage">
+  <div class="relative pt-36 min-h-screen" id="app">
     <Container>
-
-      <!-- MODEL VIEWER 3D -->
-      <div class="flex justify-center mt-10">
-        <model-viewer
-          src="/Koala.glb"
-          alt="Koala 3D"
-          auto-rotate
-          camera-controls
-          ar
-          style="width: 300px; height: 300px;"
-          shadow-intensity="1"
-          exposure="1"
-          interaction-prompt="none"
-          loading="eager"
-        ></model-viewer>
+      <!-- Canvas 3D di tengah halaman -->
+      <div class="flex justify-center items-center">
+        <canvas id="model-canvas" class="rounded-xl" style="width: 300px; height: 300px;"></canvas>
       </div>
-
     </Container>
   </div>
 
-  <!-- CDN model-viewer -->
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <!-- Three.js dan loader -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script type="module">
+    import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+
+    const canvas = document.getElementById('model-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+    camera.position.z = 3;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setClearColor(0x000000, 0);
+
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(1, 1, 1);
+    scene.add(light);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(ambient);
+
+    let model;
+    const loader = new GLTFLoader();
+    loader.load('/Koala.glb', (gltf) => {
+      model = gltf.scene;
+      model.scale.set(0.6, 0.6, 0.6);
+      scene.add(model);
+    }, undefined, (err) => {
+      console.error('GLB Load error:', err);
+    });
+
+    // Mouse
+    let mouse = { x: 0, y: 0 };
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    });
+
+    // Touch
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1) {
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+      }
+    });
+
+    // Gyroscope (mobile)
+    window.addEventListener('deviceorientation', (e) => {
+      const gamma = e.gamma || 0; // kiri kanan
+      const beta = e.beta || 0;   // atas bawah
+      mouse.x = gamma / 45;
+      mouse.y = -beta / 90;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (model) {
+        model.position.x += (mouse.x * 0.5 - model.position.x) * 0.1;
+        model.position.y += (mouse.y * 0.5 - model.position.y) * 0.1;
+        model.rotation.y += 0.01;
+      }
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
 </Layout>
