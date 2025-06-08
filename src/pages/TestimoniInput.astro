@@ -49,18 +49,21 @@ import Container from "../components/Container.astro";
           </p>
         </form>
       </div>
-      <audio id="kirimSound" preload="auto" src="https://github.com/mukti-nux/portof-asset/raw/refs/heads/main/windows-error-sound-effect-35894.mp3"></audio>
     </Container>
   </div>
+  
+  <audio id="kirimSound" preload="auto" src="https://github.com/mukti-nux/portof-asset/raw/refs/heads/main/windows-error-sound-effect-35894.mp3"></audio>
+
+  <!-- Script -->
+    <script>
+    function playSuara() {
+        const audio = document.getElementById('kirimSound');
+        if (audio) {
+        audio.currentTime = 0; // restart suara jika diklik cepat
+        audio.play();
+        }
+    }
+    </script>
 </Layout>
 
-<!-- Script -->
-<script>
-  function playSuara() {
-    const audio = document.getElementById('kirimSound');
-    if (audio) {
-      audio.currentTime = 0; // restart suara jika diklik cepat
-      audio.play();
-    }
-  }
-</script>
+
