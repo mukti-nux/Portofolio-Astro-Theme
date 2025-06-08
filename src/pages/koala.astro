@@ -6,72 +6,26 @@ import Container from "../components/Container.astro"
 <Layout title="ApplicationPage">
   <div class="relative pt-36" id="app">
     <Container>
-      <!-- 🎨 CANVAS, sembunyi dulu -->
-      <div id="canvas-wrapper" class="flex justify-center mt-10 hidden">
-        <canvas id="model-canvas" style="
-          width: 300px;
-          height: 300px;
-          border-radius: 1rem;
-          background: transparent;
-          cursor: grab;
-        "></canvas>
+
+      <!-- MODEL VIEWER 3D -->
+      <div class="flex justify-center mt-10">
+        <model-viewer
+          src="/Koala.glb"
+          alt="Koala 3D"
+          auto-rotate
+          camera-controls
+          ar
+          style="width: 300px; height: 300px;"
+          shadow-intensity="1"
+          exposure="1"
+          interaction-prompt="none"
+          loading="eager"
+        ></model-viewer>
       </div>
+
     </Container>
   </div>
 
-  <!-- 🎮 Script 3D Model -->
-  <script type="module">
-    import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-    import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-
-    const canvas = document.getElementById('model-canvas');
-    const wrapper = document.getElementById('canvas-wrapper');
-    const overlay = document.getElementById('overlay');
-
-    overlay?.addEventListener('click', () => {
-      overlay.remove();
-      wrapper.classList.remove("hidden");
-    });
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-    camera.position.z = 3;
-
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    renderer.setClearColor(0x000000, 0);
-
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(1, 1, 1);
-    scene.add(light);
-
-    let model;
-
-    const loader = new GLTFLoader();
-    loader.load('/Koala.glb', (gltf) => {
-      model = gltf.scene;
-      model.scale.set(0.5, 0.5, 0.5);
-      scene.add(model);
-    }, undefined, (error) => {
-      console.error('Error loading model:', error);
-    });
-
-    let mouse = { x: 0, y: 0 };
-    canvas.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-    });
-
-    function animate() {
-      requestAnimationFrame(animate);
-      if (model) {
-        model.position.x += (mouse.x * 0.5 - model.position.x) * 0.1;
-        model.position.y += (mouse.y * 0.5 - model.position.y) * 0.1;
-        model.rotation.y += 0.01;
-      }
-      renderer.render(scene, camera);
-    }
-    animate();
-  </script>
+  <!-- CDN model-viewer -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </Layout>
