@@ -3,11 +3,11 @@ import Layout from "../layouts/Layout.astro"
 import Container from "../components/Container.astro"
 ---
 
-<Layout title="KoalaPage">
-  <div class="relative pt-36" id="koala">
+<Layout title="ApplicationPage">
+  <div class="relative pt-36" id="app">
     <Container>
-      <!-- 🧸 Canvas Model 3D Koala di tengah -->
-      <div class="flex justify-center mt-10">
+      <!-- 🎨 CANVAS, sembunyi dulu -->
+      <div id="canvas-wrapper" class="flex justify-center mt-10 hidden">
         <canvas id="model-canvas" style="
           width: 300px;
           height: 300px;
@@ -19,12 +19,20 @@ import Container from "../components/Container.astro"
     </Container>
   </div>
 
-  <!-- ✅ Script Three.js pakai ES module -->
+  <!-- 🎮 Script 3D Model -->
   <script type="module">
     import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
     import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
     const canvas = document.getElementById('model-canvas');
+    const wrapper = document.getElementById('canvas-wrapper');
+    const overlay = document.getElementById('overlay');
+
+    overlay?.addEventListener('click', () => {
+      overlay.remove();
+      wrapper.classList.remove("hidden");
+    });
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
     camera.position.z = 3;
