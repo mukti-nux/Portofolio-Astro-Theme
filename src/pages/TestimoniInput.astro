@@ -6,7 +6,7 @@ import Container from "../components/Container.astro";
 <Layout title="Testimoni">
   <div class="pt-36">
     <Container>
-        <img src="/images/logosekolah.svg" alt="logo sekolah" class="mx-auto w-10">
+        <img src="/images/logosekolah.svg" alt="logo sekolah" class="mx-auto w-20">
       <div class="relative max-w-md mx-auto mt-16 rounded-xl p-6 bg-white dark:bg-gray-900 shadow-lg transition-all duration-300 border border-transparent hover:border-[3px] hover:border-[rgb(0,255,255)] group">
         <div class="absolute inset-0 animate-gradient-move bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
               bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"></div>
@@ -36,7 +36,11 @@ import Container from "../components/Container.astro";
               class="mt-1 block w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
             />
           </div>
-          <button type="submit" class="w-full bg-primary text-white font-semibold py-2 px-4 rounded-md hover:brightness-110 transition">
+          <button 
+          type="submit" 
+          class="w-full bg-primary text-white font-semibold py-2 px-4 rounded-md hover:brightness-110 transition"
+          onclick="playSuara"
+          >
             Kirim
           </button>
 
@@ -45,6 +49,18 @@ import Container from "../components/Container.astro";
           </p>
         </form>
       </div>
+      <audio id="kirimsound" preload="auto" src="https://github.com/mukti-nux/portof-asset/raw/refs/heads/main/windows-error-sound-effect-35894.mp3"></audio>
     </Container>
   </div>
 </Layout>
+
+<!-- Script -->
+<script>
+  function playSuara() {
+    const audio = document.getElementById('kirimSound');
+    if (audio) {
+      audio.currentTime = 0; // restart suara jika diklik cepat
+      audio.play();
+    }
+  }
+</script>
