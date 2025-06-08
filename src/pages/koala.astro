@@ -3,70 +3,67 @@ import Layout from "../layouts/Layout.astro"
 import Container from "../components/Container.astro"
 ---
 
-<Layout title="ApplicationPage">
-  <div class="relative pt-36" id="app">
+<Layout title="KoalaPage">
+  <div class="relative pt-36" id="koala">
     <Container>
-      <!-- Canvas 3D model di pojok kanan bawah -->
-      <canvas id="model-canvas" style="
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        width: 200px;
-        height: 200px;
-        border-radius: 1rem;
-        background: transparent;
-        z-index: 1000;
-        cursor: grab;
-      "></canvas>
+      <!-- 🧸 Canvas Model 3D Koala di tengah -->
+      <div class="flex justify-center mt-10">
+        <canvas id="model-canvas" style="
+          width: 300px;
+          height: 300px;
+          border-radius: 1rem;
+          background: transparent;
+          cursor: grab;
+        "></canvas>
+      </div>
     </Container>
   </div>
 
-  <!-- Three.js dan loader -->
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-
+  <!-- ✅ Script Three.js pakai ES module -->
   <script type="module">
-  import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+    import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+    import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
-  const canvas = document.getElementById('model-canvas');
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-  camera.position.z = 3;
+    const canvas = document.getElementById('model-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+    camera.position.z = 3;
 
-  const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-  renderer.setClearColor(0x000000, 0);
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setClearColor(0x000000, 0);
 
-  const light = new THREE.DirectionalLight(0xffffff, 1);
-  light.position.set(1, 1, 1);
-  scene.add(light);
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(1, 1, 1);
+    scene.add(light);
 
-  let model;
+    let model;
 
-  const loader = new GLTFLoader();
-  loader.load('/Koala.glb', (gltf) => {
-    model = gltf.scene;
-    model.scale.set(0.5, 0.5, 0.5);
-    scene.add(model);
-  }, undefined, (error) => {
-    console.error('Error loading model:', error);
-  });
+    const loader = new GLTFLoader();
+    loader.load('/Koala.glb', (gltf) => {
+      model = gltf.scene;
+      model.scale.set(0.5, 0.5, 0.5);
+      scene.add(model);
+    }, undefined, (error) => {
+      console.error('Error loading model:', error);
+    });
 
-  let mouse = { x: 0, y: 0 };
-  canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-  });
+    let mouse = { x: 0, y: 0 };
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    });
 
-  function animate() {
-    requestAnimationFrame(animate);
-    if (model) {
-      model.position.x += (mouse.x * 0.5 - model.position.x) * 0.1;
-      model.position.y += (mouse.y * 0.5 - model.position.y) * 0.1;
-      model.rotation.y += 0.01;
+    function animate() {
+      requestAnimationFrame(animate);
+      if (model) {
+        model.position.x += (mouse.x * 0.5 - model.position.x) * 0.1;
+        model.position.y += (mouse.y * 0.5 - model.position.y) * 0.1;
+        model.rotation.y += 0.01;
+      }
+      renderer.render(scene, camera);
     }
-    renderer.render(scene, camera);
-  }
-  animate();
-</script>
+    animate();
+  </script>
 </Layout>
