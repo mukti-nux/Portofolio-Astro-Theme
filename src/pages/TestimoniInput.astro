@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+---
+
+<Layout title="Subscribe">
+  <div class="pt-36">
+    <Container>
+      <div class="relative max-w-md mx-auto mt-16 rounded-xl p-6 bg-white dark:bg-gray-900 shadow-lg transition-all duration-300 border border-transparent hover:border-[3px] hover:border-[rgb(0,255,255)] group">
+        <div class="absolute inset-0 animate-gradient-move bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
+              bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"></div>
+
+        <h1 class="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Apresiasi Kami untuk Sekolah</h1>
+        <form method="POST" action="/api/testimoni" class="space-y-4">
+          <div>
+            <label for="nama" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Masukkan Nama</label>
+            <input
+              type="text"
+              id="nama"
+              name="nama"
+              required
+              placeholder="Masukkan Nama"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            />
+          </div>
+          <div>
+            <label for="pesan" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                 Ketik Pesanmu
+            </label>
+            <input
+              id="pesan"
+              name="pesan"
+              required
+              placeholder="Ketik Pesanmu Disini"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            />
+          </div>
+          <button type="submit" class="w-full bg-primary text-white font-semibold py-2 px-4 rounded-md hover:brightness-110 transition">
+            Kirim
+          </button>
+
+          <p class="text-sm text-center text-gray-500 dark:text-gray-400 mt-4">
+            Terima Kasih Atas Partisipasi Anda. Tetap Bersama <strong>New Masta</strong>.
+          </p>
+        </form>
+      </div>
+    </Container>
+  </div>
+</Layout>
