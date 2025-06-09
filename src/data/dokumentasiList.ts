@@ -11,7 +11,7 @@ const dokumentasiList: DokumentasiItem[] = [
     id: "DokSekolahSD09062025",
     title: "Dok. Sekolah SD 09062025",
     description: "Documentation of the Qurban Idul Adha training activities with Master Elementary School",
-    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/RHO_3443.JPG?raw=true",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-06-09%20at%2013.10.47_a05f4c3d.jpg?raw=true",
     link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolahSD09062025",
   },
   {
