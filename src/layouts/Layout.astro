@@ -49,6 +49,14 @@ const { showVideo = false } = Astro.props;
     <slot />
     <AppFooter />
 
+    <style>
+  html {
+    text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+  </style>
+
     <script is:client>
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.documentElement.classList.add('dark');
