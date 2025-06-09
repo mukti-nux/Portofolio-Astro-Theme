@@ -2,7 +2,7 @@
 import { AstroFont } from 'astro-font';
 import AppFooter from "../components/AppFooter.astro";
 import AppHeader from "../components/AppHeader.astro";
-import "./../tailus.css"
+import "./../tailus.css";
 
 const { showVideo = false } = Astro.props;
 ---
@@ -11,9 +11,7 @@ const { showVideo = false } = Astro.props;
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <!-- ⚠️ Ganti viewport jadi tetap 1024px -->
-    <meta name="viewport" content="width=640" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content="Template built with tailwindcss using Tailus blocks v2" />
@@ -32,7 +30,7 @@ const { showVideo = false } = Astro.props;
     />
   </head>
 
-  <body class="overflow-x-auto bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300">
+  <body class="overflow-x-hidden bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300">
 
     {showVideo && (
       <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden">
@@ -48,12 +46,14 @@ const { showVideo = false } = Astro.props;
       </div>
     )}
 
-    <!-- 💡 Bikin container utama fixed-width seperti desktop -->
-    <div class="w-[640px] mx-auto">
-      <AppHeader />
+    <AppHeader />
+
+    <!-- Responsive wrapper -->
+    <main class="w-full max-w-screen-xl px-4 sm:px-6 lg:px-8 mx-auto">
       <slot />
-      <AppFooter />
-    </div>
+    </main>
+
+    <AppFooter />
 
     <style>
       html {
@@ -64,6 +64,7 @@ const { showVideo = false } = Astro.props;
     </style>
 
     <script is:client>
+      // Auto dark mode if system prefers dark
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.documentElement.classList.add('dark');
       }
