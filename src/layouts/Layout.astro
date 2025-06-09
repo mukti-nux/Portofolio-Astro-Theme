@@ -11,7 +11,9 @@ const { showVideo = false } = Astro.props;
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- ⚠️ Ganti viewport jadi tetap 1024px -->
+    <meta name="viewport" content="width=1024" />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content="Template built with tailwindcss using Tailus blocks v2" />
@@ -29,7 +31,8 @@ const { showVideo = false } = Astro.props;
       }]}
     />
   </head>
-  <body class="max-w-screen overflow-x-hidden bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300">
+
+  <body class="overflow-x-auto bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300">
 
     {showVideo && (
       <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden">
@@ -45,17 +48,20 @@ const { showVideo = false } = Astro.props;
       </div>
     )}
 
-    <AppHeader />
-    <slot />
-    <AppFooter />
+    <!-- 💡 Bikin container utama fixed-width seperti desktop -->
+    <div class="w-[1024px] mx-auto">
+      <AppHeader />
+      <slot />
+      <AppFooter />
+    </div>
 
     <style>
-  html {
-    text-size-adjust: 100%;
-    -moz-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-  }
-  </style>
+      html {
+        text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+      }
+    </style>
 
     <script is:client>
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
