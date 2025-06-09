@@ -12,7 +12,7 @@ const { showVideo = false } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <!-- ⚠️ Ganti viewport jadi tetap 1024px -->
-    <meta name="viewport" content="width=768" />
+    <meta name="viewport" content="width=640" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
@@ -49,7 +49,7 @@ const { showVideo = false } = Astro.props;
     )}
 
     <!-- 💡 Bikin container utama fixed-width seperti desktop -->
-    <div class="w-[768px] mx-auto">
+    <div class="w-[640px] mx-auto">
       <AppHeader />
       <slot />
       <AppFooter />
