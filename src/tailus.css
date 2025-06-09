@@ -16,3 +16,7 @@ html, body {
 body {
   @apply bg-white text-black dark:bg-gray-950 dark:text-white;
 }
+html {
+  -moz-text-size-adjust: none;
+  text-size-adjust: none;
+}
