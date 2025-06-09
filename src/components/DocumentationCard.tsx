@@ -11,7 +11,7 @@ export default function DocumentationCard({ title, description, imageUrl, link }
       <div class="absolute inset-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 
                   bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1] animate-gradient-move"></div>
 
-      <div class="relative min-h-[230px] rounded-xl p-6 bg-white dark:bg-gray-900 shadow-lg transition-all duration-300 border border-transparent hover:border-[3px] hover:border-[rgb(0,255,255)] group flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 overflow-hidden">
+      <div class="relative rounded-xl p-6 bg-white dark:bg-gray-900 shadow-lg transition-all duration-300 border border-transparent hover:border-[3px] hover:border-[rgb(0,255,255)] group flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 overflow-hidden">
         <img
           src={imageUrl}
           alt={`thumbnail ${title}`}
