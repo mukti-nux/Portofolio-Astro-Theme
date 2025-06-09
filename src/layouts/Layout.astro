@@ -30,6 +30,20 @@ import "./../tailus.css"
     />
   </head>
   <body class="overflow-x-hidden bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300">
+
+    {showVideo && (
+      <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden">
+        <video 
+        autoplay
+        muted
+        loop
+        playsinline
+        class="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/videobg.mp4" type="video/mp4" />
+        </video>
+      </div>
+    )}
     <AppHeader />
     <slot />
     <AppFooter />
