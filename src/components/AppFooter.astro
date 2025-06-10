@@ -101,7 +101,7 @@ import Container from "./Container.astro";
           <div
             class="m-auto mt-16 w-10/12 space-y-6 text-center sm:mt-auto sm:w-5/12 sm:text-left"
           >
-            <span class="block text-gray-500 dark:text-gray-400" style="font-family: 'Noto Kufi Arabic', sans-serif;">
+            <span class="block text-gray-500 dark:text-gray-400" style="font-family: 'Noto Kufi Arabic', sans-serif;"
               >ديرنچ اوليه شات جبت دان موكت</span>
   
             <span class="block text-gray-500 dark:text-gray-400">Tailus Blocks X Astro X PortofolioMukti &copy; <span id="year"></span></span>
@@ -119,6 +119,17 @@ import Container from "./Container.astro";
       </div>
     </Container>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@350..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400..900&display=swap");
+
+      @font-face {
+    font-family: 'CustomFont';
+    src: url('/src/assets/fonts/Blanka-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  .Blanka-font {
+    font-family: 'BlankaFont', sans-serif;
+  }
     </style>
 </footer>
