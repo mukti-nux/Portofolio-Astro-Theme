@@ -12,11 +12,23 @@ import Container from "./Container.astro";
       </div>
 
       <div class="relative">
-        <h1 class="text-[10vw] text-center font-bold text-gray-800 dark:text-white">ERROR 404🤔</h1>
-        <p class="text-[3vw] text-center text-gray-600 dark:text-gray-300 mb-10">
+        <h1 class="text-[8vw] text-center font-bold text-gray-800 dark:text-white porscha-font">ERROR 404🤔</h1>
+        <p class="text-[2vw] text-center text-gray-600 dark:text-gray-300 mb-10">
           ✨Page not found please report to admin if there is a technical error.✨
         </p>
       </div>
     </Container>
   </div>
+  <style>
+    @font-face {
+      font-family: '911-Porscha';
+      src: url('/src/assets/fonts/911-Porscha.ttf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .porscha-font {
+      font-family: '911-Porscha', sans-serif;
+    }
+  </style>
 </Layout>

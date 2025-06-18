@@ -5,6 +5,7 @@ import AppHeader from "../components/AppHeader.astro";
 import "./../tailus.css";
 
 const { showVideo = false } = Astro.props;
+const { playAudio = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -39,10 +40,20 @@ const { showVideo = false } = Astro.props;
           playsinline
           preload="auto"
           class="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/videobg5.mp4" type="video/mp4" />
+        >6
+          <source src="/videobg2.mp4" type="video/mp4" />
         </video>
       </div>
+    )}
+
+    {playAudio &&(
+      <audio 
+      autoplay 
+      loop
+      >
+        <source src="/soundbg.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
     )}
 
     <AppHeader />
