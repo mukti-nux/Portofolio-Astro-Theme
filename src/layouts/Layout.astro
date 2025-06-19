@@ -46,6 +46,16 @@ const { playAudio = false } = Astro.props;
       </div>
     )}
 
+    {showImage && (
+      <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden">
+        <img
+          src="/images/bgimage.jpg"
+          alt="Background Image"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
+    )}
+
     {playAudio &&(
       <script is:client>
         window.addEventListener("click", () => {
