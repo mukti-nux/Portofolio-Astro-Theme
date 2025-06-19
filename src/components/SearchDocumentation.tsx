@@ -31,21 +31,30 @@ export default function SearchDokumentasi() {
   }, []);
 
   return (
-    <div>
-      <div class="max-w-xl mx-auto mb-10">
-        <input
-          ref={inputRef}
-          type="text"
-          placeholder="Search documentation..."
-          class="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
-        />
+  <div>
+    <div className="relative max-w-xl mx-auto mb-10">
+      {/* Placeholder buatan */}
+      <div
+        className="absolute inset-0 px-5 py-3 pointer-events-none text-gray-400 dark:text-gray-500"
+        id="fakePlaceholder"
+      >
+        Search for <span id="scrambleText" className="font-semibold text-primary">Docs</span>...
       </div>
 
-      <div class="flex flex-col items-center space-y-10">
-        {results.map((doc) => (
-          <DocumentationCard {...doc} />
-        ))}
-      </div>
+      {/* Input asli */}
+      <input
+        ref={inputRef}
+        type="text"
+        placeholder="Search..."
+        id="realInput"
+        className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-primary placeholder-transparent"
+      />
     </div>
-  );
-}
+
+    <div className="flex flex-col items-center space-y-10">
+      {results.map((doc) => (
+        <DocumentationCard key={doc.id} {...doc} />
+      ))}
+    </div>
+  </div>
+)}
