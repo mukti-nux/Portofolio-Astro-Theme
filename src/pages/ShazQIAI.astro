@@ -42,13 +42,18 @@ import Container from "../components/Container.astro";
       <!-- ChatBoxEnd -->
     </Container>
   </div>
+
 <script is:inline>
   const form = document.getElementById("chat-form");
   const input = document.getElementById("chat-input");
   const messages = document.getElementById("chat-messages");
+
   const history = [
     { role: "assistant", content: "Halo! Ada yang bisa aku bantu?" }
   ];
+
+  // Bisa kamu ganti dinamis pakai prompt() atau input field
+  const username = "Mukti";
 
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -74,7 +79,7 @@ import Container from "../components/Container.astro";
       const res = await fetch("https://shazqi-ai-backend-deploy.vercel.app/api/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history }),
+        body: JSON.stringify({ messages: history, username }), // 🧠 dikirimkan ke backend
       });
 
       const data = await res.json();
