@@ -38,7 +38,7 @@ export default function SearchDokumentasi() {
         className="absolute inset-0 px-5 py-3 pointer-events-none text-gray-400 dark:text-gray-500"
         id="fakePlaceholder"
       >
-        Mau cari apa?? <span id="scrambleText" className="font-semibold text-primary">Fotomu</span>...?
+        Mau cari Foto siapa?, <span id="scrambleText" className="font-semibold text-primary">Fotomu</span>...?
       </div>
 
       {/* Input asli */}
