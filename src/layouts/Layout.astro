@@ -105,53 +105,58 @@ const { showImage = false } = Astro.props;
     </style>
 
     <script is:client>
-      // Auto dark mode if system prefers dark
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.classList.add('dark');
-      }
-    </script>
+  const scrambleEl = document.getElementById("scrambleText");
+  const input = document.getElementById("realInput");
+  const fakePlaceholder = document.getElementById("fakePlaceholder");
 
-    <script is:client>
-  const el = document.getElementById("scrambleText");
-
-  // List kata-kata yang ingin kamu tampilkan
-  const phrases = ["KAPAN", "APA", "DIMANA", "SIAPA"];
+  const phrases = ["Docs", "Files", "Tutorials", "Projects"];
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%?";
-  let currentPhrase = 0;
-  let interval = null;
+  let currentIndex = 0;
+  let scrambleInterval = null;
+  let loopInterval = null;
 
-  const scramble = (targetText, fromText = "") => {
+  const scramble = (targetText) => {
     let iteration = 0;
-    clearInterval(interval);
+    clearInterval(scrambleInterval);
 
-    fromText = fromText.padEnd(targetText.length, " ");
+    scrambleInterval = setInterval(() => {
+      if (!scrambleEl) return;
 
-    interval = setInterval(() => {
-      el.innerText = targetText
+      scrambleEl.innerText = targetText
         .split("")
         .map((_, i) => {
-          if (i < iteration) {
-            return targetText[i];
-          }
+          if (i < iteration) return targetText[i];
           return letters[Math.floor(Math.random() * letters.length)];
         })
         .join("");
 
-      if (iteration >= targetText.length) clearInterval(interval);
+      if (iteration >= targetText.length) clearInterval(scrambleInterval);
       iteration += 1 / 2;
     }, 40);
   };
 
-  // Jalankan pertama kali
-  scramble(phrases[0]);
+  if (scrambleEl) {
+    scramble(phrases[0]);
 
-  // Ganti ke kata berikutnya setiap 3 detik
-  setInterval(() => {
-    const next = (currentPhrase + 1) % phrases.length;
-    scramble(phrases[next], phrases[currentPhrase]);
-    currentPhrase = next;
-  }, 3000);
+    loopInterval = setInterval(() => {
+      const next = (currentIndex + 1) % phrases.length;
+      scramble(phrases[next]);
+      currentIndex = next;
+    }, 3000);
+  }
+
+  if (input && fakePlaceholder) {
+    input.addEventListener("focus", () => {
+      fakePlaceholder.style.display = "none";
+      clearInterval(loopInterval);
+    });
+
+    input.addEventListener("blur", () => {
+      fakePlaceholder.style.display = "block";
+    });
+  }
 </script>
+
 
   </body>
 </html>
