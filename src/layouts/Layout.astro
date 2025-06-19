@@ -112,44 +112,47 @@ const { showImage = false } = Astro.props;
     </script>
 
     <script is:client>
-      const el = document.getElementById("scrambleText");
-      
-      //kata e
-      const phrases = ["KAPAN","DIMANA","SIAPA","MENGAPA"];
-      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      let currentPhrase = 0;
-      let interval = null;
+  const el = document.getElementById("scrambleText");
 
-      const scramble = (targetText, fromText = "") => {
-        let iteraction = 0;
-        clearInterval(interval);
+  // List kata-kata yang ingin kamu tampilkan
+  const phrases = ["KAPAN", "APA", "DIMANA", "SIAPA"];
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let currentPhrase = 0;
+  let interval = null;
 
-        fromText = fromText.padEnd(targetText.length, "");
+  const scramble = (targetText, fromText = "") => {
+    let iteration = 0;
+    clearInterval(interval);
 
-        interval = setInterval(() =>{
-          el.innerText = targetText
-          .split("")
-          .map((_,i) => {
-            if (i <iteration) {
-              return targetText[i];
-            }
-            return letters[math.floor(math.random() * letters.length)];
-          })
-          .join("")
+    fromText = fromText.padEnd(targetText.length, " ");
 
-          if (iteration >= targetText.length) clearInterval(interval);
-          interation += 1 / 2;
-        }, 40 );
-      };
+    interval = setInterval(() => {
+      el.innerText = targetText
+        .split("")
+        .map((_, i) => {
+          if (i < iteration) {
+            return targetText[i];
+          }
+          return letters[Math.floor(Math.random() * letters.length)];
+        })
+        .join("");
 
-      scramble(phrases[0]);
-      setInterval(() => {
-        const next = (currentPhrases + 1) % phrases.length;
-        scramble(phrases[next], phrases[currentPhrases]);
-        currentPhrases = next;
-      }, 3000 );
+      if (iteration >= targetText.length) clearInterval(interval);
+      iteration += 1 / 2;
+    }, 40);
+  };
 
-    </script>
+  // Jalankan pertama kali
+  scramble(phrases[0]);
+
+  // Ganti ke kata berikutnya setiap 3 detik
+  setInterval(() => {
+    const next = (currentPhrase + 1) % phrases.length;
+    scramble(phrases[next], phrases[currentPhrase]);
+    currentPhrase = next;
+  }, 3000);
+</script>
+
   </body>
 </html>
  
