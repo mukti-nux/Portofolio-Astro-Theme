@@ -35,7 +35,7 @@ export default function SearchDokumentasi() {
     <div className="relative max-w-xl mx-auto mb-10">
       {/* Placeholder buatan */}
       <div
-        className="absolute inset-0 px-5 py-3 pointer-events-none text-gray-400 dark:text-gray-500"
+        className="absolute inset-0 px-5 py-3 pointer-events-none text-gray-400 dark:text-gray-500 flex items-center text-sm sm:text-base leading-none"
         id="fakePlaceholder"
       >
         Mau cari Foto siapa?, <span id="scrambleText" className="font-semibold text-primary">Fotomu</span>...?
