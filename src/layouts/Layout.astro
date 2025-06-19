@@ -47,13 +47,15 @@ const { playAudio = false } = Astro.props;
     )}
 
     {playAudio &&(
-      <audio 
-      autoplay 
-      loop
-      >
-        <source src="/soundbg.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      <script is:client>
+        window.addEventListener("click", () => {
+          const audio = document.createElement("audio");
+          audio.src = "/soundbg2.mp3";
+          audio.autoplay = true;
+          audio.loop = true;
+          document.body.appendChild(audio);
+        },{ once: true });
+      </script>
     )}
 
     <AppHeader />
