@@ -146,12 +146,15 @@ const { showImage = false } = Astro.props;
   }
 
   if (input && fakePlaceholder) {
-    if (input.value.trim () === ""){
+  // Saat user mengetik
+  input.addEventListener("input", () => {
+    if (input.value.trim() === "") {
       fakePlaceholder.style.display = "block";
     } else {
-      fakePlaceholder.style.displa ="none";
+      fakePlaceholder.style.display = "none";
     }
-  };
+ })};
+
 </script>
 
   </body>
