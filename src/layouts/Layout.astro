@@ -110,6 +110,46 @@ const { showImage = false } = Astro.props;
         document.documentElement.classList.add('dark');
       }
     </script>
+
+    <script is:client>
+      const el = document.getElementById("scrambleText");
+      
+      //kata e
+      const phrases = ["KAPAN","DIMANA","SIAPA","MENGAPA"];
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      let currentPhrase = 0;
+      let interval = null;
+
+      const scramble = (targetText, fromText = "") => {
+        let iteraction = 0;
+        clearInterval(interval);
+
+        fromText = fromText.padEnd(targetText.length, "");
+
+        interval = setInterval(() =>{
+          el.innerText = targetText
+          .split("")
+          .map((_,i) => {
+            if (i <iteration) {
+              return targetText[i];
+            }
+            return letters[math.floor(math.random() * letters.length)];
+          })
+          .join("")
+
+          if (iteration >= targetText.length) clearInterval(interval);
+          interation += 1 / 2;
+        }, 40 );
+      };
+
+      scramble(phrases[0]);
+      setInterval(() => {
+        const next = (currentPhrases + 1) % phrases.length;
+        scramble(phrases[next], phrases[currentPhrases]);
+        currentPhrases = next;
+      }, 3000 );
+
+    </script>
   </body>
 </html>
  
