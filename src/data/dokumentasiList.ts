@@ -25,7 +25,7 @@ const dokumentasiList: DokumentasiItem[] = [
     id: "DokSekolahPresenSD",
     title: "Dok. Sekolah PresentSD",
     description: "Documentation of Presentation and Promotion activities to Elementary Schools",
-    imageUrl: "",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/RHO_3443%20(1)%20(1).jpg?raw=true",
     link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolahPresenSD",
   },
   {
@@ -39,7 +39,7 @@ const dokumentasiList: DokumentasiItem[] = [
     id: "DokSekolah02052025",
     title: "Dok. Sekolah 02052025",
     description: "Documentation of National Education Day Ceremony activities",
-    imageUrl: "",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/IMG_0340%20(1).jpg?raw=true",
     link: "http://seeker-project-vcl.vercel.app/index.html?id=DokSekolah02052025",
   },
 ];
