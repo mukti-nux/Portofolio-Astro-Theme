@@ -41,7 +41,7 @@ const { playAudio = false } = Astro.props;
           preload="auto"
           class="absolute inset-0 w-full h-full object-cover"
         >6
-          <source src="/videobg2.mp4" type="video/mp4" />
+          <source src="/bg/videobg2.mp4" type="video/mp4" />
         </video>
       </div>
     )}
@@ -50,13 +50,31 @@ const { playAudio = false } = Astro.props;
       <script is:client>
         window.addEventListener("click", () => {
           const audio = document.createElement("audio");
-          audio.src = "/soundbg2.mp3";
+          audio.src = "/music/soundbg2.mp3";
           audio.autoplay = true;
           audio.loop = true;
           document.body.appendChild(audio);
         },{ once: true });
       </script>
     )}
+
+    <script>
+      const sfxList =[
+        '/sfx/hati-hati.mp3',
+        '/sfx/kerja-bagus.mp3',
+        '/sfx/errorsound.mp3',
+      ];
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".btn-sound").forEach((el) => {
+          el.addEventListener("click", () => {
+            const random = Math.floor(Math.random() * sfxList.length);
+            const audio = new Audio(sfxList[random]);
+            audio.play();
+          });
+        });
+      })
+    </script>
 
     <AppHeader />
 

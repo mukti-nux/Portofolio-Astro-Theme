@@ -24,7 +24,7 @@ export default function DocumentationCard({ title, description, imageUrl, link }
           <div>
             <a
               href={link}
-              class="relative inline-flex h-11 items-center justify-center px-6 rounded-full bg-primary text-white font-semibold 
+              class="btn-sound relative inline-flex h-11 items-center justify-center px-6 rounded-full bg-primary text-white font-semibold 
                      border-2 border-[rgb(59,130,246)] transition duration-300 animate-hover-rgb-shadow"
             >
               GET HERE
