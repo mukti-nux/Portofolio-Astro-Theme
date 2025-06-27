@@ -15,10 +15,17 @@ const dokumentasiList: DokumentasiItem[] = [
     link: "https://seeker-project-vcl.vercel.app/index.html?id=DokSekolahSD21062025",
   },
   {
+    id: "DokSekolah14062025Mus",
+    title: "Dok. Sekolah SD 14062025 (Pak Mustofa)",
+    description: "Documentation of the Graduation ceremony and Final awards ceremony of Muhammadiyah Tempuran Junior High School",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/DSCF0329%20(1).jpg?raw=true",
+    link: "https://seeker-project-vcl.vercel.app/index.html?id=DokSekolah14062025Mus",
+  },
+  {
     id: "DokSekolah14062025",
     title: "Dok. Sekolah 14062025 (pre release)",
     description: "Documentation of the Graduation ceremony and Final awards ceremony of Muhammadiyah Tempuran Junior High School",
-    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-06-14%20at%2016.43.32_6b159128.jpg?raw=true ",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-06-14%20at%2016.43.32_6b159128.jpg?raw=true",
     link: "https://seeker-project-vcl.vercel.app/index.html?id=DokSekolah14062025",
   },
   {
