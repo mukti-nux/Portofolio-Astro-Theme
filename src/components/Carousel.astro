@@ -6,8 +6,8 @@ import { produkList } from './../data/productList';
 <link rel="stylesheet" href="/carousel.css">
 
 <div class="carousel">
+     <Container>
   <div class="list">
-    <Container>
       {produkList.map((produk) => (
         <div class="item">
           <img src={produk.gambar} alt={produk.nama} />
