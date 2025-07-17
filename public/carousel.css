@@ -397,6 +397,8 @@ body{
         left: 50%;
         transform: translateX(-50%);
         height: 100%;
+        margin: 0;
+        padding: 0;
     }
     .carousel .list .item:nth-child(2) .introduce{
         width: 50%;
