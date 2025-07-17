@@ -303,7 +303,7 @@ body{
 }
 .arrows{
     position: absolute;
-    bottom: 30px;
+    bottom: 0;
     width: 1140px;
     max-width: 90%;
     display: flex;
