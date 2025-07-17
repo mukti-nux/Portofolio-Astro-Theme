@@ -30,6 +30,12 @@ body{
     --item5-zIndex: 7;
     --item5-opacity: 0;
 }
+header nav a{
+    margin-left: 30px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+}
 
 /* carousel */
 .carousel{
