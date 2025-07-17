@@ -2,7 +2,7 @@ export const produkList = [
   {
     nama: "Airpod",
     gambar: "images/product/img1.png",
-    judul: "DESIGN SLIDER",
+    judul: "DEMO DESIGN",
     judulDetail: "Airpod GHTK",
     deskripsiSingkat: "Wireless headset dengan desain minimalis dan kualitas suara jernih.",
     deskripsiLengkap:
@@ -18,7 +18,7 @@ export const produkList = [
   {
     nama: "Airpod",
     gambar: "images/product/img2.png",
-    judul: "DESIGN SLIDER",
+    judul: "DEMO DESIGN",
     judulDetail: "Airpod GHTK",
     deskripsiSingkat: "Wireless headset dengan desain minimalis dan kualitas suara jernih.",
     deskripsiLengkap:
@@ -34,7 +34,7 @@ export const produkList = [
   {
     nama: "Airpod",
     gambar: "images/product/img3.png",
-    judul: "DESIGN SLIDER",
+    judul: "DEMO DESIGN",
     judulDetail: "Airpod GHTK",
     deskripsiSingkat: "Wireless headset dengan desain minimalis dan kualitas suara jernih.",
     deskripsiLengkap:
