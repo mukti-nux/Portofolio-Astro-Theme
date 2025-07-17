@@ -303,13 +303,14 @@ body{
 }
 .arrows{
     position: absolute;
-    bottom: 10px;
+    bottom: 30px;
     width: 1140px;
     max-width: 90%;
     display: flex;
     justify-content: space-between;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 10;
 }
 #prev,
 #next{
