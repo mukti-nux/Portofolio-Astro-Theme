@@ -6,6 +6,8 @@ import Layout from '../layouts/Layout.astro';
 import Testimonials from '../components/Testimonials.astro';
 import CallToAction from '../components/CallToAction.astro';
 import Blog from '../components/Blog.astro';
+import Contributor from '../components/Contributor.astro';
+import Carousel from '../components/Carousel.astro';
 ---
 
 <Layout showVideo={true} showAudio={true} title="Welcome to PortofolioMuktiV2.">
@@ -57,6 +59,51 @@ import Blog from '../components/Blog.astro';
     });
   </script>
 
+  <script>
+    let nextButton = document.getElementById('next');
+let prevButton = document.getElementById('prev');
+let carousel = document.querySelector('.carousel');
+let listHTML = document.querySelector('.carousel .list');
+let seeMoreButtons = document.querySelectorAll('.seeMore');
+let backButton = document.getElementById('back');
+
+nextButton.onclick = function(){
+    showSlider('next');
+}
+prevButton.onclick = function(){
+    showSlider('prev');
+}
+let unAcceppClick;
+const showSlider = (type) => {
+    nextButton.style.pointerEvents = 'none';
+    prevButton.style.pointerEvents = 'none';
+
+    carousel.classList.remove('next', 'prev');
+    let items = document.querySelectorAll('.carousel .list .item');
+    if(type === 'next'){
+        listHTML.appendChild(items[0]);
+        carousel.classList.add('next');
+    }else{
+        listHTML.prepend(items[items.length - 1]);
+        carousel.classList.add('prev');
+    }
+    clearTimeout(unAcceppClick);
+    unAcceppClick = setTimeout(()=>{
+        nextButton.style.pointerEvents = 'auto';
+        prevButton.style.pointerEvents = 'auto';
+    }, 2000)
+}
+seeMoreButtons.forEach((button) => {
+    button.onclick = function(){
+        carousel.classList.remove('next', 'prev');
+        carousel.classList.add('showDetail');
+    }
+});
+backButton.onclick = function(){
+    carousel.classList.remove('showDetail');
+}
+  </script>
+
   <!-- 🎨 Style Animasi -->
   <style>
     @keyframes muncul {
@@ -71,6 +118,7 @@ import Blog from '../components/Blog.astro';
   <!-- 🟢 Konten Halaman -->
   <main class="space-y-40 mb-40">
     <HeroSection/>
+    <Carousel/>
     <Features/>
     <Stats/>
     <Testimonials/>
