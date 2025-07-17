@@ -34,7 +34,7 @@ body{
 /* carousel */
 .carousel{
     position: relative;
-    height: 800px;
+    height: 500px;
     overflow: hidden;
     margin-top: 0px;
 }
@@ -387,11 +387,15 @@ body{
         height: 600px;
     }
     .carousel .list .item{
-        width: 100%;
+        width: 100vw;
         font-size: 10px;
     }
     
     .carousel .list{
+        height: 100vw;
+        width: 100%;
+        left: 50%;
+        transform: translateX(-50%);
         height: 100%;
     }
     .carousel .list .item:nth-child(2) .introduce{
