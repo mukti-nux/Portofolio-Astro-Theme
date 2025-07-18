@@ -7,6 +7,7 @@ import { produkList } from './../data/productList';
 
   
 <div class="carousel">
+  <Container>
   <div class="list">
       {produkList.map((produk) => (
         <div class="item">
@@ -88,4 +89,5 @@ backButton.onclick = function(){
     carousel.classList.remove('showDetail');
 }
 </script>
+  </Container>
 </div>

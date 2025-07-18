@@ -1,10 +1,10 @@
 export const produkList = [
   {
-    nama: "Airpod",
-    gambar: "images/product/img1.png",
-    judul: "DEMO DESIGN",
-    judulDetail: "Airpod GHTK",
-    deskripsiSingkat: "Wireless headset dengan desain minimalis dan kualitas suara jernih.",
+    nama: "Nikon D5600 + 18-55mm",
+    gambar: "images/product/1.png",
+    judul: "Camera",
+    judulDetail: "Nikon D5600 + 18-55mm",
+    deskripsiSingkat: "DSLR Nikon with Extreme spec.",
     deskripsiLengkap:
       "Cocok untuk aktivitas harian maupun olahraga. Daya tahan baterai lama, koneksi stabil Bluetooth 5.3. Tersedia kontrol sentuh dan port Type-C.",
     spesifikasi: {
@@ -16,13 +16,13 @@ export const produkList = [
     }
   },
   {
-    nama: "Airpod",
-    gambar: "images/product/img2.png",
-    judul: "DEMO DESIGN",
-    judulDetail: "Airpod GHTK",
-    deskripsiSingkat: "Wireless headset dengan desain minimalis dan kualitas suara jernih.",
+    nama: "Yongnuo Yn-560 III",
+    gambar: "images/product/2.png",
+    judul: "Flash",
+    judulDetail: "Yongnuo Yn-560 III",
+    deskripsiSingkat: "Compact Flash With big Guide Number.",
     deskripsiLengkap:
-      "Cocok untuk aktivitas harian maupun olahraga. Daya tahan baterai lama, koneksi stabil Bluetooth 5.3. Tersedia kontrol sentuh dan port Type-C.",
+      ".",
     spesifikasi: {
       usedTime: "6 hours",
       chargingPort: "Type-C",
@@ -32,9 +32,9 @@ export const produkList = [
     }
   },
   {
-    nama: "Airpod",
-    gambar: "images/product/img3.png",
-    judul: "DEMO DESIGN",
+    nama: "Muhammad Raditya Permana",
+    gambar: "images/product/3.png",
+    judul: "Testimonial",
     judulDetail: "Airpod GHTK",
     deskripsiSingkat: "Wireless headset dengan desain minimalis dan kualitas suara jernih.",
     deskripsiLengkap:
