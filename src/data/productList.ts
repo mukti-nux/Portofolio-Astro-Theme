@@ -22,7 +22,7 @@ export const produkList = [
     judulDetail: "Yongnuo Yn-560 III",
     deskripsiSingkat: "Compact Flash With big Guide Number.",
     deskripsiLengkap:
-      ".",
+      "lorem ips.",
     spesifikasi: {
       usedTime: "6 hours",
       chargingPort: "Type-C",

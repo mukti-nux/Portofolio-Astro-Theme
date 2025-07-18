@@ -39,6 +39,8 @@ body{
     margin-top: 0px;
 }
 .carousel .list{
+    display: flex;
+    align-items: center;
     position: absolute;
     width: 1140px;
     max-width: 90%;
@@ -63,7 +65,8 @@ body{
 }
 .carousel .list .item img{
     width: 50%;
-    position: absolute;
+    position: static;
+    margin: 0 auto;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
@@ -389,6 +392,10 @@ body{
     .carousel .list .item{
         width: 100%;
         font-size: 10px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: auto;
     }
     
     .carousel .list{
@@ -401,7 +408,10 @@ body{
         padding: 0;
     }
     .carousel .list .item:nth-child(2) .introduce{
-        width: 50%;
+        width: 90%;
+        position: static;
+        transform: none;
+        top: unset;
     }
     
     .carousel .list .item img{
