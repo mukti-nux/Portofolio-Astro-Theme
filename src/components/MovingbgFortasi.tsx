@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from "react";
 import "./../MovingbgFortasi.css";
 
 type MovingbgFortasiProps = {
   videoSrc: string;
-  direction?: 'left' | 'right' | 'bottom';
+  direction?: "left" | "right" | "bottom";
 };
 
 export default function MovingbgFortasi({
@@ -36,7 +36,7 @@ export default function MovingbgFortasi({
   return (
     <div
       ref={videoRef}
-      className={`videoWrapper ${direction} ${isVisible ? "active" : ""}`}
+      className={`video-wrapper ${direction} ${isVisible ? "active" : ""}`}
     >
       {isVisible && (
         <video
