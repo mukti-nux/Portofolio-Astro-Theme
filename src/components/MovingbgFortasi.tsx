@@ -1,53 +1,37 @@
-import { useEffect, useState, useRef } from "react";
-import "./../MovingbgFortasi.css";
+import React, { useRef, useEffect } from 'react';
+import "./../MovingbgFortasi.css"
 
-type MovingbgFortasiProps = {
+interface Props {
   videoSrc: string;
-  direction?: "left" | "right" | "bottom";
-};
+  direction?: 'left' | 'right' | 'bottom';
+}
 
-export default function MovingbgFortasi({
-  videoSrc,
-  direction = "bottom"
-}: MovingbgFortasiProps) {
-  const videoRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+const MovingbgFortasi: React.FC<Props> = ({ videoSrc, direction = 'left' }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const el = videoRef.current;
-    if (!el || typeof window === "undefined") return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-    };
+    const video = videoRef.current;
+    if (video) {
+      video.play().catch(() => {
+        // optional: tangani error autoplay
+      });
+    }
   }, []);
 
   return (
-    <div
-      ref={videoRef}
-      className={`video-wrapper ${direction} ${isVisible ? "active" : ""}`}
-    >
-      {isVisible && (
-        <video
-          src={videoSrc}
-          autoPlay
-          loop
-          muted
-          playsInline
-          loading="lazy"
-        />
-      )}
+    <div className={`video-wrapper move-${direction}`}>
+      <video
+        ref={videoRef}
+        src={videoSrc}
+        muted
+        autoPlay
+        loop
+        playsInline
+        preload="auto"
+        className="w-full h-auto"
+      />
     </div>
   );
-}
+};
+
+export default MovingbgFortasi;
