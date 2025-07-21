@@ -1,4 +1,6 @@
-import { useEffect } from 'react';
+import { h } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
+
 
 interface Props {
   videoSrc: string;
