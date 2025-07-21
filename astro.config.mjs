@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import vercel from '@astrojs/vercel/serverless';
 import tailwind from '@astrojs/tailwind';
 import dotenv from 'dotenv';
-import react from '@astrojs/react';
+import React from '@astrojs/react';
 import preact from '@astrojs/preact';
 
 dotenv.config();
@@ -10,5 +10,5 @@ dotenv.config();
 export default defineConfig({
   output: 'server',
   adapter: vercel(),
-  integrations: [tailwind(), react()],
+  integrations: [tailwind(), React()],
 });
