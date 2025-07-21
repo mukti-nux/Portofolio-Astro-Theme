@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import "./../MovingbgFortasi.css"
 
 interface Props {
   videoSrc: string;
