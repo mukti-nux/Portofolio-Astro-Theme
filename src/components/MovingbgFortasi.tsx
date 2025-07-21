@@ -1,36 +1,26 @@
-import React, { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 
-interface Props {
-  videoSrc: string;
-  direction?: 'left' | 'right' | 'bottom';
-}
-
-const MovingbgFortasi: React.FC<Props> = ({ videoSrc, direction = 'left' }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
+function MovingbgFortasi({ videoSrc, direction }) {
   useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.play().catch(() => {
-        // optional: tangani error autoplay
-      });
+    if (typeof window !== 'undefined') {
+      // semua kode browser-only di sini
+      // contohnya: pakai IntersectionObserver
     }
   }, []);
 
   return (
-    <div className={`video-wrapper move-${direction}`}>
+    <div className={`video-container ${direction}`}>
       <video
-        ref={videoRef}
         src={videoSrc}
-        muted
         autoPlay
         loop
+        muted
         playsInline
-        preload="auto"
-        className="w-full h-auto"
+        loading="lazy"
+        className="w-full h-full object-cover"
       />
     </div>
   );
-};
+}
 
 export default MovingbgFortasi;
