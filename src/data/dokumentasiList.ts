@@ -8,6 +8,13 @@ export interface DokumentasiItem {
 
 const dokumentasiList: DokumentasiItem[] = [
   {
+    id: "DokSekolah18072025",
+    title: "Dok. Sekolah Fortasi SMP day 5",
+    description: "Documentation of the fifth day of the 2025/2026 academic year new student fortification event for Masta Junior High School",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-07-21%20at%2023.09.03_1d0d3496.jpg?raw=true",
+    link: "https://seeker-project-vcl.vercel.app/noname.html?id=DokSekolah18072025",
+  },
+  {
     id: "DokSekolah17072025",
     title: "Dok. Sekolah Fortasi SMP day 4",
     description: "Documentation of the fourth day of the 2025/2026 academic year new student fortification event for Masta Junior High School",
