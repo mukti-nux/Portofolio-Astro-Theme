@@ -10,5 +10,5 @@ dotenv.config();
 export default defineConfig({
   output: 'server',
   adapter: vercel(),
-  integrations: [tailwind(), preact(), react()],
+  integrations: [tailwind(), react()],
 });

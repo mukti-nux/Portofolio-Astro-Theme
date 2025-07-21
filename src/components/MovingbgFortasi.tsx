@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 
-function MovingbgFortasi({ videoSrc, direction }) {
+interface Props {
+  videoSrc: string;
+  direction?: string;
+}
+
+function MovingbgFortasi({ videoSrc, direction = '' }: Props) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // semua kode browser-only di sini
-      // contohnya: pakai IntersectionObserver
+      // browser-only logic
     }
   }, []);
 
