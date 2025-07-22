@@ -1,28 +1,27 @@
 import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef } from 'preact/hooks';
 import './../MovingbgFortasi.css';
 
 interface Props {
   videoSrc: string;
   direction?: string;
-  children?: any; // untuk konten yang akan ditampilkan di atas video
+  children?: any;
 }
 
 function MovingbgFortasi({ videoSrc, direction = '', children }: Props) {
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && videoContainerRef.current) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('active');
           }
         });
-      }, { threshold: 0.1 });
+      }, { threshold: 0.3 });
 
-      const videoWrapper = document.querySelector('.video-container');
-      if (videoWrapper) {
-        observer.observe(videoWrapper);
-      }
+      observer.observe(videoContainerRef.current);
 
       return () => observer.disconnect();
     }
@@ -30,7 +29,7 @@ function MovingbgFortasi({ videoSrc, direction = '', children }: Props) {
 
   return (
     <div className="content-wrapper">
-      <div className={`video-container ${direction}`}>
+      <div ref={videoContainerRef} className={`video-container ${direction}`}>
         <video
           src={videoSrc}
           autoPlay
