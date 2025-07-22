@@ -1,5 +1,6 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import './../MovingbgFortasi.css'; // Assuming you have a CSS file for styles
 
 
 interface Props {
