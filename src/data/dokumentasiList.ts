@@ -51,7 +51,7 @@ const dokumentasiList: DokumentasiItem[] = [
   },
   {
     id: "DokSekolah14062025Mus",
-    title: "Dok. Sekolah SD 14062025 (Pak Mustofa)",
+    title: "Dok. Sekolah 14062025 (Pak Mustofa)",
     description: "Documentation of the Graduation ceremony and Final awards ceremony of Muhammadiyah Tempuran Junior High School",
     imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/DSCF0329%20(1).jpg?raw=true",
     link: "https://seeker-project-vcl.vercel.app/index.html?id=DokSekolah14062025Mus",
