@@ -19,7 +19,7 @@ function MovingbgFortasi({ videoSrc, direction = '', children }: Props) {
             entry.target.classList.add('active');
           }
         });
-      }, { threshold: 0.3 });
+      }, { threshold: 0.1, rootMargin: '50px' });
 
       observer.observe(videoContainerRef.current);
 
