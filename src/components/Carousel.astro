@@ -1,11 +1,11 @@
 ---
+// Carousel.astro
 import Container from './../components/Container.astro';
 import { produkList } from './../data/productList';
 ---
 
 <link rel="stylesheet" href="/carousel.css">
 
-  
 {produkList.map((kategori, index) => (
   <section class="carousel" id={`carousel-${index}`}>
     <Container>
@@ -61,54 +61,37 @@ import { produkList } from './../data/productList';
     </Container>
   </section>
 ))}
-  <div class="arrows">
-    <button id="prev">&lt;</button>
-    <button id="next">&gt;</button>
-    <button id="back">See All &#8599;</button>
-  </div>
-  <script>
-    let nextButton = document.getElementById('next');
-let prevButton = document.getElementById('prev');
-let carousel = document.querySelector('.carousel');
-let listHTML = document.querySelector('.carousel .list');
-let seeMoreButtons = document.querySelectorAll('.seeMore');
-let backButton = document.getElementById('back');
 
-nextButton.onclick = function(){
-    showSlider('next');
-}
-prevButton.onclick = function(){
-    showSlider('prev');
-}
-let unAcceppClick;
-const showSlider = (type) => {
-    nextButton.style.pointerEvents = 'none';
-    prevButton.style.pointerEvents = 'none';
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.carousel').forEach((carousel) => {
+      const list = carousel.querySelector('.list');
+      const nextButton = carousel.querySelector('.next');
+      const prevButton = carousel.querySelector('.prev');
+      const seeMoreButtons = carousel.querySelectorAll('.seeMore');
+      const items = carousel.querySelectorAll('.item');
+      let index = 0;
 
-    carousel.classList.remove('next', 'prev');
-    let items = document.querySelectorAll('.carousel .list .item');
-    if(type === 'next'){
-        listHTML.appendChild(items[0]);
-        carousel.classList.add('next');
-    }else{
-        listHTML.prepend(items[items.length - 1]);
-        carousel.classList.add('prev');
-    }
-    clearTimeout(unAcceppClick);
-    unAcceppClick = setTimeout(()=>{
-        nextButton.style.pointerEvents = 'auto';
-        prevButton.style.pointerEvents = 'auto';
-    }, 2000)
-}
-seeMoreButtons.forEach((button) => {
-    button.onclick = function(){
-        carousel.classList.remove('next', 'prev');
-        carousel.classList.add('showDetail');
-    }
-});
-backButton.onclick = function(){
-    carousel.classList.remove('showDetail');
-}
+      const moveSlider = (type) => {
+        index = (type === 'next')
+          ? (index + 1) % items.length
+          : (index - 1 + items.length) % items.length;
+        list.style.transform = `translateX(-${index * 100}%)`;
+      };
+
+      nextButton?.addEventListener('click', () => moveSlider('next'));
+      prevButton?.addEventListener('click', () => moveSlider('prev'));
+
+      seeMoreButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          carousel.classList.add('showDetail');
+        });
+      });
+
+      const backButton = carousel.querySelector('.back');
+      backButton?.addEventListener('click', () => {
+        carousel.classList.remove('showDetail');
+      });
+    });
+  });
 </script>
-  </Container>
-</div>

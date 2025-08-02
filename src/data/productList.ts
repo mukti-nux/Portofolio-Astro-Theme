@@ -1,3 +1,35 @@
+type ProdukItem = {
+  gambar: string;
+  judul: string;
+  nama: string;
+  deskripsiSingkat: string;
+  judulDetail: string;
+  deskripsiLengkap: string;
+  spesifikasi: {
+    usedTime: string;
+    chargingPort: string;
+    compatible: string;
+    bluetooth: string;
+    control: string;
+  };
+};
+
+type FilmItem = {
+  gambar: string;
+  judul: string;
+  nama: string;
+  sinopsis: string;
+  sutradara: string;
+  tahun: number;
+  durasi: string;
+  linkTrailer: string;
+};
+
+type KategoriItem = {
+  tipe: 'produk' | 'film';
+  items: (ProdukItem | FilmItem)[];
+};
+
 export const produkList = [
   {
     kategori: "Film",
@@ -18,6 +50,20 @@ export const produkList = [
   {
     kategori: "Headset",
     tipe: "elektronik",
-    items: [ /* ... */ ]
-  },
-];
+    items: [
+      {
+        gambar: "/images/product/gm2pro.jpg",
+        nama: "Thinkplus GM2 Pro",
+        judul: "Headset Gaming",
+        deskripsiSingkat: "Headset ringan dan nyaman untuk bermain game.",
+        judulDetail: "GM2 Pro Detail",
+        deskripsiLengkap: "Headset ini cocok untuk semua platform, dengan kualitas suara yang mendalam dan noise cancelling.",
+        spesifikasi: {
+          usedTime: "10 jam",
+          chargingPort: "USB-C",
+          compatible: "Android, iOS, PC",
+          bluetooth: "5.1",
+          control: "Sentuh"
+        }
+      },
+]}];
