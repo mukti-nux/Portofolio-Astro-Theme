@@ -3,21 +3,19 @@ import Container from './../components/Container.astro';
 import { produkList } from './../data/productList';
 ---
 
-<link rel="stylesheet" href="/carousel.css">
-
 <div class="carousel">
   <Container>
-  <div class="list">
-      {produkList.map((produk) => (
-        <div class="item">
-          <img src={produk.gambar} alt={produk.nama} />
+    <div class="list">
+      {produkList.map((produk, index) => (
+        <div class="item" data-index={index}>
+          <img src={produk.gambar} alt={produk.nama} loading="lazy" />
           <div class="introduce">
             <div class="title">{produk.judul}</div>
             <div class="topic">{produk.nama}</div>
             <div class="des">
               {produk.deskripsiSingkat}
             </div>
-            <button class="seeMore">SEE MORE &#8599;</button>
+            <button class="seeMore" data-id={produk.id}>SEE MORE &#8599;</button>
           </div>
           <div class="detail">
             <div class="title">{produk.judulDetail}</div>
@@ -26,20 +24,74 @@ import { produkList } from './../data/productList';
             </div>
             <div class="specifications">
               {Object.entries(produk.spesifikasi).map(([key, value]) => (
-                <div>
-                  <p>{key}</p>
-                  <p>{value}</p>
+                <div class="spec-item">
+                  <p class="spec-label">{key}</p>
+                  <p class="spec-value">{value}</p>
                 </div>
               ))}
             </div>
             <div class="checkout">
-              <button>ADD TO CART</button>
-              <button>CHECKOUT</button>
+              <button class="cart-btn">ADD TO CART</button>
+              <button class="checkout-btn">CHECKOUT</button>
             </div>
           </div>
         </div>
       ))}
-  </div>
-  <!-- ...existing arrows and script code... -->
+    </div>
+    <div class="arrows">
+      <button id="prev">&lt;</button>
+      <button id="next">&gt;</button>
+    </div>
+    <button id="back">BACK TO LIST</button>
   </Container>
 </div>
+
+<script>
+  // Add carousel functionality
+  const carousel = document.querySelector('.carousel');
+  const items = document.querySelectorAll('.item');
+  const nextBtn = document.querySelector('#next');
+  const prevBtn = document.querySelector('#prev');
+  const backBtn = document.querySelector('#back');
+  const seeMoreBtns = document.querySelectorAll('.seeMore');
+
+  let currentIndex = 0;
+
+  // Next button click
+  nextBtn?.addEventListener('click', () => {
+    carousel?.classList.add('next');
+    setTimeout(() => {
+      carousel?.classList.remove('next');
+      rotateItems('next');
+    }, 500);
+  });
+
+  // Previous button click
+  prevBtn?.addEventListener('click', () => {
+    carousel?.classList.add('prev');
+    setTimeout(() => {
+      carousel?.classList.remove('prev');
+      rotateItems('prev');
+    }, 500);
+  });
+
+  // See more button click
+  seeMoreBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      carousel?.classList.add('showDetail');
+    });
+  });
+
+  // Back button click
+  backBtn?.addEventListener('click', () => {
+    carousel?.classList.remove('showDetail');
+  });
+
+  function rotateItems(direction) {
+    if (direction === 'next') {
+      items[0]?.parentNode?.appendChild(items[0]);
+    } else {
+      items[items.length - 1]?.parentNode?.prepend(items[items.length - 1]);
+    }
+  }
+</script>
