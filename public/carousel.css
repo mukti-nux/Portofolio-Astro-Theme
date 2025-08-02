@@ -4,6 +4,31 @@ body{
     background-color: #F4F4F4;
     font-family: Poppins;
 }
+
+.item.film {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.item.film img {
+  max-width: 300px;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+.film-info {
+  max-width: 400px;
+}
+.film-info .seeMore {
+  margin-top: 1rem;
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
 :root{
     --item1-transform: translateX(-100%) translateY(-5%) scale(1.5);
     --item1-filter: blur(30px);
@@ -14,7 +39,6 @@ body{
     --item2-filter: blur(0px);
     --item2-zIndex: 10;
     --item2-opacity: 1;
-
     --item3-transform: translate(50%,10%) scale(0.8);
     --item3-filter: blur(10px);
     --item3-zIndex: 9;
