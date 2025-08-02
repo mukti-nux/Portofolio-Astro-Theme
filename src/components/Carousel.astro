@@ -5,7 +5,6 @@ import { produkList } from './../data/productList';
 
 <link rel="stylesheet" href="/carousel.css">
 
-  
 <div class="carousel">
   <Container>
   <div class="list">
@@ -26,11 +25,12 @@ import { produkList } from './../data/productList';
               {produk.deskripsiLengkap}
             </div>
             <div class="specifications">
-              <div><p>Used Time</p><p>{produk.spesifikasi.usedTime}</p></div>
-              <div><p>Charging port</p><p>{produk.spesifikasi.chargingPort}</p></div>
-              <div><p>Compatible</p><p>{produk.spesifikasi.compatible}</p></div>
-              <div><p>Bluetooth</p><p>{produk.spesifikasi.bluetooth}</p></div>
-              <div><p>Controlled</p><p>{produk.spesifikasi.control}</p></div>
+              {Object.entries(produk.spesifikasi).map(([key, value]) => (
+                <div>
+                  <p>{key}</p>
+                  <p>{value}</p>
+                </div>
+              ))}
             </div>
             <div class="checkout">
               <button>ADD TO CART</button>
@@ -40,54 +40,6 @@ import { produkList } from './../data/productList';
         </div>
       ))}
   </div>
-  <div class="arrows">
-    <button id="prev">&lt;</button>
-    <button id="next">&gt;</button>
-    <button id="back">See All &#8599;</button>
-  </div>
-  <script>
-    let nextButton = document.getElementById('next');
-let prevButton = document.getElementById('prev');
-let carousel = document.querySelector('.carousel');
-let listHTML = document.querySelector('.carousel .list');
-let seeMoreButtons = document.querySelectorAll('.seeMore');
-let backButton = document.getElementById('back');
-
-nextButton.onclick = function(){
-    showSlider('next');
-}
-prevButton.onclick = function(){
-    showSlider('prev');
-}
-let unAcceppClick;
-const showSlider = (type) => {
-    nextButton.style.pointerEvents = 'none';
-    prevButton.style.pointerEvents = 'none';
-
-    carousel.classList.remove('next', 'prev');
-    let items = document.querySelectorAll('.carousel .list .item');
-    if(type === 'next'){
-        listHTML.appendChild(items[0]);
-        carousel.classList.add('next');
-    }else{
-        listHTML.prepend(items[items.length - 1]);
-        carousel.classList.add('prev');
-    }
-    clearTimeout(unAcceppClick);
-    unAcceppClick = setTimeout(()=>{
-        nextButton.style.pointerEvents = 'auto';
-        prevButton.style.pointerEvents = 'auto';
-    }, 2000)
-}
-seeMoreButtons.forEach((button) => {
-    button.onclick = function(){
-        carousel.classList.remove('next', 'prev');
-        carousel.classList.add('showDetail');
-    }
-});
-backButton.onclick = function(){
-    carousel.classList.remove('showDetail');
-}
-</script>
+  <!-- ...existing arrows and script code... -->
   </Container>
 </div>

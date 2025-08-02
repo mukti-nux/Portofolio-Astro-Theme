@@ -1,51 +1,34 @@
 export const produkList = [
   {
-    nama: "Nikon D5600 + 18-55mm",
-    gambar: "images/product/1.png",
-    judul: "Camera",
-    judulDetail: "Nikon D5600 + 18-55mm",
-    deskripsiSingkat: "DSLR Nikon with Extreme spec.",
-    deskripsiLengkap:
-      "Cocok untuk aktivitas harian maupun olahraga. Daya tahan baterai lama, koneksi stabil Bluetooth 5.3. Tersedia kontrol sentuh dan port Type-C.",
+    nama: "Halaman Pertama",
+    gambar: "images/product/halamanpertama.png",
+    judul: "FILM",
+    tipe: "film",
+    judulDetail: "HALAMAN PERTAMA",
+    deskripsiSingkat: "A short film about the importance of literacy.",
+    deskripsiLengkap: "Dulu ia bersinar lewat buku dan prestasi, kini tenggelam dalam dunia maya tanpa batas. Tapi harapan tak pernah benar-benar padam. Dengan cinta seorang ibu dan secuil kesadaran dari dalam diri, ia kembali menapaki jalan literasi—jalan menuju masa depan.",
     spesifikasi: {
-      usedTime: "6 hours",
-      chargingPort: "Type-C",
-      compatible: "Android & iOS",
-      bluetooth: "5.3",
-      control: "Touch"
+      "Duration": "10 minutes",
+      "Genre": "Drama",
+      "Director": "Zumila Dewi Safitri",
+      "Rating": "-",
+      "Release": "2025"
     }
   },
   {
     nama: "Yongnuo Yn-560 III",
     gambar: "images/product/2.png",
     judul: "Flash",
+    tipe: "camera",
     judulDetail: "Yongnuo Yn-560 III",
     deskripsiSingkat: "Compact Flash With big Guide Number.",
-    deskripsiLengkap:
-      "lorem ips.",
+    deskripsiLengkap: "lorem ips.",
     spesifikasi: {
-      usedTime: "6 hours",
-      chargingPort: "Type-C",
-      compatible: "Android & iOS",
-      bluetooth: "5.3",
-      control: "Touch"
+      "Guide Number": "58",
+      "Flash Modes": "M, S1, S2",
+      "Zoom Range": "24-105mm",
+      "Power Source": "4x AA",
+      "Recycle Time": "3s"
     }
-  },
-  {
-    nama: "Muhammad Raditya Permana",
-    gambar: "images/product/3.png",
-    judul: "Testimonial",
-    judulDetail: "Airpod GHTK",
-    deskripsiSingkat: "Wireless headset dengan desain minimalis dan kualitas suara jernih.",
-    deskripsiLengkap:
-      "Cocok untuk aktivitas harian maupun olahraga. Daya tahan baterai lama, koneksi stabil Bluetooth 5.3. Tersedia kontrol sentuh dan port Type-C.",
-    spesifikasi: {
-      usedTime: "6 hours",
-      chargingPort: "Type-C",
-      compatible: "Android & iOS",
-      bluetooth: "5.3",
-      control: "Touch"
-    }
-  },
-  // Bisa tambahkan produk lainnya di sini
+  }
 ]
