@@ -85,27 +85,3 @@ import Container from "./Container.astro"
       </div>
     </Container>
 </div>
-
-<script type="module">
-  import {animate} from 'motion'
-
-  for (let i = 1; i <= 3; i++) {
-    const tombol = document.getElementById(`tombolhero${i}`);
-    if (tombol) {
-      animate(tombol, { opacity: [0, 1], y: [-30, 0] }, {
-        duration: 1.2,
-        delay: i * 0.2,
-        easing: 'ease-in-out',  
-      });
-    }
-  }
-
-  const tulisan = document.getElementById('deskripdiri');
-  if (tulisan) {
-    animate(tulisan, { opacity: [0, 1], y: [-20, 0] }, {
-      duration: 1.2,
-      delay: 0.5,
-      easing: 'ease-in-out',  
-    });
-  }
-</script>
