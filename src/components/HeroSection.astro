@@ -89,7 +89,7 @@ import Container from "./Container.astro"
 <script type="module">
   import {animate} from 'motion'
 
-  for (let 1 = 1; i <= 3; i++) {
+  for (let i = 1; i <= 3; i++) {
     const tombol = document.getElementById(`tombolhero${i}`);
     if (tombol) {
       animate(tombol, { opacity: [0, 1], y: [-30, 0] }, {
