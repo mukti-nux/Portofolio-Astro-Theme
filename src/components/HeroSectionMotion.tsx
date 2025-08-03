@@ -4,7 +4,7 @@ import { animate } from 'motion';
 export default function HeroMotion() {
   useEffect(() => {
     for (let i = 1; i <= 3; i++) {
-      const tombol = document.getElementsByClassName(`tombolhero${i}`);
+      const tombol = document.querySelector(`.tombolhero${i}`);
       if (tombol) {
         animate(tombol, { opacity: [0, 1], y: [-30, 0] }, {
           duration: 1.2,
@@ -15,6 +15,7 @@ export default function HeroMotion() {
     }
 
     const tulisan = document.getElementById('deskripdiri');
+    console.log('tulisan', tulisan);
     if (tulisan) {
       animate(tulisan, { opacity: [0, 1], y: [-20, 0] }, {
         duration: 1.2,
