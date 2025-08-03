@@ -7,6 +7,14 @@ import preact from '@astrojs/preact';
 dotenv.config();
 
 export default defineConfig({
+
+  vite: {
+    resolve: {
+      alias: {
+        motion: 'motion/dist/index.mjs',
+      }
+    }
+  },
   output: 'server',
   adapter: vercel(),
   integrations: [tailwind(), preact()],
