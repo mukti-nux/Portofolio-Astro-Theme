@@ -19,6 +19,7 @@ import Container from "./Container.astro"
                     <a
                       href="/SubscirbePage"
                       class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+                      id="tombolhero"
                     >
                       <span class="relative text-base font-semibold text-white"
                         >Get started</span
@@ -26,7 +27,8 @@ import Container from "./Container.astro"
                     </a>
                     <a
                       href="https://portofoliomukti.framer.website"
-                      class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max"
+                      class="tombolhero relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max"
+                      id="tombolhero"
                     >
                       <span
                         class="relative text-base font-semibold text-primary dark:text-white"
@@ -35,7 +37,8 @@ import Container from "./Container.astro"
                     </a>
                     <a
                       href="https://trakteer.id/hasan_mukti_abdulloh"
-                      class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+                      class="tombolhero relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+                      id="tombolhero"
                     >
                       <span class="relative text-base font-semibold text-white"
                         >Support Me!</span
@@ -83,19 +86,16 @@ import Container from "./Container.astro"
     </Container>
 </div>
 
-<script>
-  const handleScroll = () => {
-    const heroSection = document.getElementById('home');
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-    const maxscroll = 300;
+<script type="module">
+  import {animate} from 'motion'
 
-    const progress = Math.min(scrollPosition / maxscroll, 1);
-    const scale = 1 - (progress * 0.3); 
-    const opacity = 1 - progress;
-
-    heroSection.style.transform = `scale(${scale})`;
-    heroSection.style.opacity = '${opacity}';
-  };
+  const tombol = document.getElementById('tombolhero');
+  if (tombol) {
+    animate(tombol, { opacity: [0, 1], y: [-20, 0] }, {
+      duration: 1.2,
+      easing: 'ease-in-out',  
+    });
+  }
 
   window.addEventListener('scroll', handleScroll);
 </script>
