@@ -82,3 +82,20 @@ import Container from "./Container.astro"
       </div>
     </Container>
 </div>
+
+<script>
+  const handleScroll = () => {
+    const heroSection = document.getElementById('home');
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    const maxscroll = 300;
+
+    const progress = Math.min(scrollPosition / maxscroll, 1);
+    const scale = 1 - (progress * 0.3); 
+    const opacity = 1 - progress;
+
+    heroSection.style.transform = `scale(${scale})`;
+    heroSection.style.opacity = '${opacity}';
+  };
+
+  window.addEventListener('scroll', handleScroll);
+</script>
