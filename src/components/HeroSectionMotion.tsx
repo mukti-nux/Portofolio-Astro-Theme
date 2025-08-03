@@ -4,7 +4,7 @@ import { animate } from 'motion';
 export default function HeroSectionMotion() {
   useEffect(() => {
     for (let i = 1; i <= 3; i++) {
-      const tombol = document.querySelector(`.tombolhero${i}`);
+      const tombol = document.querySelector(`.tombolhero${i}`) as HTMLElement | null;
       if (tombol) {
         animate(tombol, {
           opacity: [0, 1],
@@ -17,7 +17,7 @@ export default function HeroSectionMotion() {
       }
     }
 
-    const tulisan = document.getElementById('deskripdiri');
+    const tulisan = document.getElementById('deskripdiri') as HTMLElement | null;
     if (tulisan) {
       animate(tulisan, {
         opacity: [0, 1],
