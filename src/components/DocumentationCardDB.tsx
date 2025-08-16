@@ -15,7 +15,7 @@ export default function DocumentationCardDB() {
   const [loading, setLoading] = useState(true);
 
   async function fetchDocs() {
-    const { data, error } = await supabase.from("documents").select("*");
+    const { data, error } = await supabase.from("Dokumentasi").select("*");
     if (error) {
       console.error("Fetch error:", error.message);
     } else {
@@ -40,7 +40,7 @@ export default function DocumentationCardDB() {
       .channel("documents-changes")
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "documents" },
+        { event: "*", schema: "public", table: "Dokumentasi" },
         (payload) => {
           console.log("Realtime event:", payload.eventType, payload.new);
           fetchDocs();
