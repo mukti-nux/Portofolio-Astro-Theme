@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/Container.astro";
 import SearchDokumentasi from "../components/SearchDocumentation.jsx"; // 👈 Pakai komponen 
+import DocumentationCardDB from "../components/DocumentationCardDB.tsx"; // 👈 Pakai komponen DocumentationCardDB
 import VideoSection from "../components/Videosection.tsx"; // 👈 Pakai komponen VideoSection
 ---
 
@@ -22,6 +23,7 @@ import VideoSection from "../components/Videosection.tsx"; // 👈 Pakai kompone
 
         <!-- ✅ Ganti dengan komponen interaktif -->
         <SearchDokumentasi client:load />
+        <DocumentationCardDB client:load />
       </div>
 
     </Container>
