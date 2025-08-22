@@ -8,17 +8,38 @@ export interface DokumentasiItem {
 
 const dokumentasiList: DokumentasiItem[] = [
   {
+    id: "DokSekolah21082025",
+    title: "Dok. Sekolah 21082025",
+    description: "Documentation of the Tempuran sub-district branch jambore activities, day 3",
+    imageUrl: "https://raw.githubusercontent.com/mukti-nux/portof-asset/4a97e17071526c49873a46df62a23ebeac639220/WhatsApp%20Image%202025-08-22%20at%2012.39.26_2d24e505.jpg",
+    link: "https://seeker-project-vcl.vercel.app/index.html?id=DokSekolah21082025",
+  },
+  {
+    id: "DokSekolah20082025",
+    title: "Dok. Sekolah 20082025",
+    description: "Documentation of the Tempuran sub-district branch jambore activities, day 2",
+    imageUrl: "https://raw.githubusercontent.com/mukti-nux/portof-asset/4a97e17071526c49873a46df62a23ebeac639220/WhatsApp%20Image%202025-08-22%20at%2012.37.56_a8e3945c.jpg",
+    link: "https://seeker-project-vcl.vercel.app/index.html?id=DokSekolah20082025",
+  },
+  {
+    id: "DokSekolah19082025",
+    title: "Dok. Sekolah 19082025",
+    description: "Documentation of the Tempuran sub-district branch jambore activities, day 1",
+    imageUrl: "https://raw.githubusercontent.com/mukti-nux/portof-asset/4a97e17071526c49873a46df62a23ebeac639220/WhatsApp%20Image%202025-08-22%20at%2012.41.02_940d591b.jpg",
+    link: "https://seeker-project-vcl.vercel.app/index.html?id=DokSekolah19082025",
+  },
+  {
     id: "DokSekolah18082025",
-    title: "Dok. Sekolah pemberangkatan Pramuka",
+    title: "Dok. Sekolah 18082025",
     description: "Documentation of the departure event for scout activities to Tanggulrejo field",
-    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-07-26%20at%2019.42.48_213dadbb.jpg?raw=true",
-    link: "https://seeker-project-vcl.vercel.app/noname.html?id=DokSekolah18082025",
+    imageUrl: "https://raw.githubusercontent.com/mukti-nux/portof-asset/4a97e17071526c49873a46df62a23ebeac639220/WhatsApp%20Image%202025-08-22%20at%2012.41.47_cf4be93b.jpg",
+    link: "https://seeker-project-vcl.vercel.app/index.html?id=DokSekolah18082025",
   },
   {
     id: "DokSekolah17082025",
-    title: "Dok. Sekolah Upacara HUT RI 80",
+    title: "Dok. Sekolah 17082025",
     description: "Documentation of the ceremony commemorating the 80th anniversary of the Republic of Indonesia",
-    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-07-26%20at%2019.42.48_213dadbb.jpg?raw=true",
+    imageUrl: "https://raw.githubusercontent.com/mukti-nux/portof-asset/4a97e17071526c49873a46df62a23ebeac639220/WhatsApp%20Image%202025-08-22%20at%2012.42.25_48b99662.jpg",
     link: "https://seeker-project-vcl.vercel.app/noname.html?id=DokSekolah17082025",
   },
   {
