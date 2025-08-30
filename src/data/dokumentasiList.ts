@@ -8,6 +8,13 @@ export interface DokumentasiItem {
 
 const dokumentasiList: DokumentasiItem[] = [
   {
+    id: "DokSekolah30082025",
+    title: "Dok. Sekolah 30082025",
+    description: "Documentation of activities to commemorate the 80th anniversary of the Republic of Indonesia",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-08-30%20at%2022.49.19_522d841d.jpg?raw=true",
+    link: "https://seeker-project-vcl.vercel.app/index.html?id=DokSekolah21082025",
+  },
+  {
     id: "DokSekolah21082025",
     title: "Dok. Sekolah 21082025",
     description: "Documentation of the Tempuran sub-district branch jambore activities, day 3",
