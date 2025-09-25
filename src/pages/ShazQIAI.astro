@@ -28,7 +28,7 @@ import Container from "../components/Container.astro";
           </button>
         </div>
 
-        <!-- Chat Content -->
+        <!-- Chat Content (Hanya teks non-kode) -->
         <div
           id="chat-messages"
           class="mb-4 space-y-3 max-h-64 overflow-y-auto text-gray-900 dark:text-white text-sm"
@@ -52,27 +52,44 @@ import Container from "../components/Container.astro";
         </form>
       </div>
       <!-- ChatBoxEnd -->
+
+      <!-- Code Output Panel (Terpisah, muncul kalau ada kode) -->
+      <div
+        id="code-output"
+        class="max-w-2xl mx-auto mt-4 p-4 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hidden"
+        aria-label="Generated code output"
+      >
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Generated Code</h3>
+          <button
+            id="clear-code"
+            class="text-sm text-gray-500 hover:text-red-500 transition px-2 py-1 rounded"
+            aria-label="Clear code output"
+          >
+            Clear Code
+          </button>
+        </div>
+        <div id="code-content" class="space-y-4"></div>
+      </div>
     </Container>
   </div>
 
 <script is:inline>
-  // Load Highlight.js dynamically (hanya sekali)
+  // Load Highlight.js dynamically
   let hljsLoaded = false;
   function loadHighlightJS() {
     if (hljsLoaded) return;
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/core.min.js';
     script.onload = () => {
-      // Load languages yang dibutuhkan (JS, Python, dll. Tambah sesuai kebutuhan)
       const langScript = document.createElement('script');
       langScript.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/javascript.min.js';
       langScript.onload = () => {
-        // Tambah languages lain kalau perlu, e.g., python, css
         const pythonScript = document.createElement('script');
         pythonScript.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/python.min.js';
         document.head.appendChild(pythonScript);
         hljsLoaded = true;
-        hljs.highlightAll(); // Init global
+        hljs.highlightAll();
       };
       document.head.appendChild(langScript);
     };
@@ -83,39 +100,46 @@ import Container from "../components/Container.astro";
   const input = document.getElementById("chat-input");
   const messages = document.getElementById("chat-messages");
   const clearBtn = document.getElementById("clear-chat");
+  const codeOutput = document.getElementById("code-output");
+  const codeContent = document.getElementById("code-content");
+  const clearCodeBtn = document.getElementById("clear-code");
 
   const history = [
     { role: "assistant", content: "Halo! Ada yang bisa aku bantu? Coba tanya soal koding!" }
   ];
 
-  const username = "Mukti";
+  // Username otomatis dari localStorage atau prompt
+  let username = localStorage.getItem('shazqiai-username') || null;
+  if (!username) {
+    username = prompt("Siapa nama kamu? (Opsional, buat personalisasi)") || "User ";
+    localStorage.setItem('shazqiai-username', username);
+  }
 
-  // Fungsi untuk render message dengan parsing code blocks
-  function renderMessage(content, roleClass = "text-left") {
-    const msgDiv = document.createElement("div");
-    msgDiv.className = roleClass;
-
-    // Parse markdown-style code blocks (sederhana: ```lang\ncode\n```)
+  // Fungsi untuk extract dan render code blocks (hanya ke code-output)
+  function extractAndRenderCode(content) {
     const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
-    let lastIndex = 0;
     let match;
+    const codes = [];
+    let cleanText = content; // Text tanpa code blocks
 
-    if (codeBlockRegex.test(content)) {
-      loadHighlightJS(); // Load kalau ada code
-      while ((match = codeBlockRegex.exec(content)) !== null) {
-        // Tambah text sebelum code block
-        if (match.index > lastIndex) {
-          const textPart = document.createElement("div");
-          textPart.textContent = content.slice(lastIndex, match.index);
-          msgDiv.appendChild(textPart);
-        }
+    while ((match = codeBlockRegex.exec(content)) !== null) {
+      const lang = match[1] || 'text';
+      const code = match[2].trim();
+      codes.push({ lang, code });
 
-        // Render code block
-        const lang = match[1] || 'text'; // Default 'text' kalau no lang
-        const code = match[2].trim();
+      // Hapus code block dari text (ganti dengan placeholder atau kosong)
+      cleanText = cleanText.replace(match[0], ''); // Atau ganti dengan "Lihat kode di bawah" kalau mau
+    }
 
+    // Render codes ke panel (clear dulu)
+    codeContent.innerHTML = '';
+    if (codes.length > 0) {
+      loadHighlightJS();
+      codeOutput.classList.remove('hidden'); // Tampilkan panel
+
+      codes.forEach(({ lang, code }, index) => {
         const codeContainer = document.createElement("div");
-        codeContainer.className = "code-block my-2 relative";
+        codeContainer.className = "code-block relative my-2";
 
         const pre = document.createElement("pre");
         pre.className = `language-${lang} bg-gray-100 dark:bg-gray-800 p-4 rounded-md overflow-x-auto`;
@@ -129,8 +153,8 @@ import Container from "../components/Container.astro";
         // Copy button
         const copyBtn = document.createElement("button");
         copyBtn.textContent = "Copy";
-        copyBtn.className = "absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 transition opacity-0 group-hover:opacity-100 z-10";
-        copyBtn.setAttribute("aria-label", "Copy code to clipboard");
+        copyBtn.className = "absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 transition z-10";
+        copyBtn.setAttribute("aria-label", `Copy ${lang} code`);
         copyBtn.onclick = async () => {
           try {
             await navigator.clipboard.writeText(code);
@@ -141,7 +165,6 @@ import Container from "../components/Container.astro";
               copyBtn.classList.remove("bg-green-500");
             }, 2000);
           } catch (err) {
-            // Fallback untuk browser lama
             const textArea = document.createElement("textarea");
             textArea.value = code;
             document.body.appendChild(textArea);
@@ -155,26 +178,26 @@ import Container from "../components/Container.astro";
 
         codeContainer.appendChild(copyBtn);
         codeContainer.appendChild(pre);
-        msgDiv.appendChild(codeContainer);
+        codeContent.appendChild(codeContainer);
 
-        lastIndex = codeBlockRegex.lastIndex;
-      }
-      // Tambah sisa text setelah last code block
-      if (lastIndex < content.length) {
-        const textPart = document.createElement("div");
-        textPart.textContent = content.slice(lastIndex);
-        msgDiv.appendChild(textPart);
-      }
+        // Highlight
+        if (hljsLoaded) {
+          hljs.highlightElement(codeElem);
+        }
+      });
     } else {
-      // Plain text
-      msgDiv.textContent = content;
+      codeOutput.classList.add('hidden'); // Sembunyikan kalau no code
     }
 
-    // Highlight kalau udah loaded
-    if (hljsLoaded) {
-      hljs.highlightElement(msgDiv.querySelectorAll('code')[0]); // Highlight all codes
-    }
+    return cleanText.trim() || " (Lihat kode di bawah jika ada)"; // Return text bersih buat chat
+  }
 
+  // Fungsi render message ke chat (hanya teks non-kode)
+  function renderMessageToChat(prefix, content, roleClass = "text-left") {
+    const cleanContent = extractAndRenderCode(content); // Extract code dulu
+    const msgDiv = document.createElement("div");
+    msgDiv.className = roleClass;
+    msgDiv.textContent = prefix + cleanContent;
     return msgDiv;
   }
 
@@ -186,7 +209,7 @@ import Container from "../components/Container.astro";
 
     history.push({ role: "user", content: text });
 
-    const userMsg = renderMessage("🧑 " + text, "text-right text-blue-600");
+    const userMsg = renderMessageToChat("🧑 ", text, "text-right text-blue-600");
     messages.appendChild(userMsg);
 
     input.value = "";
@@ -208,21 +231,20 @@ import Container from "../components/Container.astro";
       });
 
       const data = await res.json();
-      const reply = data.reply || "Maaf, tidak ada jawaban.";
+      let reply = data.reply || "Maaf, tidak ada jawaban.";
 
-      // Ganti loading dengan respons
-      botMsgContainer.innerHTML = ""; // Clear loading
-      const botMsg = renderMessage("🤖 " + reply);
+      // Ganti loading dengan teks bersih
+      botMsgContainer.innerHTML = "";
+      const botMsg = renderMessageToChat("🤖 ", reply);
       botMsgContainer.appendChild(botMsg);
       botMsgContainer.classList.remove("italic", "text-gray-500");
 
-      // Re-highlight kalau perlu
       if (hljsLoaded) hljs.highlightAll();
 
       history.push({ role: "assistant", content: reply });
     } catch (err) {
       botMsgContainer.innerHTML = "";
-      const errorMsg = renderMessage("🤖 Maaf, terjadi kesalahan. Coba lagi nanti.");
+      const errorMsg = renderMessageToChat("🤖 ", "Maaf, terjadi kesalahan. Coba lagi nanti.");
       errorMsg.classList.add("text-red-500");
       botMsgContainer.appendChild(errorMsg);
       botMsgContainer.classList.remove("italic", "text-gray-500");
@@ -231,11 +253,19 @@ import Container from "../components/Container.astro";
     messages.scrollTop = messages.scrollHeight;
   });
 
-  // Clear chat handler
+  // Clear chat handler (juga clear code)
   clearBtn?.addEventListener("click", () => {
     messages.innerHTML = '<div class="text-left">🤖 Chat dihapus. Mulai baru yuk!</div>';
-    history.length = 0; // Reset history
+    history.length = 0;
     history.push({ role: "assistant", content: "Chat dihapus. Mulai baru yuk!" });
+    codeOutput.classList.add('hidden'); // Sembunyikan code panel
+    codeContent.innerHTML = '';
     input.focus();
+  });
+
+  // Clear code handler (opsional, cuma clear code tanpa chat)
+  clearCodeBtn?.addEventListener("click", () => {
+    codeOutput.classList.add('hidden');
+    codeContent.innerHTML = '';
   });
 </script>
