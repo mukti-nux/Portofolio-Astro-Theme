@@ -16,12 +16,24 @@ import Container from "../components/Container.astro";
                 bg-[length:200%_200%] bg-[position:0%_50%] blur-lg opacity-80 rounded-xl z-[-1]"
         ></div>
 
+        <!-- Chat Header with Clear Button -->
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white">ShazQIAI Assistant</h2>
+          <button
+            id="clear-chat"
+            class="text-sm text-gray-500 hover:text-red-500 transition px-2 py-1 rounded"
+            aria-label="Clear chat history"
+          >
+            Clear Chat
+          </button>
+        </div>
+
         <!-- Chat Content -->
         <div
           id="chat-messages"
           class="mb-4 space-y-3 max-h-64 overflow-y-auto text-gray-900 dark:text-white text-sm"
         >
-          <div class="text-left">🤖 Halo! Ada yang bisa aku bantu?</div>
+          <div class="text-left">🤖 Halo! Ada yang bisa aku bantu? Coba tanya soal koding!</div>
         </div>
 
         <!-- Input -->
@@ -29,7 +41,7 @@ import Container from "../components/Container.astro";
           <input
             id="chat-input"
             class="rounded-md p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary w-full"
-            placeholder="Tulis pertanyaanmu..."
+            placeholder="Tulis pertanyaanmu... (misal: 'buat fungsi JS untuk sort array')"
           />
           <button
             type="submit"
@@ -44,17 +56,129 @@ import Container from "../components/Container.astro";
   </div>
 
 <script is:inline>
+  // Load Highlight.js dynamically (hanya sekali)
+  let hljsLoaded = false;
+  function loadHighlightJS() {
+    if (hljsLoaded) return;
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/core.min.js';
+    script.onload = () => {
+      // Load languages yang dibutuhkan (JS, Python, dll. Tambah sesuai kebutuhan)
+      const langScript = document.createElement('script');
+      langScript.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/javascript.min.js';
+      langScript.onload = () => {
+        // Tambah languages lain kalau perlu, e.g., python, css
+        const pythonScript = document.createElement('script');
+        pythonScript.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/python.min.js';
+        document.head.appendChild(pythonScript);
+        hljsLoaded = true;
+        hljs.highlightAll(); // Init global
+      };
+      document.head.appendChild(langScript);
+    };
+    document.head.appendChild(script);
+  }
+
   const form = document.getElementById("chat-form");
   const input = document.getElementById("chat-input");
   const messages = document.getElementById("chat-messages");
+  const clearBtn = document.getElementById("clear-chat");
 
   const history = [
-    { role: "assistant", content: "Halo! Ada yang bisa aku bantu?" }
+    { role: "assistant", content: "Halo! Ada yang bisa aku bantu? Coba tanya soal koding!" }
   ];
 
-  // Bisa kamu ganti dinamis pakai prompt() atau input field
   const username = "Mukti";
 
+  // Fungsi untuk render message dengan parsing code blocks
+  function renderMessage(content, roleClass = "text-left") {
+    const msgDiv = document.createElement("div");
+    msgDiv.className = roleClass;
+
+    // Parse markdown-style code blocks (sederhana: ```lang\ncode\n```)
+    const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+    let lastIndex = 0;
+    let match;
+
+    if (codeBlockRegex.test(content)) {
+      loadHighlightJS(); // Load kalau ada code
+      while ((match = codeBlockRegex.exec(content)) !== null) {
+        // Tambah text sebelum code block
+        if (match.index > lastIndex) {
+          const textPart = document.createElement("div");
+          textPart.textContent = content.slice(lastIndex, match.index);
+          msgDiv.appendChild(textPart);
+        }
+
+        // Render code block
+        const lang = match[1] || 'text'; // Default 'text' kalau no lang
+        const code = match[2].trim();
+
+        const codeContainer = document.createElement("div");
+        codeContainer.className = "code-block my-2 relative";
+
+        const pre = document.createElement("pre");
+        pre.className = `language-${lang} bg-gray-100 dark:bg-gray-800 p-4 rounded-md overflow-x-auto`;
+
+        const codeElem = document.createElement("code");
+        codeElem.className = `language-${lang}`;
+        codeElem.textContent = code;
+
+        pre.appendChild(codeElem);
+
+        // Copy button
+        const copyBtn = document.createElement("button");
+        copyBtn.textContent = "Copy";
+        copyBtn.className = "absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 transition opacity-0 group-hover:opacity-100 z-10";
+        copyBtn.setAttribute("aria-label", "Copy code to clipboard");
+        copyBtn.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(code);
+            copyBtn.textContent = "Copied!";
+            copyBtn.classList.add("bg-green-500");
+            setTimeout(() => {
+              copyBtn.textContent = "Copy";
+              copyBtn.classList.remove("bg-green-500");
+            }, 2000);
+          } catch (err) {
+            // Fallback untuk browser lama
+            const textArea = document.createElement("textarea");
+            textArea.value = code;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            copyBtn.textContent = "Copied!";
+            setTimeout(() => { copyBtn.textContent = "Copy"; }, 2000);
+          }
+        };
+
+        codeContainer.appendChild(copyBtn);
+        codeContainer.appendChild(pre);
+        msgDiv.appendChild(codeContainer);
+
+        lastIndex = codeBlockRegex.lastIndex;
+      }
+      // Tambah sisa text setelah last code block
+      if (lastIndex < content.length) {
+        const textPart = document.createElement("div");
+        textPart.textContent = content.slice(lastIndex);
+        msgDiv.appendChild(textPart);
+      }
+    } else {
+      // Plain text
+      msgDiv.textContent = content;
+    }
+
+    // Highlight kalau udah loaded
+    if (hljsLoaded) {
+      hljs.highlightElement(msgDiv.querySelectorAll('code')[0]); // Highlight all codes
+    }
+
+    return msgDiv;
+  }
+
+  // Submit handler
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const text = input.value.trim();
@@ -62,40 +186,56 @@ import Container from "../components/Container.astro";
 
     history.push({ role: "user", content: text });
 
-    const userMsg = document.createElement("div");
-    userMsg.textContent = "🧑 " + text;
-    userMsg.className = "text-left";
+    const userMsg = renderMessage("🧑 " + text, "text-right text-blue-600");
     messages.appendChild(userMsg);
 
     input.value = "";
+    messages.scrollTop = messages.scrollHeight;
 
-    const botMsg = document.createElement("div");
-    botMsg.textContent = "🤖 Sedang mengetik...";
-    botMsg.className = "text-left italic text-gray-500";
-    messages.appendChild(botMsg);
+    const botMsgContainer = document.createElement("div");
+    botMsgContainer.className = "text-left italic text-gray-500";
+    const botTyping = document.createElement("div");
+    botTyping.textContent = "🤖 Sedang mengetik...";
+    botMsgContainer.appendChild(botTyping);
+    messages.appendChild(botMsgContainer);
     messages.scrollTop = messages.scrollHeight;
 
     try {
       const res = await fetch("https://shazqi-ai-backend-deploy.vercel.app/api/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history, username }), // 🧠 dikirimkan ke backend
+        body: JSON.stringify({ messages: history, username }),
       });
 
       const data = await res.json();
       const reply = data.reply || "Maaf, tidak ada jawaban.";
 
-      botMsg.textContent = "🤖 " + reply;
-      botMsg.classList.remove("italic", "text-gray-500");
+      // Ganti loading dengan respons
+      botMsgContainer.innerHTML = ""; // Clear loading
+      const botMsg = renderMessage("🤖 " + reply);
+      botMsgContainer.appendChild(botMsg);
+      botMsgContainer.classList.remove("italic", "text-gray-500");
+
+      // Re-highlight kalau perlu
+      if (hljsLoaded) hljs.highlightAll();
 
       history.push({ role: "assistant", content: reply });
     } catch (err) {
-      botMsg.textContent = "🤖 Maaf, terjadi kesalahan.";
-      botMsg.classList.remove("italic", "text-gray-500");
-      botMsg.classList.add("text-red-500");
+      botMsgContainer.innerHTML = "";
+      const errorMsg = renderMessage("🤖 Maaf, terjadi kesalahan. Coba lagi nanti.");
+      errorMsg.classList.add("text-red-500");
+      botMsgContainer.appendChild(errorMsg);
+      botMsgContainer.classList.remove("italic", "text-gray-500");
     }
 
     messages.scrollTop = messages.scrollHeight;
   });
+
+  // Clear chat handler
+  clearBtn?.addEventListener("click", () => {
+    messages.innerHTML = '<div class="text-left">🤖 Chat dihapus. Mulai baru yuk!</div>';
+    history.length = 0; // Reset history
+    history.push({ role: "assistant", content: "Chat dihapus. Mulai baru yuk!" });
+    input.focus();
+  });
 </script>
-</Layout>
