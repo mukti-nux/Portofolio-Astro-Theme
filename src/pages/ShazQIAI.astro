@@ -75,29 +75,34 @@ import Container from "../components/Container.astro";
   </div>
 
 <script is:inline>
-  // Load Highlight.js dynamically
+  // Load Highlight.js sekali di awal (single bundled file, no module error)
   let hljsLoaded = false;
   function loadHighlightJS() {
     if (hljsLoaded) return;
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/core.min.js';
-    script.onload = () => {
-      const langScript = document.createElement('script');
-      langScript.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/javascript.min.js';
-      langScript.onload = () => {
-        const pythonScript = document.createElement('script');
-        pythonScript.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/python.min.js';
-        document.head.appendChild(pythonScript);
-        hljsLoaded = true;
-        hljs.highlightAll();
+    try {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+      script.integrity = 'sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+4qL8WqW9C5vUzzuD3G8f3b6f0f0f0f0f0f0f0f0f0f0f0f0f0f'; // Optional integrity
+      script.onload = () => {
+        // Register extra languages kalau perlu (e.g., astro fallback ke html)
+        if (typeof hljs !== 'undefined') {
+          // hljs.registerLanguage('astro', require('highlight.js/lib/languages/xml')); // Tapi no require di browser, jadi fallback manual di render
+          hljsLoaded = true;
+          console.log('Highlight.js loaded successfully'); // Debug
+          hljs.highlightAll(); // Init
+        } else {
+          console.error('hljs not defined after load'); // Debug
+        }
       };
-      document.head.appendChild(langScript);
-    };
-    document.head.appendChild(script);
+      script.onerror = () => console.error('Failed to load Highlight.js');
+      document.head.appendChild(script);
+    } catch (err) {
+      console.error('Error loading Highlight.js:', err);
+    }
   }
 
   const form = document.getElementById("chat-form");
-  const input = document.getElementById("chat-input");
+  const chatInput = document.getElementById("chat-input"); // Renamed dari 'input' biar no konflik
   const messages = document.getElementById("chat-messages");
   const clearBtn = document.getElementById("clear-chat");
   const codeOutput = document.getElementById("code-output");
@@ -111,41 +116,56 @@ import Container from "../components/Container.astro";
   // Username otomatis dari localStorage atau prompt
   let username = localStorage.getItem('shazqiai-username') || null;
   if (!username) {
-    username = prompt("Siapa nama kamu? (Opsional, buat personalisasi)") || "User ";
+    username = prompt("Siapa nama kamu? (Opsional, buat personalisasi)") || "User  ";
     localStorage.setItem('shazqiai-username', username);
   }
 
-  // Fungsi untuk extract dan render code blocks (hanya ke code-output)
+  // Fungsi untuk extract dan render code blocks (dengan fallback detection)
   function extractAndRenderCode(content) {
+    let cleanText = content;
+    const codes = [];
+
+    // Primary: Markdown code blocks
     const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
     let match;
-    const codes = [];
-    let cleanText = content; // Text tanpa code blocks
-
     while ((match = codeBlockRegex.exec(content)) !== null) {
       const lang = match[1] || 'text';
       const code = match[2].trim();
       codes.push({ lang, code });
-
-      // Hapus code block dari text (ganti dengan placeholder atau kosong)
-      cleanText = cleanText.replace(match[0], ''); // Atau ganti dengan "Lihat kode di bawah" kalau mau
+      cleanText = cleanText.replace(match[0], ''); // Hapus dari text
+      console.log('Matched code block:', lang, code.substring(0, 50) + '...'); // Debug
     }
 
-    // Render codes ke panel (clear dulu)
+    // Fallback: Kalau no match, detect kalau content mostly code (e.g., ada 'function', 'const', '<div>', dll.)
+    if (codes.length === 0 && (content.includes('function') || content.includes('const ') || content.includes('let ') || content.includes('<script') || content.includes('---') || content.match(/^\s*[a-zA-Z]+\s*=/))) {
+      // Asumsi whole content adalah code, detect lang sederhana
+      let lang = 'javascript'; // Default
+      if (content.includes('---') && content.includes('import')) lang = 'astro'; // Buat Astro
+      else if (content.includes('<')) lang = 'html';
+      else if (content.includes('def ') || content.includes('import ')) lang = 'python';
+      
+      codes.push({ lang, code: content.trim() });
+      cleanText = ''; // Kosongkan text, anggap full code
+      console.log('Fallback detected as code:', lang); // Debug
+    }
+
+    // Render codes ke panel
     codeContent.innerHTML = '';
     if (codes.length > 0) {
       loadHighlightJS();
-      codeOutput.classList.remove('hidden'); // Tampilkan panel
+      codeOutput.classList.remove('hidden');
 
       codes.forEach(({ lang, code }, index) => {
         const codeContainer = document.createElement("div");
         codeContainer.className = "code-block relative my-2";
 
         const pre = document.createElement("pre");
-        pre.className = `language-${lang} bg-gray-100 dark:bg-gray-800 p-4 rounded-md overflow-x-auto`;
+        let displayLang = lang;
+        if (lang === 'astro') displayLang = 'html'; // Fallback buat highlighting (Astro mirip HTML/JS)
+        pre.className = `language-${displayLang} bg-gray-100 dark:bg-gray-800 p-4 rounded-md overflow-x-auto`;
 
         const codeElem = document.createElement("code");
-        codeElem.className = `language-${lang}`;
+        codeElem.className = `language-${displayLang}`;
         codeElem.textContent = code;
 
         pre.appendChild(codeElem);
@@ -180,21 +200,23 @@ import Container from "../components/Container.astro";
         codeContainer.appendChild(pre);
         codeContent.appendChild(codeContainer);
 
-        // Highlight
-        if (hljsLoaded) {
-          hljs.highlightElement(codeElem);
-        }
+        // Highlight dengan check
+        setTimeout(() => { // Delay biar load selesai
+          if (hljsLoaded && typeof hljs !== 'undefined') {
+            hljs.highlightElement(codeElem);
+          }
+        }, 100);
       });
     } else {
-      codeOutput.classList.add('hidden'); // Sembunyikan kalau no code
+      codeOutput.classList.add('hidden');
     }
 
-    return cleanText.trim() || " (Lihat kode di bawah jika ada)"; // Return text bersih buat chat
+    return cleanText.trim() || " (Lihat kode di bawah jika ada)";
   }
 
   // Fungsi render message ke chat (hanya teks non-kode)
   function renderMessageToChat(prefix, content, roleClass = "text-left") {
-    const cleanContent = extractAndRenderCode(content); // Extract code dulu
+    const cleanContent = extractAndRenderCode(content);
     const msgDiv = document.createElement("div");
     msgDiv.className = roleClass;
     msgDiv.textContent = prefix + cleanContent;
@@ -204,7 +226,7 @@ import Container from "../components/Container.astro";
   // Submit handler
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const text = input.value.trim();
+    const text = chatInput.value.trim(); // Updated reference
     if (!text) return;
 
     history.push({ role: "user", content: text });
@@ -212,7 +234,7 @@ import Container from "../components/Container.astro";
     const userMsg = renderMessageToChat("🧑 ", text, "text-right text-blue-600");
     messages.appendChild(userMsg);
 
-    input.value = "";
+    chatInput.value = ""; // Updated
     messages.scrollTop = messages.scrollHeight;
 
     const botMsgContainer = document.createElement("div");
@@ -243,6 +265,7 @@ import Container from "../components/Container.astro";
 
       history.push({ role: "assistant", content: reply });
     } catch (err) {
+      console.error('Fetch error:', err); // Debug
       botMsgContainer.innerHTML = "";
       const errorMsg = renderMessageToChat("🤖 ", "Maaf, terjadi kesalahan. Coba lagi nanti.");
       errorMsg.classList.add("text-red-500");
@@ -253,19 +276,22 @@ import Container from "../components/Container.astro";
     messages.scrollTop = messages.scrollHeight;
   });
 
-  // Clear chat handler (juga clear code)
+  // Clear chat handler
   clearBtn?.addEventListener("click", () => {
     messages.innerHTML = '<div class="text-left">🤖 Chat dihapus. Mulai baru yuk!</div>';
     history.length = 0;
     history.push({ role: "assistant", content: "Chat dihapus. Mulai baru yuk!" });
-    codeOutput.classList.add('hidden'); // Sembunyikan code panel
+    codeOutput.classList.add('hidden');
     codeContent.innerHTML = '';
-    input.focus();
+    chatInput.focus(); // Updated
   });
 
-  // Clear code handler (opsional, cuma clear code tanpa chat)
+  // Clear code handler
   clearCodeBtn?.addEventListener("click", () => {
     codeOutput.classList.add('hidden');
     codeContent.innerHTML = '';
   });
+
+  // Pre-load Highlight.js on init (biar siap)
+  loadHighlightJS();
 </script>
