@@ -8,8 +8,15 @@ export interface DokumentasiItem {
 
 const dokumentasiList: DokumentasiItem[] = [
   {
+    id: "DokSekolah01102025",
+    title: "Dok. Sekolah 01102025",
+    description: "Documentation of collaborative project-based learning activities after the ASTS 1 exam",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/RHO_9854.jpg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/CsQb8Q8H2HMnD2e",
+  },
+  {
     id: "DokSekolah30092025",
-    title: "Dok. Sekolah 30082025",
+    title: "Dok. Sekolah 30092025",
     description: "Documentation of collaborative project-based learning activities after the ASTS 1 exam",
     imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-09-30%20at%2014.07.47_94c2db66.jpg?raw=true",
     link: "https://cloud.portofolioku-v2.my.id/s/R9kgjbgoNd6wyt8",
