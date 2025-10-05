@@ -31,14 +31,13 @@ import HeroSectionMotion from "./HeroSectionMotion.tsx";
             class="text-gray-900 text-balance dark:text-white font-bold text-5xl md:text-6xl xl:text-7xl animasi-fade-in"
           >
             ✨Hello,✋ My Name is <span
-              class="text-primary dark:text-white animasi-fade-in animasi-glitch"
-              data-text="Mukti"
+              class="text-primary dark:text-white animasi-fade-in"
             >
               Mukti.✨</span
             >
           </h1>
           <p
-            class="mt-8 text-gray-700 dark:text-gray-300 animasi-fade-in"
+            class="mt-8 text-gray-700 dark:text-gray-300  animasi-typewriter"
             id="deskripdiri"
           >
             Hi, my name is Hasan Mukti Abdulloh. I was born in Magelang and
@@ -185,93 +184,27 @@ import HeroSectionMotion from "./HeroSectionMotion.tsx";
 </div>
 
 <style>
-  //glitch effect
-  .animasi-glitch {
-  position: relative;
-  color: white;
-  font-size: 2rem;
-  text-transform: uppercase;
-  animation: glitch 1s infinite;
-}
-
-.animasi-glitch::before,
-.animasi-glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 0;
-}
-
-.animasi-glitch::before {
-  animation: glitchTop 1s infinite;
-  color: red;
-}
-
-.animasi-glitch::after {
-  animation: glitchBottom 1s infinite;
-  color: blue;
-}
-
-@keyframes glitch {
-  0% {
-    transform: translate(0);
+  //typing
+  @keyframes typewriter {
+  from {
+    width: 0;
   }
-  20% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(-2px, -2px);
-  }
-  60% {
-    transform: translate(2px, 2px);
-  }
-  80% {
-    transform: translate(2px, -2px);
-  }
-  100% {
-    transform: translate(0);
+  to {
+    width: 100%;
   }
 }
 
-@keyframes glitchTop {
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-2px, -2px);
-  }
-  40% {
-    transform: translate(-2px, 2px);
-  }
-  60% {
-    transform: translate(2px, -2px);
-  }
-  80% {
-    transform: translate(2px, 2px);
-  }
-  100% {
-    transform: translate(0);
+@keyframes blink {
+  50% {
+    border-color: transparent;
   }
 }
 
-@keyframes glitchBottom {
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(2px, 2px);
-  }
-  40% {
-    transform: translate(2px, -2px);
-  }
-  60% {
-    transform: translate(-2px, 2px);
-  }
-  80% {
-    transform: translate(-2px, -2px);
-  }
-  100% {
-    transform: translate(0);
-  }
+.animasi-typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid;
+  animation: typewriter 4s steps(40, end), blink 0.5s step-end infinite;
 }
 // Fade In and Fade Out Animations
   @keyframes fadeOut {
