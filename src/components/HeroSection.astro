@@ -1,124 +1,234 @@
 ---
-import Container from "./Container.astro"
-import HeroSectionMotion from "./HeroSectionMotion.tsx"
+import Container from "./Container.astro";
+import HeroSectionMotion from "./HeroSectionMotion.tsx";
 ---
 
 <div class="relative" id="home">
-    <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
-        <div class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
-        <div class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20"
+  >
+    <div
+      class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"
+    >
     </div>
-    <div class="relative min-h-screen bg-cover bg-center" style="background-image: url('https://github.com/mukti-nux/Framer-asset/blob/main/SBJ_0833.JPG?raw=true');">
-        <div class="absolute inset-0 bg-black/60"></div>
+    <div
+      class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"
+    >
+    </div>
+  </div>
+  <div
+    class="relative min-h-screen bg-cover bg-center"
+    style="background-image: url('https://github.com/mukti-nux/Framer-asset/blob/main/SBJ_0833.JPG?raw=true');"
+  >
+    <div class="absolute inset-0 bg-black/60"></div>
     <Container>
-       <HeroSectionMotion />
+      <HeroSectionMotion />
 
-        <div class="relative pt-36 ml-auto">
-            <div class="lg:w-2/3 text-center mx-auto">
-                <h1 class="text-gray-900 text-balance dark:text-white font-bold text-5xl md:text-6xl xl:text-7xl">✨Hello,✋ My Name is <span class="text-primary dark:text-white">Mukti.✨</span></h1>
-                <p class="mt-8 text-gray-700 dark:text-gray-300" id="deskripdiri">Hi, my name is Hasan Mukti Abdulloh. I was born in Magelang and taught myself photography and website development at home. I'm the head of the PIP division for the Muhammadiyah Student Association branch at Muhammadiyah Tempuran Junior High School.</p>
-                <div class="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6">
-                    <a
-                      href="/SubscirbePage"
-                      class="tombolhero1 relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
-                      
-                    >
-                      <span class="relative text-base font-semibold text-white"
-                        >Get started</span
-                      >
-                    </a>
-                    <a
-                      href="https://portofoliomukti.framer.website"
-                      class="tombolhero2 relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max"
-                    
-                    >
-                      <span
-                        class="relative text-base font-semibold text-primary dark:text-white"
-                        >Learn more</span
-                      > 
-                    </a>
-                    <a
-                      href="https://trakteer.id/hasan_mukti_abdulloh"
-                      class="tombolhero3 relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
-                                     
-                    >
-                      <span class="relative text-base font-semibold text-white"
-                        >Support Me!</span
-                      >
-                    </a>
-                </div>
-                <div class="hidden py-8 mt-16 border-y border-gray-100 dark:border-gray-800 sm:flex justify-between">
-                    <div class="text-center">
-                        <h6 class="text-lg font-semibold text-gray-700 dark:text-white">Gear</h6>
-                        <p class="mt-2 text-gray-500">Nikon D5600</p>
-                    </div>
-                    <div class="text-center justify-center">
-                        <h6 class="text-lg font-semibold text-gray-700 dark:text-white">Education currently being taught</h6>
-                        <p class="mt-2 text-gray-500">Muhammadiyah Tempuran Junior High School</p>
-                    </div>
-                    <div class="text-center">
-                        <h6 class="text-lg font-semibold text-gray-700 dark:text-white">Operating System</h6>
-                        <p class="mt-2 text-gray-500">Windows & WSL</p>
-                    </div>
-                </div>
+      <div class="relative pt-36 ml-auto">
+        <div class="lg:w-2/3 text-center mx-auto">
+          <h1
+            class="text-gray-900 text-balance dark:text-white font-bold text-5xl md:text-6xl xl:text-7xl"
+            data-aos="fade-up"
+          >
+            ✨Hello,✋ My Name is <span
+              class="text-primary dark:text-white"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              Mukti.✨</span
+            >
+          </h1>
+          <p
+            class="mt-8 text-gray-700 dark:text-gray-300"
+            id="deskripdiri"
+            data-aos="fade-up"
+            data-aos-delay="400"
+          >
+            Hi, my name is Hasan Mukti Abdulloh. I was born in Magelang and
+            taught myself photography and website development at home. I'm the
+            head of the PIP division for the Muhammadiyah Student Association
+            branch at Muhammadiyah Tempuran Junior High School.
+          </p>
+          <div class="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6">
+            <a
+              href="/SubscirbePage"
+              class="tombolhero1 relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+              data-aos="fade-up"
+            >
+              <span class="relative text-base font-semibold text-white"
+                >Get started</span
+              >
+            </a>
+            <a
+              href="https://portofoliomukti.framer.website"
+              class="tombolhero2 relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <span
+                class="relative text-base font-semibold text-primary dark:text-white"
+                >Learn more</span
+              >
+            </a>
+            <a
+              href="https://trakteer.id/hasan_mukti_abdulloh"
+              class="tombolhero3 relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <span class="relative text-base font-semibold text-white"
+                >Support Me!</span
+              >
+            </a>
+          </div>
+          <div
+            class="hidden py-8 mt-16 border-y border-gray-100 dark:border-gray-800 sm:flex justify-between"
+            data-aos="fade-up"
+          >
+            <div class="text-center">
+              <h6 class="text-lg font-semibold text-gray-700 dark:text-white">
+                Gear
+              </h6>
+              <p class="mt-2 text-gray-500"
+                 data-aos="fade-up"
+              >
+              Nikon D5600
+            </p>
             </div>
-            <div class="mt-12 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
-                <div class="p-4 flex items-center h-[120px] grayscale justify-center transition duration-200 hover:grayscale-0">
-                    <img src="./images/clients/microsoft.svg" class="max-h-[120px] w-auto scale-130" loading="lazy" alt="client logo" width="" height="" />
-                  </div>
-                <div class="p-4 flex items-center h-[120px] grayscale justify-center transition duration-200 hover:grayscale-0">
-                  <img src="./images/clients/google-drive.svg" class="max-h-[120px] w-auto scale-135" loading="lazy" alt="client logo" width="" height="" />
-                </div>
-                <div class="p-4 flex items-center h-[100px] grayscale justify-center transition duration-200 hover:grayscale-0">
-                  <img src="./images/logoshazqi.svg" class="max-h-full w-auto" loading="lazy" alt="client logo" width="" height="" />
-                </div>
-                <div class="p-4 flex items-center h-[100px] grayscale justify-center transition duration-200 hover:grayscale-0">
-                    <img src="./images/clients/logoporto.svg" class="max-h-full w-auto" loading="lazy" alt="client logo" width="" height="" />
-                  </div>
-                  <div class="p-4 flex items-center h-[80px] grayscale justify-center transition duration-200 hover:grayscale-0">
-                    <img src="./images/clients/framer.svg" class="max-h-[50px] w-auto" loading="lazy" alt="client logo" width="" height="" />
-                  </div>
-                <div class="p-4 flex items-center h-[80px] grayscale justify-center transition duration-200 hover:grayscale-0">
-                    <img src="./images/clients/chatgpt.svg" class="max-h-[45px] w-auto" loading="lazy" alt="client logo" width="" height="" />
-                </div>
-              </div>
+            <div class="text-center justify-center">
+              <h6 class="text-lg font-semibold text-gray-700 dark:text-white">
+                Education currently being taught
+              </h6>
+              <p class="mt-2 text-gray-500"
+                data-aos="fade-up"
+                data-aos="delay=200"
+              >
+              Muhammadiyah Tempuran Junior High School
+              </p>
+            </div>
+            <div class="text-center">
+              <h6 class="text-lg font-semibold text-gray-700 dark:text-white">
+                Operating System
+              </h6>
+              <p class="mt-2 text-gray-500"
+                data-aos="fade-up"
+                data-aos="delay=400"
+              >
+              Windows & WSL
+            </p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
+          <div
+            class="p-4 flex items-center h-[120px] grayscale justify-center transition duration-200 hover:grayscale-0"
+          >
+            <img
+              src="./images/clients/microsoft.svg"
+              class="max-h-[120px] w-auto scale-130"
+              loading="lazy"
+              alt="client logo"
+              width=""
+              height=""
+            />
+          </div>
+          <div
+            class="p-4 flex items-center h-[120px] grayscale justify-center transition duration-200 hover:grayscale-0"
+          >
+            <img
+              src="./images/clients/google-drive.svg"
+              class="max-h-[120px] w-auto scale-135"
+              loading="lazy"
+              alt="client logo"
+              width=""
+              height=""
+            />
+          </div>
+          <div
+            class="p-4 flex items-center h-[100px] grayscale justify-center transition duration-200 hover:grayscale-0"
+          >
+            <img
+              src="./images/logoshazqi.svg"
+              class="max-h-full w-auto"
+              loading="lazy"
+              alt="client logo"
+              width=""
+              height=""
+            />
+          </div>
+          <div
+            class="p-4 flex items-center h-[100px] grayscale justify-center transition duration-200 hover:grayscale-0"
+          >
+            <img
+              src="./images/clients/logoporto.svg"
+              class="max-h-full w-auto"
+              loading="lazy"
+              alt="client logo"
+              width=""
+              height=""
+            />
+          </div>
+          <div
+            class="p-4 flex items-center h-[80px] grayscale justify-center transition duration-200 hover:grayscale-0"
+          >
+            <img
+              src="./images/clients/framer.svg"
+              class="max-h-[50px] w-auto"
+              loading="lazy"
+              alt="client logo"
+              width=""
+              height=""
+            />
+          </div>
+          <div
+            class="p-4 flex items-center h-[80px] grayscale justify-center transition duration-200 hover:grayscale-0"
+          >
+            <img
+              src="./images/clients/chatgpt.svg"
+              class="max-h-[45px] w-auto"
+              loading="lazy"
+              alt="client logo"
+              width=""
+              height=""
+            />
           </div>
         </div>
       </div>
-       
     </Container>
+  </div>
 </div>
 
 <style>
   @keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(20px);
+    }
   }
-  to {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .animasi-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
   }
-}
 
-.animasi-fade-in {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-
-.animasi-fade-out {
-  animation: fadeOut 0.8s ease-out forwards;
-}
+  .animasi-fade-out {
+    animation: fadeOut 0.8s ease-out forwards;
+  }
 </style>
 
 <script>
@@ -139,7 +249,7 @@ import HeroSectionMotion from "./HeroSectionMotion.tsx"
             }
           });
         },
-        { threshold: 0.1 }
+        { threshold: 0.1 },
       );
 
       const elements = document.querySelectorAll(".animasi-teks");
