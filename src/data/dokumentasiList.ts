@@ -11,7 +11,7 @@ const dokumentasiList: DokumentasiItem[] = [
     id: "DokUmum12102025",
     title: "Dok. Umum 12102025",
     description: "Documentation of the 2025 provincial archery championship event at Yos Sudarso Stadium, Tegal",
-    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/RHO_0053.jpg?raw=true",
+    imageUrl: "https://raw.githubusercontent.com/mukti-nux/portof-asset/9a8f2e30c7d8529fa123a337d37c9c3ae3fb3b41/RHO_0067.jpg",
     link: "https://cloud.portofolioku-v2.my.id/s/gMBm6Kw2GSzeytb",
   },
   {
