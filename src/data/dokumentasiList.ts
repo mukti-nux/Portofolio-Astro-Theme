@@ -8,6 +8,13 @@ export interface DokumentasiItem {
 
 const dokumentasiList: DokumentasiItem[] = [
   {
+    id: "DokKultum102025",
+    title: "Dok. kultum Kulsub",
+    description: "documentation of the seven-minute lecture activities at the Friday morning dawn lecture",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-10-24%20at%2015.27.00_549b80a7.jpg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/KHRAEysCrSbNeY9",
+  },
+  {
     id: "DokUmum12102025",
     title: "Dok. Umum 12102025",
     description: "Documentation of the 2025 provincial archery championship event at Yos Sudarso Stadium, Tegal",
