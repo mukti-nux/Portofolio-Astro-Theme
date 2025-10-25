@@ -8,8 +8,6 @@ import CallToAction from '../components/CallToAction.astro';
 import Blog from '../components/Blog.astro';
 import Contributor from '../components/Contributor.astro';
 import Carousel from '../components/Carousel.astro';
-import GameCanvas from '../components/GameCanvas.astro';
-import ShopPanel from '../components/ShopPanel.astro';
 ---
 
 <Layout showVideo={true} showAudio={true} title="Welcome to PortofolioMuktiV2.">
@@ -36,8 +34,6 @@ import ShopPanel from '../components/ShopPanel.astro';
     <div class="text-base font-semibold mb-1">👋 Halo!</div>
     <div class="text-sm">Aku <strong>ShazQIAI</strong>, siap bantu kamu hari ini ✨</div>
   </div>
-
-  <script src="/scripts/game.js"></script>
 
   <!-- 🔧 Script Client -->
   <script is:client>
@@ -77,13 +73,641 @@ import ShopPanel from '../components/ShopPanel.astro';
   <!-- 🟢 Konten Halaman -->
   <main class="space-y-40 mb-40">
     <HeroSection/>
-    <div class="wrap">
-      <GameCanvas />
-      <ShopPanel />
-    </div>
+    
+    <!-- 🎮 GAME SECTION -->
+    <section id="teh-kota-game" class="game-section">
+      <div class="game-container">
+        <div class="section-header">
+          <h2 class="section-title">🎮 Game Teh Kota</h2>
+          <p class="section-description">
+            Jualan teh yang seru! Klik pelanggan, kumpulkan uang, dan upgrade gerobakmu. 
+            Dibuat dengan HTML5 Canvas murni.
+          </p>
+        </div>
+
+        <div class="game-content">
+          <!-- Game Canvas -->
+          <div class="game-area">
+            <div class="game-header">
+              <div class="game-info">
+                <h3 class="game-title">Teh Kota — Jualan Cepat!</h3>
+                <p class="game-instruction">Klik pelanggan untuk melayani. Dapatkan uang, upgrade gerobak!</p>
+              </div>
+              <div class="game-stats">
+                <div class="stat-money">Uang: Rp <span id="money">0</span></div>
+                <div class="stat-secondary">
+                  Skor: <span id="score">0</span> | Hari: <span id="day">1</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="canvas-wrapper">
+              <canvas 
+                id="gameCanvas" 
+                width="560" 
+                height="420"
+                aria-label="Game canvas untuk game Teh Kota"
+              ></canvas>
+            </div>
+
+            <div class="game-controls">
+              <button id="startBtn" class="control-btn control-btn--primary">
+                Mulai Game
+              </button>
+              <button id="pauseBtn" class="control-btn control-btn--secondary">
+                Jeda
+              </button>
+              <button id="resetBtn" class="control-btn control-btn--secondary">
+                Reset
+              </button>
+              <div class="game-tip">
+                💡 Level pelanggan meningkat tiap 10 skor
+              </div>
+            </div>
+          </div>
+
+          <!-- Shop Panel -->
+          <div class="shop-panel">
+            <div class="shop-header">
+              <h3 class="shop-title">🛒 Upgrade Gerobak</h3>
+              <p class="shop-subtitle">Tingkatkan kemampuan jualanmu</p>
+            </div>
+
+            <div class="shop-items">
+              <div class="shop-item">
+                <div class="item-info">
+                  <h4 class="item-title">Harga Jual +1</h4>
+                  <p class="item-description">Tingkatkan harga jual per cangkir (+Rp)</p>
+                </div>
+                <div class="item-action">
+                  <div class="item-cost">Rp <span id="costPrice">50</span></div>
+                  <button id="buyPrice" class="buy-btn">Beli</button>
+                </div>
+              </div>
+
+              <div class="shop-item">
+                <div class="item-info">
+                  <h4 class="item-title">Kecepatan Antar</h4>
+                  <p class="item-description">Kurangi waktu pelanggan menunggu</p>
+                </div>
+                <div class="item-action">
+                  <div class="item-cost">Rp <span id="costSpeed">80</span></div>
+                  <button id="buySpeed" class="buy-btn">Beli</button>
+                </div>
+              </div>
+
+              <div class="shop-item">
+                <div class="item-info">
+                  <h4 class="item-title">Promo Spanduk</h4>
+                  <p class="item-description">Tarik lebih banyak pelanggan</p>
+                </div>
+                <div class="item-action">
+                  <div class="item-cost">Rp <span id="costPromo">120</span></div>
+                  <button id="buyPromo" class="buy-btn">Beli</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="game-guide">
+              <h4 class="guide-title">📋 Cara Main</h4>
+              <ul class="guide-list">
+                <li>Klik pelanggan (muncul sebagai lingkaran) untuk menjual 1 cangkir</li>
+                <li>Setiap pelanggan punya waktu tunggu — jika habis, pelanggan pergi</li>
+                <li>Kumpulkan uang untuk beli upgrade yang membantu</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
     <Stats/>
     <Testimonials/>
     <CallToAction/>
     <Blog/>
   </main>
+
+  <!-- 🎮 GAME SCRIPT -->
+  <script>
+    // Load game script setelah DOM siap
+    function loadGameScript() {
+      const script = document.createElement('script');
+      script.src = '/scripts/game.js';
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadGameScript);
+    } else {
+      loadGameScript();
+    }
+  </script>
+
+  <!-- 🎨 GAME STYLES -->
+  <style>
+    /* Game Section Styles */
+    .game-section {
+      padding: 4rem 0;
+      background: linear-gradient(180deg, #f8f4f0 0%, #ffffff 50%);
+    }
+
+    .dark .game-section {
+      background: linear-gradient(180deg, #1a202c 0%, #2d3748 50%);
+    }
+
+    .game-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #b7410e;
+      margin-bottom: 1rem;
+    }
+
+    .dark .section-title {
+      color: #e76f51;
+    }
+
+    .section-description {
+      font-size: 1.1rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .dark .section-description {
+      color: #a0aec0;
+    }
+
+    .game-content {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* Game Area Styles */
+    .game-area {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e5e5;
+    }
+
+    .dark .game-area {
+      background: #2d3748;
+      border-color: #4a5568;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .game-info {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .game-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #b7410e;
+      margin: 0 0 0.5rem 0;
+      line-height: 1.3;
+    }
+
+    .dark .game-title {
+      color: #e76f51;
+    }
+
+    .game-instruction {
+      font-size: 0.9rem;
+      color: #666;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .dark .game-instruction {
+      color: #a0aec0;
+    }
+
+    .game-stats {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .stat-money {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #2d3748;
+      margin-bottom: 0.25rem;
+    }
+
+    .dark .stat-money {
+      color: #e2e8f0;
+    }
+
+    .stat-secondary {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .dark .stat-secondary {
+      color: #a0aec0;
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
+      border: 2px solid #e5e5e5;
+    }
+
+    .dark .canvas-wrapper {
+      background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+      border-color: #4a5568;
+    }
+
+    #gameCanvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4/3;
+      background: linear-gradient(#fff, #f8f4f0);
+    }
+
+    .dark #gameCanvas {
+      background: linear-gradient(#4a5568, #2d3748);
+    }
+
+    .game-controls {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .control-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 44px;
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .control-btn--primary {
+      background: #b7410e;
+      color: white;
+    }
+
+    .control-btn--primary:hover {
+      background: #9a3610;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(183, 65, 14, 0.3);
+    }
+
+    .control-btn--secondary {
+      background: #f7f7f7;
+      color: #374151;
+      border: 1px solid #e5e5e5;
+    }
+
+    .control-btn--secondary:hover {
+      background: #e5e5e5;
+      transform: translateY(-1px);
+    }
+
+    .dark .control-btn--secondary {
+      background: #4a5568;
+      color: #e2e8f0;
+      border-color: #718096;
+    }
+
+    .dark .control-btn--secondary:hover {
+      background: #2d3748;
+    }
+
+    .game-tip {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: #666;
+      text-align: center;
+      padding: 0.5rem;
+      background: rgba(183, 65, 14, 0.05);
+      border-radius: 6px;
+      border-left: 3px solid #b7410e;
+    }
+
+    .dark .game-tip {
+      color: #a0aec0;
+      background: rgba(231, 111, 81, 0.1);
+      border-left-color: #e76f51;
+    }
+
+    /* Shop Panel Styles */
+    .shop-panel {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e5e5;
+      height: fit-content;
+      position: sticky;
+      top: 2rem;
+    }
+
+    .dark .shop-panel {
+      background: #2d3748;
+      border-color: #4a5568;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .shop-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .dark .shop-header {
+      border-bottom-color: #4a5568;
+    }
+
+    .shop-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #b7410e;
+      margin: 0 0 0.25rem 0;
+    }
+
+    .dark .shop-title {
+      color: #e76f51;
+    }
+
+    .shop-subtitle {
+      font-size: 0.9rem;
+      color: #666;
+      margin: 0;
+    }
+
+    .dark .shop-subtitle {
+      color: #a0aec0;
+    }
+
+    .shop-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .shop-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 1px dashed #dee2e6;
+      transition: all 0.2s ease;
+    }
+
+    .shop-item:hover {
+      background: #e9ecef;
+      transform: translateY(-1px);
+    }
+
+    .dark .shop-item {
+      background: #4a5568;
+      border-color: #718096;
+    }
+
+    .dark .shop-item:hover {
+      background: #2d3748;
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin: 0 0 0.25rem 0;
+    }
+
+    .dark .item-title {
+      color: #e2e8f0;
+    }
+
+    .item-description {
+      font-size: 0.8rem;
+      color: #666;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .dark .item-description {
+      color: #a0aec0;
+    }
+
+    .item-action {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .item-cost {
+      font-size: 0.85rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .dark .item-cost {
+      color: #a0aec0;
+    }
+
+    .buy-btn {
+      padding: 0.5rem 1rem;
+      background: #b7410e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 60px;
+    }
+
+    .buy-btn:hover {
+      background: #9a3610;
+      transform: translateY(-1px);
+    }
+
+    .game-guide {
+      padding: 1.25rem;
+      background: rgba(183, 65, 14, 0.05);
+      border-radius: 12px;
+      border-left: 4px solid #b7410e;
+    }
+
+    .dark .game-guide {
+      background: rgba(231, 111, 81, 0.1);
+      border-left-color: #e76f51;
+    }
+
+    .guide-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #b7410e;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .dark .guide-title {
+      color: #e76f51;
+    }
+
+    .guide-list {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: #666;
+    }
+
+    .dark .guide-list {
+      color: #a0aec0;
+    }
+
+    .guide-list li {
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .guide-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .game-content {
+        grid-template-columns: 1fr 340px;
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .game-section {
+        padding: 3rem 0;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .game-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .shop-panel {
+        position: static;
+      }
+
+      .game-header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .game-stats {
+        text-align: left;
+        width: 100%;
+      }
+
+      .game-controls {
+        gap: 0.5rem;
+      }
+
+      .game-tip {
+        margin-left: 0;
+        width: 100%;
+        order: -1;
+      }
+
+      .shop-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+
+      .item-action {
+        justify-content: space-between;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .game-section {
+        padding: 2rem 0;
+      }
+
+      .game-container {
+        padding: 0 0.5rem;
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+      }
+
+      .section-description {
+        font-size: 1rem;
+      }
+
+      .game-controls {
+        flex-direction: column;
+      }
+
+      .control-btn {
+        width: 100%;
+      }
+
+      .item-action {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .buy-btn {
+        width: 100%;
+      }
+    }
+  </style>
 </Layout>
