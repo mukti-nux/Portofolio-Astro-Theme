@@ -17,7 +17,7 @@ class TehKotaGame {
         this.spawnTimer = 0;
         this.spawnInterval = 1800;
         this.customers = [];
-        
+
         // Upgrades
         this.pricePerCup = 10;
         this.customerPatience = 6000;
@@ -25,7 +25,7 @@ class TehKotaGame {
         this.nextPriceCost = 50;
         this.nextSpeedCost = 80;
         this.nextPromoCost = 120;
-        
+
         // DOM elements
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
@@ -51,28 +51,28 @@ class TehKotaGame {
             const container = this.canvas.parentElement;
             const containerWidth = container.clientWidth;
             const maxWidth = 560;
-            const aspectRatio = 4/3;
-            
+            const aspectRatio = 4 / 3;
+
             let newWidth = Math.min(containerWidth, maxWidth);
             let newHeight = newWidth / aspectRatio;
-            
+
             // Set display size
             this.canvas.style.width = newWidth + 'px';
             this.canvas.style.height = newHeight + 'px';
-            
+
             // Set internal size (fix scaling issue)
             const scale = window.devicePixelRatio || 1;
             this.canvas.width = newWidth;
             this.canvas.height = newHeight;
-            
+
             // Clear any previous scale
             this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-            
+
             console.log('Canvas resized:', newWidth, newHeight);
-            
+
             this.draw();
         };
-        
+
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
     }
@@ -82,15 +82,15 @@ class TehKotaGame {
         this.startBtn?.addEventListener('click', () => this.startGame());
         this.pauseBtn?.addEventListener('click', () => this.togglePause());
         this.resetBtn?.addEventListener('click', () => this.resetGame());
-        
+
         // Shop actions
         this.buyPriceBtn?.addEventListener('click', () => this.buyPriceUpgrade());
         this.buySpeedBtn?.addEventListener('click', () => this.buySpeedUpgrade());
         this.buyPromoBtn?.addEventListener('click', () => this.buyPromoUpgrade());
-        
+
         // Canvas click
         this.canvas?.addEventListener('click', (e) => this.handleCanvasClick(e));
-        
+
         // Keyboard shortcuts
         window.addEventListener('keydown', (e) => this.handleKeyboard(e));
     }
@@ -121,7 +121,7 @@ class TehKotaGame {
         const patience = this.customerPatience + this.rand(-1000, 1000) - (this.score * 10);
         const id = Date.now() + Math.random();
         const level = Math.floor(this.score / 10) + 1;
-        
+
         this.customers.push({
             id, x, y, r, patience,
             created: Date.now(),
@@ -131,7 +131,7 @@ class TehKotaGame {
 
     update(dt) {
         if (!this.running) return;
-        
+
         // Spawn customers
         this.spawnTimer += dt;
         if (this.spawnTimer > this.spawnInterval) {
@@ -141,7 +141,7 @@ class TehKotaGame {
                 this.spawnCustomer();
             }
         }
-        
+
         // Update customers (remove timed out)
         const now = Date.now();
         for (let i = this.customers.length - 1; i >= 0; i--) {
@@ -151,52 +151,52 @@ class TehKotaGame {
                 this.score = Math.max(0, this.score - 1);
             }
         }
-        
+
         // Update day
         const newDay = Math.floor(this.score / 20) + 1;
         if (newDay !== this.day) {
             this.day = newDay;
         }
-        
+
         this.updateUI();
     }
 
     draw() {
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
+
         // Draw scene
         this.drawScene();
-        
+
         // Draw customers
         this.customers.forEach(customer => this.drawCustomer(customer));
-        
+
         // Draw pause overlay
         if (!this.running) {
             this.drawPauseOverlay();
         }
     }
-
+    // Untuk benar-benar transparan (tampilkan background website asli):
     drawScene() {
-        // Ground - fixed position based on canvas height
-        this.ctx.fillStyle = '#efe6d8';
+        // Ground - sangat transparan
+        this.ctx.fillStyle = 'rgba(74, 85, 104, 0.3)';
         this.ctx.fillRect(0, this.canvas.height - 80, this.canvas.width, 80);
-        
-        // Cart - fixed position
+
+        // Cart
         this.drawCart(60, this.canvas.height - 100);
     }
 
     drawCart(x, y) {
         console.log('Drawing cart at:', x, y, 'Canvas size:', this.canvas.width, this.canvas.height);
-        
+
         // Cart body - FIXED: Use proper dimensions
         this.ctx.fillStyle = '#b7410e';
         this.roundRect(this.ctx, x, y, 220, 72, 12, true, false);
-        
+
         // Canopy
         this.ctx.fillStyle = '#e76f51';
         this.ctx.fillRect(x + 10, y - 28, 200, 28);
-        
+
         // Wheels
         this.ctx.fillStyle = '#333';
         this.ctx.beginPath();
@@ -205,7 +205,7 @@ class TehKotaGame {
         this.ctx.beginPath();
         this.ctx.arc(x + 190, y + 72, 14, 0, Math.PI * 2);
         this.ctx.fill();
-        
+
         // Sign - FIXED: Better text rendering
         this.ctx.fillStyle = '#fff3e6';
         this.ctx.fillRect(x + 60, y + 8, 120, 40);
@@ -214,7 +214,7 @@ class TehKotaGame {
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
         this.ctx.fillText('TEH KOTA', x + 120, y + 28);
-        
+
         // Debug: Draw border around cart to see if it's rendering
         this.ctx.strokeStyle = 'rgba(0,255,0,0.3)';
         this.ctx.lineWidth = 2;
@@ -224,13 +224,13 @@ class TehKotaGame {
     drawCustomer(c) {
         const elapsed = Date.now() - c.created;
         const pct = Math.min(1, elapsed / c.patience);
-        
+
         // Body
         this.ctx.beginPath();
         this.ctx.fillStyle = '#ffd9b3';
         this.ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
         this.ctx.fill();
-        
+
         // Eyes
         this.ctx.fillStyle = '#222';
         this.ctx.beginPath();
@@ -239,11 +239,11 @@ class TehKotaGame {
         this.ctx.beginPath();
         this.ctx.arc(c.x + 6, c.y - 4, 2.5, 0, Math.PI * 2);
         this.ctx.fill();
-        
+
         // Cup
         this.ctx.fillStyle = '#7fb3c9';
         this.ctx.fillRect(c.x - 8, c.y + 6, 16, 10);
-        
+
         // Patience bar
         this.ctx.fillStyle = '#ddd';
         this.ctx.fillRect(c.x - c.r, c.y + c.r + 8, c.r * 2, 6);
@@ -264,11 +264,11 @@ class TehKotaGame {
     // Event handlers
     handleCanvasClick(e) {
         if (!this.running) return;
-        
+
         const rect = this.canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         // Find clicked customer
         for (let i = this.customers.length - 1; i >= 0; i--) {
             const c = this.customers[i];
@@ -283,16 +283,16 @@ class TehKotaGame {
     serveCustomer(index) {
         const c = this.customers[index];
         this.customers.splice(index, 1);
-        
+
         const earned = Math.floor(this.pricePerCup * (1 + c.level * 0.1));
         this.money += earned;
         this.score += 1;
-        
+
         // Small chance for bonus
         if (Math.random() < 0.12) {
             this.money += 5;
         }
-        
+
         this.updateUI();
     }
 
@@ -335,24 +335,24 @@ class TehKotaGame {
         this.nextSpeedCost = 80;
         this.nextPromoCost = 120;
         this.running = false;
-        
+
         if (this.pauseBtn) {
             this.pauseBtn.textContent = 'Jeda';
         }
-        
+
         this.updateUI();
         this.draw();
     }
 
     gameLoop(timestamp) {
         if (!this.running) return;
-        
+
         const dt = timestamp - this.lastTime;
         this.lastTime = timestamp;
-        
+
         this.update(dt);
         this.draw();
-        
+
         if (this.running) {
             requestAnimationFrame((ts) => this.gameLoop(ts));
         }
@@ -383,7 +383,7 @@ class TehKotaGame {
             this.promoActive = true;
             this.nextPromoCost = Math.floor(this.nextPromoCost * 2);
             this.updateUI();
-            
+
             // Promo lasts 20 seconds
             setTimeout(() => {
                 this.promoActive = false;
@@ -396,7 +396,7 @@ class TehKotaGame {
         if (this.moneyEl) this.moneyEl.textContent = this.money;
         if (this.scoreEl) this.scoreEl.textContent = this.score;
         if (this.dayEl) this.dayEl.textContent = this.day;
-        
+
         // Shop UI
         if (this.costPriceEl) this.costPriceEl.textContent = this.nextPriceCost;
         if (this.costSpeedEl) this.costSpeedEl.textContent = this.nextSpeedCost;
