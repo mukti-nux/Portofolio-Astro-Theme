@@ -1,0 +1,109 @@
+---
+// src/layouts/GameLayout.astro
+import { AstroFont } from 'astro-font';
+import "./../tailus.css";
+
+const { showVideo = false } = Astro.props;
+const { showImage = false } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="id" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content="Teh Kota Mini Game" />
+    <title>Teh Kota — Mini Game</title>
+
+    <AstroFont
+      config={[{
+        src: [],
+        name: "Urbanist",
+        preload: true,
+        display: "swap",
+        selector: "html",
+        fallback: "sans-serif",
+        googleFontsURL: 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap',
+      }]}
+    />
+    
+    <style>
+      /* CSS Game yang sudah dioptimalkan */
+      :root{ 
+        --bg:#f7f3ee; 
+        --panel:#ffffff; 
+        --accent:#b7410e; 
+        --text:#222;
+        --game-width: 560px;
+        --game-height: 420px;
+      }
+      
+      .game-page {
+        margin: 0;
+        font-family: Urbanist, Inter, ui-sans-serif, system-ui, Arial;
+        background: linear-gradient(180deg,#f2e9e2,#fff 60%);
+        color: var(--text);
+        display: flex;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      
+      .game-container {
+        width: min(960px, 100%);
+        display: grid;
+        grid-template-columns: 1fr minmax(280px, 360px);
+        gap: 20px;
+        align-items: start;
+      }
+      
+      /* ... (sisa CSS game seperti sebelumnya) ... */
+      
+      /* Dark mode support */
+      .dark .game-page {
+        background: linear-gradient(180deg, #2d3748, #1a202c 60%);
+        color: #e2e8f0;
+      }
+      
+      .dark .panel {
+        background: #2d3748;
+        color: #e2e8f0;
+      }
+      
+      .dark .info {
+        color: #cbd5e0;
+      }
+    </style>
+  </head>
+
+  <body class="game-page">
+    {showVideo && (
+      <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden">
+        <video autoplay playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover">
+          <source src="/bg/videobg2.mp4" type="video/mp4" />
+        </video>
+      </div>
+    )}
+
+    {showImage && (
+      <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden">
+        <img src="/images/bgimage.jpg" alt="Background Image" class="absolute inset-0 w-full h-full object-cover" />
+      </div>
+    )}
+
+    <main class="game-container">
+      <slot />
+    </main>
+
+    <style>
+      html {
+        text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+      }
+    </style>
+  </body>
+</html>
