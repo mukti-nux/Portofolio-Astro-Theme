@@ -2,38 +2,282 @@
 // src/components/ShopPanel.astro
 ---
 
-<div class="panel">
-  <h2 style="margin-top:0">Gerobak & Upgrade</h2>
-  <div class="shop">
+<div class="shop-panel">
+  <div class="shop-header">
+    <h3 class="shop-title">🛒 Upgrade Gerobak</h3>
+    <p class="shop-subtitle">Tingkatkan kemampuan jualanmu</p>
+  </div>
+
+  <div class="shop-items">
+    <!-- Price Upgrade -->
     <div class="shop-item">
-      <div>
-        <strong>Harga Jual +1</strong>
-        <div class="small">Tingkatkan harga jual per cangkir (+Rp)</div>
+      <div class="item-info">
+        <h4 class="item-title">Harga Jual +1</h4>
+        <p class="item-description">Tingkatkan harga jual per cangkir (+Rp)</p>
       </div>
-      <div class="center"><div class="small">Biaya: Rp <span id="costPrice">50</span></div><button id="buyPrice">Beli</button></div>
+      <div class="item-action">
+        <div class="item-cost">Rp <span id="costPrice">50</span></div>
+        <button id="buyPrice" class="buy-btn">Beli</button>
+      </div>
     </div>
+
+    <!-- Speed Upgrade -->
     <div class="shop-item">
-      <div>
-        <strong>Kecepatan Antar</strong>
-        <div class="small">Kurangi waktu pelanggan menunggu</div>
+      <div class="item-info">
+        <h4 class="item-title">Kecepatan Antar</h4>
+        <p class="item-description">Kurangi waktu pelanggan menunggu</p>
       </div>
-      <div class="center"><div class="small">Biaya: Rp <span id="costSpeed">80</span></div><button id="buySpeed">Beli</button></div>
+      <div class="item-action">
+        <div class="item-cost">Rp <span id="costSpeed">80</span></div>
+        <button id="buySpeed" class="buy-btn">Beli</button>
+      </div>
     </div>
+
+    <!-- Promo Upgrade -->
     <div class="shop-item">
-      <div>
-        <strong>Promo Spanduk</strong>
-        <div class="small">Tarik lebih banyak pelanggan</div>
+      <div class="item-info">
+        <h4 class="item-title">Promo Spanduk</h4>
+        <p class="item-description">Tarik lebih banyak pelanggan</p>
       </div>
-      <div class="center"><div class="small">Biaya: Rp <span id="costPromo">120</span></div><button id="buyPromo">Beli</button></div>
+      <div class="item-action">
+        <div class="item-cost">Rp <span id="costPromo">120</span></div>
+        <button id="buyPromo" class="buy-btn">Beli</button>
+      </div>
     </div>
   </div>
 
-  <div style="margin-top:12px">
-    <h3 style="margin:0 0 8px 0">Petunjuk</h3>
-    <ul style="padding-left:18px;margin:0" class="small">
-      <li>Klik pelanggan (muncul sebagai lingkaran) untuk menjual 1 cangkir.</li>
-      <li>Setiap pelanggan punya waktu tunggu — jika habis, pelanggan pergi.</li>
-      <li>Kumpulkan uang untuk beli upgrade yang membantu.</li>
+  <div class="game-guide">
+    <h4 class="guide-title">📋 Cara Main</h4>
+    <ul class="guide-list">
+      <li>Klik pelanggan (muncul sebagai lingkaran) untuk menjual 1 cangkir</li>
+      <li>Setiap pelanggan punya waktu tunggu — jika habis, pelanggan pergi</li>
+      <li>Kumpulkan uang untuk beli upgrade yang membantu</li>
     </ul>
   </div>
 </div>
+
+<style>
+  .shop-panel {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e5e5;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+  }
+
+  .dark .shop-panel {
+    background: #2d3748;
+    border-color: #4a5568;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .shop-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .dark .shop-header {
+    border-bottom-color: #4a5568;
+  }
+
+  .shop-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #b7410e;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .dark .shop-title {
+    color: #e76f51;
+  }
+
+  .shop-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+  }
+
+  .dark .shop-subtitle {
+    color: #a0aec0;
+  }
+
+  .shop-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .shop-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px dashed #dee2e6;
+    transition: all 0.2s ease;
+  }
+
+  .shop-item:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+  }
+
+  .dark .shop-item {
+    background: #4a5568;
+    border-color: #718096;
+  }
+
+  .dark .shop-item:hover {
+    background: #2d3748;
+  }
+
+  .item-info {
+    flex: 1;
+  }
+
+  .item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .dark .item-title {
+    color: #e2e8f0;
+  }
+
+  .item-description {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .dark .item-description {
+    color: #a0aec0;
+  }
+
+  .item-action {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .item-cost {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+  }
+
+  .dark .item-cost {
+    color: #a0aec0;
+  }
+
+  .buy-btn {
+    padding: 0.5rem 1rem;
+    background: #b7410e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 60px;
+  }
+
+  .buy-btn:hover {
+    background: #9a3610;
+    transform: translateY(-1px);
+  }
+
+  .buy-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .game-guide {
+    padding: 1.25rem;
+    background: rgba(183, 65, 14, 0.05);
+    border-radius: 12px;
+    border-left: 4px solid #b7410e;
+  }
+
+  .dark .game-guide {
+    background: rgba(231, 111, 81, 0.1);
+    border-left-color: #e76f51;
+  }
+
+  .guide-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #b7410e;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .dark .guide-title {
+    color: #e76f51;
+  }
+
+  .guide-list {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: #666;
+  }
+
+  .dark .guide-list {
+    color: #a0aec0;
+  }
+
+  .guide-list li {
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .guide-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .shop-panel {
+      position: static;
+      padding: 1.25rem;
+    }
+
+    .shop-item {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+
+    .item-action {
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .shop-panel {
+      padding: 1rem;
+    }
+
+    .item-action {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .buy-btn {
+      width: 100%;
+    }
+  }
+</style>

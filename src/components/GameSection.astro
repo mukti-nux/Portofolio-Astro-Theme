@@ -1,0 +1,114 @@
+---
+import GameCanvas from './GameCanvas.astro';
+import ShopPanel from './ShopPanel.astro';
+---
+
+<section id="teh-kota-game" class="game-section">
+  <div class="game-container">
+    <div class="section-header">
+      <h2 class="section-title">🎮 Game Teh Kota</h2>
+      <p class="section-description">
+        Jualan teh yang seru! Klik pelanggan, kumpulkan uang, dan upgrade gerobakmu. 
+        Dibuat dengan HTML5 Canvas murni.
+      </p>
+    </div>
+
+    <div class="game-content">
+      <GameCanvas />
+      <ShopPanel />
+    </div>
+  </div>
+</section>
+
+<style>
+  .game-section {
+    padding: 4rem 0;
+    background: linear-gradient(180deg, #f8f4f0 0%, #ffffff 50%);
+  }
+
+  .dark .game-section {
+    background: linear-gradient(180deg, #1a202c 0%, #2d3748 50%);
+  }
+
+  .game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #b7410e;
+    margin-bottom: 1rem;
+  }
+
+  .dark .section-title {
+    color: #e76f51;
+  }
+
+  .section-description {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .dark .section-description {
+    color: #a0aec0;
+  }
+
+  .game-content {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .game-content {
+      grid-template-columns: 1fr 340px;
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .game-section {
+      padding: 3rem 0;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .game-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .game-section {
+      padding: 2rem 0;
+    }
+
+    .game-container {
+      padding: 0 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+    }
+
+    .section-description {
+      font-size: 1rem;
+    }
+  }
+</style>
