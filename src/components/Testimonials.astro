@@ -6,13 +6,34 @@ import Container from "./Container.astro"
   <Container>
     <div class="mb-20 space-y-4 px-6 md:px-0">
       <h2 class="text-center text-2xl font-bold text-gray-800 dark:text-white md:text-4xl">
-        Testimonials from My Friends.
+        Testimonials from My Client.
       </h2>
     </div>
   
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
     <div class="relative">
+
+      <!-- Testimonial Box -->
+      <div class="relative z-10 p-8 rounded-3xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 min-h-[220px]">
+
+        <div class="flex gap-4">
+          <img class="w-12 h-12 rounded-full" src="./images/avatars/wil.png" alt="user avatar" loading="lazy">
+          <div>
+            <h6 class="text-lg font-medium text-gray-700 dark:text-white">Addin Arkana Wildan</h6>
+            <p class="text-sm text-gray-500 dark:text-gray-300">Mobile Dev</p>
+          </div>
+        </div>
+        <p class="mt-6 text-sm">
+          I feel Hasan is the best in computing, photography and other fields, he will also fix anything he does that is wrong.
+        </p>
+      </div>
+    </div>
+
+    <div class="relative">
+      <!-- Gradient Shadow -->
+        <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 via-teal-500 to-red-500 bg-cover blur-lg opacity-80 rounded-xl z-0 pointer-events-none"></div>
+
 
       <!-- Gradient Shadow -->
         <div class="absolute inset-0 bg-gradient-to-r from-red-500 via-green-500 to-blue-500 bg-cover blur-lg opacity-80 rounded-xl z-0 pointer-events-none"></div>
