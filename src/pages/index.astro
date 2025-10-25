@@ -1,28 +1,37 @@
 ---
-import Stats from '../components/Stats.astro';
-import Features from '../components/Features.astro';
-import HeroSection from '../components/HeroSection.astro';
-import Layout from '../layouts/Layout.astro';
-import Testimonials from '../components/Testimonials.astro';
-import CallToAction from '../components/CallToAction.astro';
-import Blog from '../components/Blog.astro';
-import Contributor from '../components/Contributor.astro';
-import Carousel from '../components/Carousel.astro';
+import Stats from "../components/Stats.astro";
+import Features from "../components/Features.astro";
+import HeroSection from "../components/HeroSection.astro";
+import Layout from "../layouts/Layout.astro";
+import Testimonials from "../components/Testimonials.astro";
+import CallToAction from "../components/CallToAction.astro";
+import Blog from "../components/Blog.astro";
+import Contributor from "../components/Contributor.astro";
+import Carousel from "../components/Carousel.astro";
 ---
 
 <Layout showVideo={true} showAudio={true} title="Welcome to PortofolioMuktiV2.">
   <!-- 🟠 WELCOME OVERLAY -->
-  <div id="overlay" 
-    class="fixed inset-0 bg-black/80 flex flex-col items-center justify-center text-white z-50 cursor-pointer">
-
+  <div
+    id="overlay"
+    class="fixed inset-0 bg-black/80 flex flex-col items-center justify-center text-white z-50 cursor-pointer"
+  >
     <!-- 🔵 Logo SVG -->
     <div class="w-80 h-auto mb-4 animasi-muncul">
-      <img src="https://raw.githubusercontent.com/mukti-nux/Framer-asset/8fe14136d42b29b83cd3cd53484460e5b859ca04/svgviewer-output%20(1).svg" alt="logo" class="w-full h-full"/>
+      <img
+        src="https://raw.githubusercontent.com/mukti-nux/Framer-asset/8fe14136d42b29b83cd3cd53484460e5b859ca04/svgviewer-output%20(1).svg"
+        alt="logo"
+        class="w-full h-full"
+      />
     </div>
 
     <!-- 🟢 Teks Welcome -->
-    <h1 class="text-center text-2xl font-bold mb-2 animasi-muncul">Welcome To Portofolio Mukti Ver.2</h1>
-    <p class="text-center text-sm opacity-75 animasi-muncul">Click anywhere to start. Using desktop for better experience</p>
+    <h1 class="text-center text-2xl font-bold mb-2 animasi-muncul">
+      Welcome To Portofolio Mukti Ver.2
+    </h1>
+    <p class="text-center text-sm opacity-75 animasi-muncul">
+      Click anywhere to start. Using desktop for better experience
+    </p>
   </div>
 
   <!-- 🟣 Popup Sambutan ShazQIAI -->
@@ -32,19 +41,21 @@ import Carousel from '../components/Carousel.astro';
     onclick="closePopup()"
   >
     <div class="text-base font-semibold mb-1">👋 Halo!</div>
-    <div class="text-sm">Aku <strong>ShazQIAI</strong>, siap bantu kamu hari ini ✨</div>
+    <div class="text-sm">
+      Aku <strong>ShazQIAI</strong>, siap bantu kamu hari ini ✨
+    </div>
   </div>
 
   <!-- 🔧 Script Client -->
   <script is:client>
-    const overlay = document.getElementById('overlay');
-    const popup = document.getElementById('shazqi-popup');
+    const overlay = document.getElementById("overlay");
+    const popup = document.getElementById("shazqi-popup");
 
     function closePopup() {
       popup?.classList.add("translate-x-full", "opacity-0");
     }
 
-    overlay?.addEventListener('click', () => {
+    overlay?.addEventListener("click", () => {
       overlay.remove();
 
       // Tampilkan popup ShazQIAI setelah overlay ditutup
@@ -62,8 +73,14 @@ import Carousel from '../components/Carousel.astro';
   <!-- 🎨 Style Animasi -->
   <style>
     @keyframes muncul {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
     .animasi-muncul {
       animation: muncul 1s ease-out forwards;
@@ -72,16 +89,16 @@ import Carousel from '../components/Carousel.astro';
 
   <!-- 🟢 Konten Halaman -->
   <main class="space-y-40 mb-40">
-    <HeroSection/>
-    
+    <HeroSection />
+
     <!-- 🎮 GAME SECTION -->
     <section id="teh-kota-game" class="game-section">
       <div class="game-container">
         <div class="section-header">
           <h2 class="section-title">🎮 Game Teh Kota</h2>
           <p class="section-description">
-            Jualan teh yang seru! Klik pelanggan, kumpulkan uang, dan upgrade gerobakmu. 
-            Dibuat dengan HTML5 Canvas murni.
+            Jualan teh yang seru! Klik pelanggan, kumpulkan uang, dan upgrade
+            gerobakmu. Dibuat dengan HTML5 Canvas murni.
           </p>
         </div>
 
@@ -91,23 +108,25 @@ import Carousel from '../components/Carousel.astro';
             <div class="game-header">
               <div class="game-info">
                 <h3 class="game-title">Teh Kota — Jualan Cepat!</h3>
-                <p class="game-instruction">Klik pelanggan untuk melayani. Dapatkan uang, upgrade gerobak!</p>
+                <p class="game-instruction">
+                  Klik pelanggan untuk melayani. Dapatkan uang, upgrade gerobak!
+                </p>
               </div>
               <div class="game-stats">
                 <div class="stat-money">Uang: Rp <span id="money">0</span></div>
                 <div class="stat-secondary">
-                  Skor: <span id="score">0</span> | Hari: <span id="day">1</span>
+                  Skor: <span id="score">0</span> | Hari: <span id="day">1</span
+                  >
                 </div>
               </div>
             </div>
 
             <div class="canvas-wrapper">
-              <canvas 
-                id="gameCanvas" 
-                width="560" 
+              <canvas
+                id="gameCanvas"
+                width="560"
                 height="420"
-                aria-label="Game canvas untuk game Teh Kota"
-              ></canvas>
+                aria-label="Game canvas untuk game Teh Kota"></canvas>
             </div>
 
             <div class="game-controls">
@@ -137,7 +156,9 @@ import Carousel from '../components/Carousel.astro';
               <div class="shop-item">
                 <div class="item-info">
                   <h4 class="item-title">Harga Jual +1</h4>
-                  <p class="item-description">Tingkatkan harga jual per cangkir (+Rp)</p>
+                  <p class="item-description">
+                    Tingkatkan harga jual per cangkir (+Rp)
+                  </p>
                 </div>
                 <div class="item-action">
                   <div class="item-cost">Rp <span id="costPrice">50</span></div>
@@ -148,7 +169,9 @@ import Carousel from '../components/Carousel.astro';
               <div class="shop-item">
                 <div class="item-info">
                   <h4 class="item-title">Kecepatan Antar</h4>
-                  <p class="item-description">Kurangi waktu pelanggan menunggu</p>
+                  <p class="item-description">
+                    Kurangi waktu pelanggan menunggu
+                  </p>
                 </div>
                 <div class="item-action">
                   <div class="item-cost">Rp <span id="costSpeed">80</span></div>
@@ -162,7 +185,9 @@ import Carousel from '../components/Carousel.astro';
                   <p class="item-description">Tarik lebih banyak pelanggan</p>
                 </div>
                 <div class="item-action">
-                  <div class="item-cost">Rp <span id="costPromo">120</span></div>
+                  <div class="item-cost">
+                    Rp <span id="costPromo">120</span>
+                  </div>
                   <button id="buyPromo" class="buy-btn">Beli</button>
                 </div>
               </div>
@@ -171,8 +196,14 @@ import Carousel from '../components/Carousel.astro';
             <div class="game-guide">
               <h4 class="guide-title">📋 Cara Main</h4>
               <ul class="guide-list">
-                <li>Klik pelanggan (muncul sebagai lingkaran) untuk menjual 1 cangkir</li>
-                <li>Setiap pelanggan punya waktu tunggu — jika habis, pelanggan pergi</li>
+                <li>
+                  Klik pelanggan (muncul sebagai lingkaran) untuk menjual 1
+                  cangkir
+                </li>
+                <li>
+                  Setiap pelanggan punya waktu tunggu — jika habis, pelanggan
+                  pergi
+                </li>
                 <li>Kumpulkan uang untuk beli upgrade yang membantu</li>
               </ul>
             </div>
@@ -180,25 +211,25 @@ import Carousel from '../components/Carousel.astro';
         </div>
       </div>
     </section>
-    
-    <Stats/>
-    <Testimonials/>
-    <CallToAction/>
-    <Blog/>
+
+    <Stats />
+    <Testimonials />
+    <CallToAction />
+    <Blog />
   </main>
 
   <!-- 🎮 GAME SCRIPT -->
   <script>
     // Load game script setelah DOM siap
     function loadGameScript() {
-      const script = document.createElement('script');
-      script.src = '/scripts/game.js';
+      const script = document.createElement("script");
+      script.src = "/scripts/game.js";
       script.defer = true;
       document.body.appendChild(script);
     }
-    
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', loadGameScript);
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", loadGameScript);
     } else {
       loadGameScript();
     }
@@ -341,8 +372,8 @@ import Carousel from '../components/Carousel.astro';
       margin: 0 auto;
       border-radius: 12px;
       overflow: hidden;
-      background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
-      border: 2px solid #e5e5e5;
+      background: rgba(26, 32, 44, 0.3) !important; /* Very transparent */
+      border: 2px solid #4a5568;
     }
 
     .dark .canvas-wrapper {
@@ -355,7 +386,7 @@ import Carousel from '../components/Carousel.astro';
       width: 100%;
       height: auto;
       aspect-ratio: 4/3;
-      background: linear-gradient(#fff, #f8f4f0);
+      background: transparent !important; /* Remove white background */
     }
 
     .dark #gameCanvas {
