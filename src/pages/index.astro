@@ -1,5 +1,4 @@
 ---
-import style from '../styles/game.css';
 import Stats from '../components/Stats.astro';
 import Features from '../components/Features.astro';
 import HeroSection from '../components/HeroSection.astro';
@@ -13,6 +12,7 @@ import GameCanvas from '../components/Gamecanvas.astro';
 import ShopPanel from '../components/ShopPanel.astro';
 ---
 
+<link rel="stylesheet" href="/game.css" />
 <Layout showVideo={true} showAudio={true} title="Welcome to PortofolioMuktiV2.">
   <!-- 🟠 WELCOME OVERLAY -->
   <div id="overlay" 
