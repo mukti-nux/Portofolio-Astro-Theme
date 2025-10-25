@@ -1,9 +1,9 @@
 ---
-import style from '../styles/game.css';
+import "../styles/game.css";
 ---
 
-<div class="game panel">
-  <div class="hud">
+<div class="game-panel">
+  <div class="game-hud">
     <div>
       <h1>Teh Kota — Jualan Cepat!</h1>
       <div class="info">Klik pelanggan untuk melayani. Dapatkan uang, upgrade gerobak!</div>
@@ -13,8 +13,10 @@ import style from '../styles/game.css';
       <div class="small">Skor: <span id="score">0</span> | Hari: <span id="day">1</span></div>
     </div>
   </div>
-  <canvas id="gameCanvas" width="560" height="420"></canvas>
-  <div class="controls">
+
+  <canvas id="gameCanvas" class="game-canvas" width="560" height="420"></canvas>
+
+  <div class="game-controls">
     <button id="startBtn">Mulai</button>
     <button class="secondary" id="pauseBtn">Jeda</button>
     <button class="secondary" id="resetBtn">Reset</button>
@@ -23,7 +25,6 @@ import style from '../styles/game.css';
 </div>
 
 <script is:inline>
-
     // Simple vanilla JS canvas game "Teh Kota"
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
