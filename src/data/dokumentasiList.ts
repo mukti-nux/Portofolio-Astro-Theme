@@ -14,6 +14,7 @@ const dokumentasiList: DokumentasiItem[] = [
     imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-10-24%20at%2015.27.00_549b80a7.jpg?raw=true",
     link: "https://cloud.portofolioku-v2.my.id/s/KHRAEysCrSbNeY9",
   },
+  //----- paling duwur -----//
   {
     id: "DokUmum12102025",
     title: "Dok. Umum 12102025",
@@ -54,7 +55,7 @@ const dokumentasiList: DokumentasiItem[] = [
     title: "Dok. Sekolah 29082025",
     description: "Documentation of collaborative project-based learning activities after the ASTS 1 exam",
     imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-09-29%20at%2013.21.56_7318c0a2.jpg?raw=true",
-    link: "https://cloud.portofolioku-v2.my.id/s/ARBwtcjQK6SmED2",
+    link: "https://portofoliomukti-v2.blogspot.com/2025/10/cara-membuat-nasi-goreng-magelangan.html",
   },
   {
     id: "DokSekolah30082025",

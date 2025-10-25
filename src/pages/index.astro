@@ -8,6 +8,8 @@ import CallToAction from '../components/CallToAction.astro';
 import Blog from '../components/Blog.astro';
 import Contributor from '../components/Contributor.astro';
 import Carousel from '../components/Carousel.astro';
+import GameCanvas from '../components/Gamecanvas.astro';
+import ShopPanel from '../components/ShopPanel.astro';
 ---
 
 <Layout showVideo={true} showAudio={true} title="Welcome to PortofolioMuktiV2.">
@@ -73,7 +75,10 @@ import Carousel from '../components/Carousel.astro';
   <!-- 🟢 Konten Halaman -->
   <main class="space-y-40 mb-40">
     <HeroSection/>
-    <Features/>
+    <div class="wrap">
+      <GameCanvas />
+      <ShopPanel />
+    </div>
     <Stats/>
     <Testimonials/>
     <CallToAction/>
