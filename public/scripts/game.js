@@ -1,4 +1,4 @@
-// Teh Kota Mini Game - Complete Script
+// Teh Kota Mini Game - Fixed Version
 class TehKotaGame {
     constructor() {
         this.initializeGame();
@@ -56,13 +56,19 @@ class TehKotaGame {
             let newWidth = Math.min(containerWidth, maxWidth);
             let newHeight = newWidth / aspectRatio;
             
+            // Set display size
             this.canvas.style.width = newWidth + 'px';
             this.canvas.style.height = newHeight + 'px';
             
+            // Set internal size (fix scaling issue)
             const scale = window.devicePixelRatio || 1;
-            this.canvas.width = newWidth * scale;
-            this.canvas.height = newHeight * scale;
-            this.ctx.scale(scale, scale);
+            this.canvas.width = newWidth;
+            this.canvas.height = newHeight;
+            
+            // Clear any previous scale
+            this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+            
+            console.log('Canvas resized:', newWidth, newHeight);
             
             this.draw();
         };
@@ -172,16 +178,18 @@ class TehKotaGame {
     }
 
     drawScene() {
-        // Ground
+        // Ground - fixed position based on canvas height
         this.ctx.fillStyle = '#efe6d8';
         this.ctx.fillRect(0, this.canvas.height - 80, this.canvas.width, 80);
         
-        // Cart
+        // Cart - fixed position
         this.drawCart(60, this.canvas.height - 100);
     }
 
     drawCart(x, y) {
-        // Cart body
+        console.log('Drawing cart at:', x, y, 'Canvas size:', this.canvas.width, this.canvas.height);
+        
+        // Cart body - FIXED: Use proper dimensions
         this.ctx.fillStyle = '#b7410e';
         this.roundRect(this.ctx, x, y, 220, 72, 12, true, false);
         
@@ -198,13 +206,19 @@ class TehKotaGame {
         this.ctx.arc(x + 190, y + 72, 14, 0, Math.PI * 2);
         this.ctx.fill();
         
-        // Sign
+        // Sign - FIXED: Better text rendering
         this.ctx.fillStyle = '#fff3e6';
         this.ctx.fillRect(x + 60, y + 8, 120, 40);
         this.ctx.fillStyle = '#b7410e';
-        this.ctx.font = '18px serif';
+        this.ctx.font = 'bold 18px Arial, sans-serif';
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('TEH KOTA', x + 120, y + 35);
+        this.ctx.textBaseline = 'middle';
+        this.ctx.fillText('TEH KOTA', x + 120, y + 28);
+        
+        // Debug: Draw border around cart to see if it's rendering
+        this.ctx.strokeStyle = 'rgba(0,255,0,0.3)';
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeRect(x, y, 220, 72);
     }
 
     drawCustomer(c) {
@@ -241,8 +255,9 @@ class TehKotaGame {
         this.ctx.fillStyle = 'rgba(0,0,0,0.12)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = '#222';
-        this.ctx.font = '20px sans-serif';
+        this.ctx.font = '20px Arial, sans-serif';
         this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
         this.ctx.fillText('Tekan "Mulai" untuk bermain', this.canvas.width / 2, this.canvas.height / 2);
     }
 
@@ -251,10 +266,8 @@ class TehKotaGame {
         if (!this.running) return;
         
         const rect = this.canvas.getBoundingClientRect();
-        const scaleX = this.canvas.width / this.canvas.offsetWidth;
-        const scaleY = this.canvas.height / this.canvas.offsetHeight;
-        const x = (e.clientX - rect.left) * scaleX;
-        const y = (e.clientY - rect.top) * scaleY;
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
         // Find clicked customer
         for (let i = this.customers.length - 1; i >= 0; i--) {
@@ -393,5 +406,6 @@ class TehKotaGame {
 
 // Initialize game when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 Initializing Teh Kota Game...');
     window.tehKotaGame = new TehKotaGame();
 });
