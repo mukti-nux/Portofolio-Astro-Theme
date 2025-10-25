@@ -8,9 +8,8 @@ import CallToAction from '../components/CallToAction.astro';
 import Blog from '../components/Blog.astro';
 import Contributor from '../components/Contributor.astro';
 import Carousel from '../components/Carousel.astro';
-import GameCanvas from '../components/Gamecanvas.astro';
+import GameCanvas from '../components/GameCanvas.astro';
 import ShopPanel from '../components/ShopPanel.astro';
-import Script from '../script/game.js';
 ---
 
 <Layout showVideo={true} showAudio={true} title="Welcome to PortofolioMuktiV2.">
@@ -37,6 +36,8 @@ import Script from '../script/game.js';
     <div class="text-base font-semibold mb-1">👋 Halo!</div>
     <div class="text-sm">Aku <strong>ShazQIAI</strong>, siap bantu kamu hari ini ✨</div>
   </div>
+
+  <script src="/script/game.js"></script>
 
   <!-- 🔧 Script Client -->
   <script is:client>
