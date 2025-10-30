@@ -16,6 +16,13 @@ const dokumentasiList: DokumentasiItem[] = [
   },
   //----- paling duwur -----//
   {
+    id: "DokSekolah28102025",
+    title: "Dok. Sekolah 28102025",
+    description: "Documentation of the 97th Youth Pledge Ceremony in 2025 at Muhammadiyah Tempuran Junior High School",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-10-30%20at%2022.05.02_c10b851e.jpg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/eyWpStg2mWobHSN",
+  },
+  {
     id: "DokUmum12102025",
     title: "Dok. Umum 12102025",
     description: "Documentation of the 2025 provincial archery championship event at Yos Sudarso Stadium, Tegal",
