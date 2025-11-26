@@ -16,6 +16,27 @@ const dokumentasiList: DokumentasiItem[] = [
   },
   //----- paling duwur -----//
   {
+    id: "DokSekolah25112025",
+    title: "Dok. Sekolah 25112025",
+    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-11-26%20at%2006.30.59_3faa8ca0.jpg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/NMdbmHfpEw5etkZ",
+  },
+  {
+    id: "DokSekolah22112025",
+    title: "Dok. Sekolah 22112025",
+    description: "Documentation of the Hizbul Wathan event to clean the environment and plant plants",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-11-26%20at%2006.30.11_794f0d46.jpg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/y5GspkrLdQSHdKM",
+  },
+  {
+    id: "DokSekolah18112025",
+    title: "Dok. Sekolah 18112025",
+    description: "Flag ceremony to commemorate the 113th anniversary of Muhammadiyah in November 2025",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202025-11-26%20at%2006.29.37_ef6b961d.jpg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/XDNZz2qsx7epM5m",
+  },
+  {
     id: "DokSekolah28102025",
     title: "Dok. Sekolah 28102025",
     description: "Documentation of the 97th Youth Pledge Ceremony in 2025 at Muhammadiyah Tempuran Junior High School",
