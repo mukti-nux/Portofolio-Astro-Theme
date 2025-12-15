@@ -16,6 +16,48 @@ const dokumentasiList: DokumentasiItem[] = [
   },
   //----- paling duwur -----//
   {
+    id: "DokSekolah15122025",
+    title: "Dok. Sekolah 15122025",
+    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
+    imageUrl: "",
+    link: "https://cloud.portofolioku-v2.my.id/s/jJALm93KfLsaTQj",
+  },
+   {
+    id: "DokSekolah12122025",
+    title: "Dok. Sekolah 12-13122025 + mabit",
+    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
+    imageUrl: "",
+    link: "https://cloud.portofolioku-v2.my.id/s/jATdPxkNkkBWfTi",
+  },
+  {
+    id: "DokSekolah12122025",
+    title: "Dok. Sekolah 12122025",
+    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
+    imageUrl: "",
+    link: "https://cloud.portofolioku-v2.my.id/s/8j9DCcaQHEWwmfA",
+  },
+  {
+    id: "DokSekolah11122025",
+    title: "Dok. Sekolah 11122025",
+    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
+    imageUrl: "",
+    link: "https://cloud.portofolioku-v2.my.id/s/A6qBEz8ids887nk",
+  },
+  {
+    id: "DokSekolah10122025",
+    title: "Dok. Sekolah 10122025",
+    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
+    imageUrl: "",
+    link: "https://cloud.portofolioku-v2.my.id/s/95e9affEGaoGzC3",
+  },
+  {
+    id: "DokSekolah08122025",
+    title: "Dok. Sekolah 08122025",
+    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
+    imageUrl: "",
+    link: "https://cloud.portofolioku-v2.my.id/s/pSA7wW3nKKPcRs5",
+  },
+  {
     id: "DokSekolah25112025",
     title: "Dok. Sekolah 25112025",
     description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
