@@ -16,6 +16,20 @@ const dokumentasiList: DokumentasiItem[] = [
   },
   //----- paling duwur -----//
   {
+    id: "DokSekolah18122025",
+    title: "Dok. Sekolah 18122025",
+    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
+    imageUrl: "",
+    link: "https://cloud.portofolioku-v2.my.id/s/cnc9JjcotjafoQx",
+  },
+  {
+    id: "DokSekolah16122025",
+    title: "Dok. Sekolah 16122025",
+    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
+    imageUrl: "",
+    link: "https://cloud.portofolioku-v2.my.id/s/QMH54DFnwQyYCg9",
+  },
+  {
     id: "DokSekolah15122025",
     title: "Dok. Sekolah 15122025",
     description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
