@@ -18,22 +18,22 @@ const dokumentasiList: DokumentasiItem[] = [
   {
     id: "DokSekolah18122025",
     title: "Dok. Sekolah 18122025",
-    description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
-    imageUrl: "",
+    description: "Documentation of the branch meeting or Musyran PR IPM SMP Muhammadiyah Tempuran in 2025",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/RHO_2714_4_11zon.jpg?raw=true",
     link: "https://cloud.portofolioku-v2.my.id/s/cnc9JjcotjafoQx",
   },
   {
     id: "DokSekolah16122025",
     title: "Dok. Sekolah 16122025",
     description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
-    imageUrl: "",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/RHO_2474_1_11zon.jpg?raw=true",
     link: "https://cloud.portofolioku-v2.my.id/s/QMH54DFnwQyYCg9",
   },
   {
     id: "DokSekolah15122025",
     title: "Dok. Sekolah 15122025",
     description: "Documentation of the ceremony commemorating the 80th Teacher's Day and the presentation of several gift🗿 to teachers",
-    imageUrl: "",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/RHO_2226_2_11zon.jpg?raw=true",
     link: "https://cloud.portofolioku-v2.my.id/s/jJALm93KfLsaTQj",
   },
    {
