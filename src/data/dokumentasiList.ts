@@ -16,6 +16,13 @@ const dokumentasiList: DokumentasiItem[] = [
   },
   //----- paling duwur -----//
   {
+    id: "DokSekolah23122025",
+    title: "Dok. Sekolah 23122025",
+    description: "Documentation of the visit to Borobudur Temple and the annual group photo",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/RHO_2888_3_11zon.jpg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/4wbMmnxrb5gjGCx",
+  },
+  {
     id: "DokSekolah18122025",
     title: "Dok. Sekolah 18122025",
     description: "Documentation of the branch meeting or Musyran PR IPM SMP Muhammadiyah Tempuran in 2025",
