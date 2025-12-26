@@ -1,0 +1,57 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+import SearchShop from "../components/SearchShop.tsx"; // 👈 Import komponen SearchShop
+---
+
+<Layout showImage={true} title="Store">
+    <div class="relative pt-36" id="store">
+        <Container>
+            <div
+                aria-hidden="true"
+                class="absolute inset-0 h-max w-full m-auto grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20"
+            >
+                <div
+                    class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"
+                >
+                </div>
+                <div
+                    class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"
+                >
+                </div>
+            </div>
+
+            <div class="relative">
+                <h1
+                    class="text-center text-4xl font-bold text-gray-800 dark:text-white md:text-5xl Anurati-font"
+                >
+                    SHOP STORE
+                </h1>
+                <p class="text-center text-xl text-gray-600 dark:text-gray-300">
+                    ✨You can search and buy my Products on this page.✨
+                </p>
+                <p
+                    class="text-center text-xl text-gray-600 dark:text-gray-300 mb-10"
+                >
+                    Premium digital products for your needs 🛒
+                </p>
+
+                {/* ✅ Komponen interaktif untuk shop */}
+                <SearchShop client:load />
+            </div>
+        </Container>
+    </div>
+
+    <style>
+        @font-face {
+            font-family: "AnuratiFont";
+            src: url("/src/assets/fonts/Anurati-Regular.otf") format("opentype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .Anurati-font {
+            font-family: "AnuratiFont", sans-serif;
+        }
+    </style>
+</Layout>
