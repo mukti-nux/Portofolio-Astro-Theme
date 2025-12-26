@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect } from 'preact/hooks';
 
 interface InvoiceProps {
     isOpen: boolean;
@@ -10,10 +10,19 @@ interface InvoiceProps {
         imageUrl: string;
         category: string;
     } | null;
+    paymentMethod: 'qris' | 'midtrans';  // Selected payment method
+    quantity: number;                     // Quantity or duration
+    totalPrice: number;                   // Total price (price × quantity)
 }
 
-export default function InvoiceModal({ isOpen, onClose, product }: InvoiceProps) {
-    const [paymentMethod, setPaymentMethod] = useState<'qris' | 'midtrans'>('qris');
+export default function InvoiceModal({
+    isOpen,
+    onClose,
+    product,
+    paymentMethod,
+    quantity,
+    totalPrice
+}: InvoiceProps) {
 
     useEffect(() => {
         if (isOpen) {
@@ -77,19 +86,39 @@ export default function InvoiceModal({ isOpen, onClose, product }: InvoiceProps)
                     <div class="space-y-4">
                         <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Detail Produk</h3>
 
-                        <div class="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                            <img
-                                src={product.imageUrl}
-                                alt={product.title}
-                                class="w-16 h-16 sm:w-20 sm:h-20 rounded-md object-cover flex-shrink-0"
-                            />
-                            <div class="flex-1 min-w-0">
-                                <h4 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate">{product.title}</h4>
-                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{product.category}</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">ID: {product.id}</p>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <img
+                                    src={product.imageUrl}
+                                    alt={product.title}
+                                    class="w-16 h-16 sm:w-20 sm:h-20 rounded-md object-cover flex-shrink-0"
+                                />
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate">{product.title}</h4>
+                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{product.category}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">ID: {product.id}</p>
+                                </div>
+                                <div class="text-right flex-shrink-0">
+                                    <p class="text-base sm:text-lg font-bold text-primary">{formatPrice(product.price)}</p>
+                                </div>
                             </div>
-                            <div class="text-right flex-shrink-0">
-                                <p class="text-base sm:text-lg font-bold text-primary">{formatPrice(product.price)}</p>
+
+                            {/* Quantity/Duration */}
+                            <div class="flex justify-between items-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <span class="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                                    {product.category.toLowerCase().includes('vps') ||
+                                        product.category.toLowerCase().includes('hosting') ||
+                                        product.category.toLowerCase().includes('server')
+                                        ? 'Durasi'
+                                        : 'Jumlah'}
+                                </span>
+                                <span class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
+                                    {quantity} {product.category.toLowerCase().includes('vps') ||
+                                        product.category.toLowerCase().includes('hosting') ||
+                                        product.category.toLowerCase().includes('server')
+                                        ? 'Bulan'
+                                        : 'Item'}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -98,34 +127,32 @@ export default function InvoiceModal({ isOpen, onClose, product }: InvoiceProps)
                     <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
                         <div class="flex justify-between items-center text-xl sm:text-2xl font-bold">
                             <span class="text-gray-900 dark:text-white">Total</span>
-                            <span class="text-primary">{formatPrice(product.price)}</span>
+                            <span class="text-primary">{formatPrice(totalPrice)}</span>
                         </div>
+                        {quantity > 1 && (
+                            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1 text-right">
+                                {formatPrice(product.price)} × {quantity}
+                            </p>
+                        )}
                     </div>
 
                     {/* Payment Method */}
                     <div class="space-y-4">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Metode Pembayaran</h3>
+                        <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Metode Pembayaran</h3>
 
-                        {/* Payment Method Tabs */}
-                        <div class="flex gap-2 sm:gap-3">
-                            <button
-                                onClick={() => setPaymentMethod('qris')}
-                                class={`flex-1 px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition text-sm sm:text-base ${paymentMethod === 'qris'
-                                    ? 'bg-primary text-white'
-                                    : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                                    }`}
-                            >
-                                💳 QRIS
-                            </button>
-                            <button
-                                onClick={() => setPaymentMethod('midtrans')}
-                                class={`flex-1 px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition text-sm sm:text-base ${paymentMethod === 'midtrans'
-                                    ? 'bg-primary text-white'
-                                    : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                                    }`}
-                            >
-                                🏦 Midtrans
-                            </button>
+                        {/* Selected Payment Method Display */}
+                        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 sm:p-4">
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl">{paymentMethod === 'qris' ? '💳' : '🏦'}</span>
+                                <div>
+                                    <p class="text-sm sm:text-base font-semibold text-blue-900 dark:text-blue-100">
+                                        {paymentMethod === 'qris' ? 'QRIS' : 'Midtrans'}
+                                    </p>
+                                    <p class="text-xs text-blue-700 dark:text-blue-300">
+                                        Metode pembayaran terpilih
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                         {/* QRIS Payment */}
@@ -156,7 +183,7 @@ export default function InvoiceModal({ isOpen, onClose, product }: InvoiceProps)
                             </div>
                         )}
 
-                        {/* Midtrans Payment (Maintenance) */}
+                        {/* Midtrans Payment (Should not happen, but keep for safety) */}
                         {paymentMethod === 'midtrans' && (
                             <div class="bg-gray-100 dark:bg-gray-800 p-4 sm:p-6 rounded-lg border-2 border-gray-300 dark:border-gray-600">
                                 <div class="text-center space-y-4">
@@ -166,15 +193,7 @@ export default function InvoiceModal({ isOpen, onClose, product }: InvoiceProps)
                                     </h4>
                                     <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 px-2">
                                         Metode pembayaran Midtrans sedang dalam perbaikan.
-                                        <br class="hidden sm:block" />
-                                        Silakan gunakan QRIS untuk saat ini.
                                     </p>
-                                    <button
-                                        onClick={() => setPaymentMethod('qris')}
-                                        class="mt-4 px-4 sm:px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition text-sm sm:text-base"
-                                    >
-                                        Gunakan QRIS
-                                    </button>
                                 </div>
                             </div>
                         )}

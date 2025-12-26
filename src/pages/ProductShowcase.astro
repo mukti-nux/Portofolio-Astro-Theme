@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Container from "../components/Container.astro";
 import ImageGallery from "../components/ImageGallery.tsx";
 import ReviewsSection from "../components/ReviewsSection.tsx";
+import PaymentFlow from "../components/PaymentFlow.tsx";
 import productShop from "../data/productShop";
 
 // Get product ID from URL query parameter
@@ -237,31 +238,26 @@ const formatPrice = (price: number) => {
         </Container>
     </div>
 
+    <!-- Payment Flow Component -->
+    <PaymentFlow
+        product={{
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            imageUrl: product.imageUrl,
+            category: product.category,
+            stock: product.stock,
+        }}
+        client:load
+    />
+
     <script>
-        // Handle buy button click - open payment in new implementation
+        // Handle buy button click - open payment method modal
         const buyBtn = document.getElementById("buyNowBtn");
         if (buyBtn) {
             buyBtn.addEventListener("click", () => {
-                const productData = {
-                    id: buyBtn.getAttribute("data-product-id"),
-                    title: buyBtn.getAttribute("data-product-title"),
-                    price: buyBtn.getAttribute("data-product-price"),
-                    imageUrl: buyBtn.getAttribute("data-product-image"),
-                    category: buyBtn.getAttribute("data-product-category"),
-                };
-
-                // Store product data in sessionStorage
-                sessionStorage.setItem(
-                    "pendingPayment",
-                    JSON.stringify(productData),
-                );
-
-                // Dispatch custom event for payment modal
-                window.dispatchEvent(
-                    new CustomEvent("openPaymentModal", {
-                        detail: productData,
-                    }),
-                );
+                // Dispatch custom event to open payment method modal
+                window.dispatchEvent(new CustomEvent("openPaymentModal"));
             });
         }
     </script>
