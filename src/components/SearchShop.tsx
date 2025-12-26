@@ -2,12 +2,9 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import Fuse from 'fuse.js';
 import productShop from '../data/productShop';
 import ShopCard from './ShopCard';
-import InvoiceModal from './InvoiceModal';
 
 export default function SearchShop() {
     const [results, setResults] = useState(productShop);
-    const [selectedProduct, setSelectedProduct] = useState<any>(null);
-    const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const fuse = new Fuse(productShop, {
@@ -32,19 +29,6 @@ export default function SearchShop() {
         input.addEventListener('input', handleInput);
         return () => input.removeEventListener('input', handleInput);
     }, []);
-
-    const handleBuyClick = (productId: string) => {
-        const product = productShop.find(p => p.id === productId);
-        if (product) {
-            setSelectedProduct(product);
-            setIsInvoiceOpen(true);
-        }
-    };
-
-    const handleCloseInvoice = () => {
-        setIsInvoiceOpen(false);
-        setSelectedProduct(null);
-    };
 
     return (
         <div>
@@ -73,7 +57,6 @@ export default function SearchShop() {
                         <ShopCard
                             key={product.id}
                             {...product}
-                            onBuyClick={handleBuyClick}
                         />
                     ))
                 ) : (
@@ -87,13 +70,6 @@ export default function SearchShop() {
                     </div>
                 )}
             </div>
-
-            {/* Invoice Modal */}
-            <InvoiceModal
-                isOpen={isInvoiceOpen}
-                onClose={handleCloseInvoice}
-                product={selectedProduct}
-            />
         </div>
     );
 }

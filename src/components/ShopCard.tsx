@@ -7,7 +7,6 @@ interface ShopProps {
     category: string;
     stock: number;
     rating: number;
-    onBuyClick?: (productId: string) => void;
 }
 
 export default function ShopCard({
@@ -18,8 +17,7 @@ export default function ShopCard({
     price,
     category,
     stock,
-    rating,
-    onBuyClick
+    rating
 }: ShopProps) {
 
     const formatPrice = (price: number) => {
@@ -48,10 +46,9 @@ export default function ShopCard({
         return stars;
     };
 
-    const handleBuyClick = () => {
-        if (onBuyClick) {
-            onBuyClick(id);
-        }
+    const handleViewProduct = () => {
+        // Navigate to product showcase page
+        window.location.href = `/ProductShowcase?id=${id}`;
     };
 
     return (
@@ -105,7 +102,7 @@ export default function ShopCard({
                             {formatPrice(price)}
                         </div>
                         <button
-                            onClick={handleBuyClick}
+                            onClick={handleViewProduct}
                             disabled={stock === 0}
                             class={`btn-sound relative inline-flex h-11 items-center justify-center px-6 rounded-full font-semibold 
                      border-2 transition duration-300 ${stock === 0
@@ -113,7 +110,7 @@ export default function ShopCard({
                                     : 'bg-primary text-white border-[rgb(59,130,246)] animate-hover-rgb-shadow hover:scale-105'
                                 }`}
                         >
-                            {stock === 0 ? 'SOLD OUT' : 'BUY NOW'}
+                            {stock === 0 ? 'SOLD OUT' : 'VIEW PRODUCT'}
                         </button>
                     </div>
                 </div>
