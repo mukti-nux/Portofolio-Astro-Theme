@@ -2,161 +2,58 @@
 import { AstroFont } from 'astro-font';
 import AppFooter from "../components/AppFooter.astro";
 import AppHeader from "../components/AppHeader.astro";
+import PaymentModalWrapper from "../components/PaymentModalWrapper.tsx";
 import "./../tailus.css";
 
 const { showVideo = false } = Astro.props;
 const { playAudio = false } = Astro.props;
 const { showImage = false } = Astro.props;
 ---
-
-<!DOCTYPE html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content="portofoliomuktiV2" />
-    <title>PortofolioMuktiV2</title>
-
-    <AstroFont
-      config={[{
-        src: [],
-        name: "Urbanist",
-        preload: true,
-        display: "swap",
-        selector: "html",
-        fallback: "sans-serif",
-        googleFontsURL: 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap',
-      }]}
-    />
-  </head>
-
-  <body class="overflow-x-hidden bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300">
-
-    {showVideo && (
-      <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden">
-        <video
-          autoplay
-          playsinline
-          preload="auto"
-          class="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/bg/videobg2.mp4" type="video/mp4" />
-        </video>
-      </div>
-    )}
-
-    {showImage && (
-      <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden">
-        <img
-          src="/images/bgimage.jpg"
-          alt="Background Image"
-          class="absolute inset-0 w-full h-full object-cover"
-        />
-      </div>
-    )}
-
-    {playAudio &&(
-      <script is:client>
-        window.addEventListener("click", () => {
-          const audio = document.createElement("audio");
-          audio.src = "/music/soundbg3.mp3";
-          audio.autoplay = true;
-          audio.loop = true;
-          document.body.appendChild(audio);
-        },{ once: true });
-      </script>
-    )}
-
-    <script>
-      const sfxList =[
-        '/sfx/hati-hati.mp3',
-        '/sfx/kerja-bagus.mp3',
-        '/sfx/errorsound.mp3',
-      ];
-
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".btn-sound").forEach((el) => {
-          el.addEventListener("click", () => {
-            const random = Math.floor(Math.random() * sfxList.length);
-            const audio = new Audio(sfxList[random]);
-            audio.play();
-          });
-        });
-      })
-    </script>
-
-    <AppHeader />
-
-    <!-- Responsive wrapper -->
-
-      <slot />
-    </main>
-    
-    <AppFooter />
-
-    <style>
-      html {
-        text-size-adjust: 100%;
-        -moz-text-size-adjust: 100%;
-        -webkit-text-size-adjust: 100%;
-      }
-    </style>
-
-<script is:client>
-  const scrambleEl = document.getElementById("scrambleText");
-  const input = document.getElementById("realInput");
-  const fakePlaceholder = document.getElementById("fakePlaceholder");
-
-  const phrases = ["Fotomu", "Gurumu", "Temanmu", "Sekolahmu", "Yangmu","Atau Malah Mantan🤣"];
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%?&*()_+-=[]{}|;:',.<>?/";
-  let currentIndex = 0;
-  let scrambleInterval = null;
-  let loopInterval = null;
-
-  const scramble = (targetText) => {
-    let iteration = 0;
-    clearInterval(scrambleInterval);
-
-    scrambleInterval = setInterval(() => {
-      if (!scrambleEl) return;
-
-      scrambleEl.innerText = targetText
-        .split("")
-        .map((_, i) => {
-          if (i < iteration) return targetText[i];
-          return letters[Math.floor(Math.random() * letters.length)];
-        })
-        .join("");
-
-      if (iteration >= targetText.length) clearInterval(scrambleInterval);
-      iteration += 1 / 2;
-    }, 40);
-  };
-
-  if (scrambleEl) {
-    scramble(phrases[0]);
-
-    loopInterval = setInterval(() => {
-      const next = (currentIndex + 1) % phrases.length;
-      scramble(phrases[next]);
-      currentIndex = next;
-    }, 3000);
-  }
-
-  if (input && fakePlaceholder) {
-  // Saat user mengetik
-  input.addEventListener("input", () => {
-    if (input.value.trim() === "") {
-      fakePlaceholder.style.display = "block";
-    } else {
-      fakePlaceholder.style.display = "none";
-    }
- })};
-
-</script>
-
-  </body>
-</html>
- 
+<!DOCTYPE html> <html lang="en"
+class="dark"> <head> <meta charset="UTF-8" /> <meta name="viewport"
+content="width=device-width" /> <link rel="icon" type="image/svg+xml"
+href="/favicon.svg" /> <meta name="generator" content={Astro.generator} /> <meta
+name="description" content="portofoliomuktiV2" />
+<title>PortofolioMuktiV2</title> <AstroFont config={[{ src: [], name:
+"Urbanist", preload: true, display: "swap", selector: "html", fallback:
+"sans-serif", googleFontsURL:
+'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap',
+}]} /> </head> <body class="overflow-x-hidden bg-white text-black
+dark:bg-gray-950 dark:text-white transition-colors duration-300"> {showVideo &&
+( <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden"> <video
+autoplay playsinline preload="auto" class="absolute inset-0 w-full h-full
+object-cover" > <source src="/bg/videobg2.mp4" type="video/mp4" /> </video>
+</div> )} {showImage && ( <div class="fixed inset-0 w-full h-full -z-10
+overflow-hidden"> <img src="/images/bgimage.jpg" alt="Background Image"
+class="absolute inset-0 w-full h-full object-cover" /> </div> )} {playAudio &&(
+<script is:client> window.addEventListener("click", () => { const audio =
+document.createElement("audio"); audio.src = "/music/soundbg3.mp3";
+audio.autoplay = true; audio.loop = true; document.body.appendChild(audio); },{
+once: true }); </script> )} <script> const sfxList =[ '/sfx/hati-hati.mp3',
+'/sfx/kerja-bagus.mp3', '/sfx/errorsound.mp3', ];
+document.addEventListener("DOMContentLoaded", () => {
+document.querySelectorAll(".btn-sound").forEach((el) => {
+el.addEventListener("click", () => { const random = Math.floor(Math.random() *
+sfxList.length); const audio = new Audio(sfxList[random]); audio.play(); }); });
+}) </script> <AppHeader /> <!-- Responsive wrapper --> <main> <slot /> </main>
+<!-- Global Payment Modal --> <PaymentModalWrapper client:load /> <AppFooter />
+<style> html { text-size-adjust: 100%; -moz-text-size-adjust: 100%;
+-webkit-text-size-adjust: 100%; } </style> <script is:client> const scrambleEl =
+document.getElementById("scrambleText"); const input =
+document.getElementById("realInput"); const fakePlaceholder =
+document.getElementById("fakePlaceholder"); const phrases = ["Fotomu", "Gurumu",
+"Temanmu", "Sekolahmu", "Yangmu","Atau Malah Mantan🤣"]; const letters =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%?&*()_+-=[]{}|;:',.<>?/"; let currentIndex = 0;
+let scrambleInterval = null; let loopInterval = null; const scramble =
+(targetText) => { let iteration = 0; clearInterval(scrambleInterval);
+scrambleInterval = setInterval(() => { if (!scrambleEl) return;
+scrambleEl.innerText = targetText .split("") .map((_, i) => { if (i < iteration)
+return targetText[i]; return letters[Math.floor(Math.random() *
+letters.length)]; }) .join(""); if (iteration >= targetText.length)
+clearInterval(scrambleInterval); iteration += 1 / 2; }, 40); }; if (scrambleEl)
+{ scramble(phrases[0]); loopInterval = setInterval(() => { const next =
+(currentIndex + 1) % phrases.length; scramble(phrases[next]); currentIndex =
+next; }, 3000); } if (input && fakePlaceholder) { // Saat user mengetik
+input.addEventListener("input", () => { if (input.value.trim() === "") {
+fakePlaceholder.style.display = "block"; } else { fakePlaceholder.style.display
+= "none"; } })}; </script> </body> </html>
