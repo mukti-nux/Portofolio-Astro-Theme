@@ -32,10 +32,10 @@ export default function SearchShop() {
 
     return (
         <div>
-            <div className="relative max-w-xl mx-auto mb-10">
+            <div className="relative max-w-xl mx-auto mb-8 sm:mb-10 px-2 sm:px-0">
                 {/* Placeholder buatan */}
                 <div
-                    className="absolute inset-0 px-5 py-3 pointer-events-none text-gray-400 dark:text-gray-500 flex items-center text-sm sm:text-base leading-none"
+                    className="absolute inset-0 px-4 sm:px-5 py-2 sm:py-3 pointer-events-none text-gray-400 dark:text-gray-500 flex items-center text-xs sm:text-sm md:text-base leading-none"
                     id="fakePlaceholder"
                 >
                     Cari produk apa?, <span id="scrambleText" className="font-semibold text-primary ml-1">Template Keren</span>...?
@@ -47,11 +47,11 @@ export default function SearchShop() {
                     type="text"
                     placeholder="Search products..."
                     id="realInput"
-                    className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-primary placeholder-transparent"
+                    className="w-full px-4 sm:px-5 py-2 sm:py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-primary placeholder-transparent text-sm sm:text-base"
                 />
             </div>
 
-            <div className="flex flex-col items-center space-y-10">
+            <div className="flex flex-col items-center space-y-6 sm:space-y-10">
                 {results.length > 0 ? (
                     results.map((product) => (
                         <ShopCard
@@ -60,11 +60,11 @@ export default function SearchShop() {
                         />
                     ))
                 ) : (
-                    <div className="text-center py-20">
-                        <p className="text-2xl text-gray-500 dark:text-gray-400">
+                    <div className="text-center py-12 sm:py-20">
+                        <p className="text-xl sm:text-2xl text-gray-500 dark:text-gray-400">
                             🔍 Produk tidak ditemukan
                         </p>
-                        <p className="text-gray-400 dark:text-gray-500 mt-2">
+                        <p className="text-sm sm:text-base text-gray-400 dark:text-gray-500 mt-2">
                             Coba kata kunci lain
                         </p>
                     </div>

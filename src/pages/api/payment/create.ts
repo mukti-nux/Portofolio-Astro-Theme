@@ -1,13 +1,12 @@
 import type { APIRoute } from 'astro';
-import XenditQRIS from '../../../../lib/xenditApi';
-import TelegramBot from '../../../../lib/telegramBot';
+import MidtransSnap from '../../../../lib/midtransApi';
 import productShop from '../../../data/productShop';
 
-// Create QRIS payment
+// Create Midtrans Snap transaction
 export const POST: APIRoute = async ({ request }) => {
     try {
         const body = await request.json();
-        const { productId } = body;
+        const { productId, customerEmail, customerName, customerPhone } = body;
 
         // Find product
         const product = productShop.find(p => p.id === productId);
@@ -26,37 +25,46 @@ export const POST: APIRoute = async ({ request }) => {
             });
         }
 
-        // Initialize Xendit
-        const xendit = new XenditQRIS(import.meta.env.XENDIT_API_KEY);
+        // Initialize Midtrans
+        const midtrans = new MidtransSnap(
+            import.meta.env.MIDTRANS_SERVER_KEY,
+            import.meta.env.MIDTRANS_CLIENT_KEY,
+            import.meta.env.MIDTRANS_IS_PRODUCTION === 'true'
+        );
 
-        // Generate unique invoice number
-        const invoiceNumber = `INV-${Date.now()}-${productId}`;
-        const callbackUrl = `${import.meta.env.PUBLIC_BASE_URL}/api/payment/webhook`;
+        // Generate unique order ID
+        const orderId = `ORDER-${Date.now()}-${productId}`;
 
-        // Create QRIS payment
-        const payment = await xendit.createQRISPayment({
-            externalId: invoiceNumber,
-            amount: product.price,
-            callbackUrl,
-            metadata: {
-                productId: product.id,
-                productTitle: product.title,
-                invoiceNumber,
+        // Create transaction
+        const transaction = await midtrans.createTransaction({
+            orderId,
+            grossAmount: product.price,
+            itemDetails: [
+                {
+                    id: product.id,
+                    price: product.price,
+                    quantity: 1,
+                    name: product.title,
+                },
+            ],
+            customerDetails: {
+                firstName: customerName || 'Customer',
+                email: customerEmail || 'customer@example.com',
+                phone: customerPhone || '08123456789',
             },
         });
 
         return new Response(
             JSON.stringify({
                 success: true,
-                payment: {
-                    id: payment.id,
-                    invoiceNumber,
-                    qrString: payment.qrString,
-                    amount: payment.amount,
-                    expiresAt: payment.expiresAt,
+                transaction: {
+                    token: transaction.token,
+                    redirectUrl: transaction.redirectUrl,
+                    orderId: transaction.orderId,
                     product: {
                         id: product.id,
                         title: product.title,
+                        price: product.price,
                         imageUrl: product.imageUrl,
                         category: product.category,
                     },

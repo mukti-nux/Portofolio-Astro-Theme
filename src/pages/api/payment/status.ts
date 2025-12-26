@@ -1,34 +1,39 @@
 import type { APIRoute } from 'astro';
-import XenditQRIS from '../../../../lib/xenditApi';
+import MidtransSnap from '../../../../lib/midtransApi';
 
-// Check payment status
-export const GET: APIRoute = async ({ params, request }) => {
+// Check Midtrans transaction status
+export const GET: APIRoute = async ({ request }) => {
     try {
         const url = new URL(request.url);
-        const qrId = url.searchParams.get('qrId');
+        const orderId = url.searchParams.get('orderId');
 
-        if (!qrId) {
-            return new Response(JSON.stringify({ error: 'QR ID is required' }), {
+        if (!orderId) {
+            return new Response(JSON.stringify({ error: 'Order ID is required' }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' },
             });
         }
 
-        // Initialize Xendit
-        const xendit = new XenditQRIS(import.meta.env.XENDIT_API_KEY);
+        // Initialize Midtrans
+        const midtrans = new MidtransSnap(
+            import.meta.env.MIDTRANS_SERVER_KEY,
+            import.meta.env.MIDTRANS_CLIENT_KEY,
+            import.meta.env.MIDTRANS_IS_PRODUCTION === 'true'
+        );
 
-        // Get payment status
-        const status = await xendit.getPaymentStatus(qrId);
+        // Get transaction status
+        const status = await midtrans.getTransactionStatus(orderId);
+        const isPaid = midtrans.isTransactionSuccess(status);
 
         return new Response(
             JSON.stringify({
                 success: true,
                 status: {
-                    id: status.id,
-                    externalId: status.externalId,
-                    amount: status.amount,
-                    status: status.status,
-                    isPaid: status.status === 'COMPLETED',
+                    orderId: status.orderId,
+                    transactionStatus: status.transactionStatus,
+                    paymentType: status.paymentType,
+                    grossAmount: status.grossAmount,
+                    isPaid,
                 },
             }),
             {
