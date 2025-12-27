@@ -95,7 +95,7 @@ export default function PaymentMethodModal({
                 {/* Header */}
                 <div class="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 p-4 sm:p-6 rounded-t-2xl">
                     <h2 class="text-2xl sm:text-3xl font-bold text-white text-center">
-                        Pilih Metode Pembayaran
+                        Choose Payment Method
                     </h2>
                 </div>
 
@@ -160,7 +160,7 @@ export default function PaymentMethodModal({
                         </div>
                         {!isVPSProduct && (
                             <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                Stok tersedia: {product.stock}
+                                Stock : {product.stock}
                             </p>
                         )}
                     </div>

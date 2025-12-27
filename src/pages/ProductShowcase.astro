@@ -63,7 +63,7 @@ const formatPrice = (price: number) => {
                             stroke-width="2"
                             d="M15 19l-7-7 7-7"></path>
                     </svg>
-                    Kembali ke Store
+                    Back to Store
                 </a>
 
                 <!-- Product Showcase Grid -->
@@ -142,7 +142,7 @@ const formatPrice = (price: number) => {
                                     <>
                                         <div class="w-3 h-3 rounded-full bg-green-500" />
                                         <span class="text-gray-700 dark:text-gray-300">
-                                            Stok tersedia:{" "}
+                                            Stock:{" "}
                                             <strong>{product.stock}</strong>
                                         </span>
                                     </>
@@ -150,7 +150,7 @@ const formatPrice = (price: number) => {
                                     <>
                                         <div class="w-3 h-3 rounded-full bg-red-500" />
                                         <span class="text-red-600 dark:text-red-400 font-semibold">
-                                            Stok habis
+                                            Sold Out
                                         </span>
                                     </>
                                 )
@@ -169,7 +169,7 @@ const formatPrice = (price: number) => {
                             <h3
                                 class="text-xl font-semibold text-gray-900 dark:text-white"
                             >
-                                Fitur Produk:
+                                Features:
                             </h3>
                             <ul class="space-y-2">
                                 {
@@ -226,7 +226,7 @@ const formatPrice = (price: number) => {
                     <h2
                         class="text-3xl font-bold text-gray-900 dark:text-white mb-8"
                     >
-                        Ulasan Pelanggan
+                        Reviews
                     </h2>
                     <ReviewsSection
                         reviews={product.reviews}
