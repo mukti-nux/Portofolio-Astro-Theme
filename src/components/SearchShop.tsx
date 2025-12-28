@@ -1,16 +1,32 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import Fuse from 'fuse.js';
-import productShop from '../data/productShop';
+import { productService } from '../services/productService';
+import type { ShopItem } from '../data/productShop';
 import ShopCard from './ShopCard';
 
 export default function SearchShop() {
-    const [results, setResults] = useState(productShop);
+    const [allProducts, setAllProducts] = useState<ShopItem[]>([]);
+    const [results, setResults] = useState<ShopItem[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const inputRef = useRef<HTMLInputElement>(null);
+    const fuseRef = useRef<Fuse<ShopItem> | null>(null);
 
-    const fuse = new Fuse(productShop, {
-        keys: ['title', 'description', 'category', 'id'],
-        threshold: 0.3,
-    });
+    useEffect(() => {
+        const fetchProducts = async () => {
+            setIsLoading(true);
+            const products = await productService.getAllProducts();
+            setAllProducts(products);
+            setResults(products);
+
+            fuseRef.current = new Fuse(products, {
+                keys: ['title', 'description', 'category', 'id'],
+                threshold: 0.3,
+            });
+            setIsLoading(false);
+        };
+
+        fetchProducts();
+    }, []);
 
     useEffect(() => {
         const input = inputRef.current;
@@ -19,16 +35,16 @@ export default function SearchShop() {
         const handleInput = () => {
             const keyword = input.value.trim();
             if (!keyword) {
-                setResults(productShop);
-            } else {
-                const res = fuse.search(keyword).map(r => r.item);
+                setResults(allProducts);
+            } else if (fuseRef.current) {
+                const res = fuseRef.current.search(keyword).map(r => r.item);
                 setResults(res);
             }
         };
 
         input.addEventListener('input', handleInput);
         return () => input.removeEventListener('input', handleInput);
-    }, []);
+    }, [allProducts]);
 
     return (
         <div>
@@ -52,7 +68,12 @@ export default function SearchShop() {
             </div>
 
             <div className="flex flex-col items-center space-y-6 sm:space-y-10">
-                {results.length > 0 ? (
+                {isLoading ? (
+                    <div className="text-center py-12 sm:py-20">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                        <p className="text-gray-500 dark:text-gray-400">Memuat produk...</p>
+                    </div>
+                ) : results.length > 0 ? (
                     results.map((product) => (
                         <ShopCard
                             key={product.id}

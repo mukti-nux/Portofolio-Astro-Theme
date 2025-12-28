@@ -4,14 +4,16 @@ import Container from "../components/Container.astro";
 import ImageGallery from "../components/ImageGallery.tsx";
 import ReviewsSection from "../components/ReviewsSection.tsx";
 import PaymentFlow from "../components/PaymentFlow.tsx";
-import productShop from "../data/productShop";
+import { productService } from "../services/productService";
 
 // Get product ID from URL query parameter
 const url = new URL(Astro.request.url);
 const productId = url.searchParams.get("id");
 
-// Find the product
-const product = productShop.find((p) => p.id === productId);
+// Find the product from Supabase
+const product = productId
+    ? await productService.getProductById(productId)
+    : null;
 
 // If product not found, redirect to store
 if (!product) {

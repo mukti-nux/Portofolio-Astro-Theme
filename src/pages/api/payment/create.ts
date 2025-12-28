@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import MidtransSnap from '../../../../lib/midtransApi';
-import productShop from '../../../data/productShop';
+import { productService } from '../../../services/productService';
 
 // Create Midtrans Snap transaction
 export const POST: APIRoute = async ({ request }) => {
@@ -8,8 +8,8 @@ export const POST: APIRoute = async ({ request }) => {
         const body = await request.json();
         const { productId, customerEmail, customerName, customerPhone } = body;
 
-        // Find product
-        const product = productShop.find(p => p.id === productId);
+        // Find product from Supabase
+        const product = productId ? await productService.getProductById(productId) : null;
         if (!product) {
             return new Response(JSON.stringify({ error: 'Product not found' }), {
                 status: 404,
