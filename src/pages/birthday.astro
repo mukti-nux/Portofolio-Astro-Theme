@@ -1,374 +1,573 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { birthdayConfig, type BirthdayConfig } from "../config/birthdayConfig";
 ---
 
 <Layout title="Happy Birthday" hideHeader={true}>
-  <div class="fixed inset-0 -z-20 overflow-hidden">
-    <img src="/images/bgimage.jpg" alt="Background" class="w-full h-full object-cover" />
-    <div class="absolute inset-0 bg-black/60"></div>
+  <!-- Dynamic Background from Config -->
+  <div id="background-container" class="fixed inset-0 -z-20 overflow-hidden">
+    <img
+      id="bg-image"
+      src=""
+      alt="Background"
+      class="w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-black/70"></div>
   </div>
 
-  <canvas id="c" class="fixed inset-0 w-full h-full"></canvas>
+  <!-- Balloon Canvas -->
+  <canvas
+    id="balloon-canvas"
+    class="fixed inset-0 w-full h-full pointer-events-none"
+    style="z-index: 30;"></canvas>
+
+  <!-- Main Container -->
+  <div class="fixed inset-0 flex items-center justify-center">
+    <!-- Trigger Button (Initial State) -->
+    <div id="trigger-container" class="text-center">
+      <button id="trigger-btn" class="birthday-trigger-btn">
+        <span class="text-4xl mb-4 block">🎂</span>
+        <span class="text-2xl font-bold text-white">Click to Celebrate!</span>
+      </button>
+    </div>
+
+    <!-- Birthday Content (Hidden Initially) -->
+    <div id="birthday-content" class="hidden">
+      <!-- Photos Container (Behind Cake) -->
+      <div id="photos-container" class="absolute" style="z-index: 10;">
+        <img id="photo1" class="birthday-photo" src="" alt="Photo 1" />
+        <img id="photo2" class="birthday-photo" src="" alt="Photo 2" />
+        <img id="photo3" class="birthday-photo" src="" alt="Photo 3" />
+      </div>
+
+      <!-- Cake Container -->
+      <div
+        id="cake-container"
+        class="birthday-cake-wrapper"
+        style="z-index: 20;"
+      >
+        <svg
+          class="birthday-cake"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 76.609 47.643"
+        >
+          <defs>
+            <g id="candle" transform="translate(-48.82 -137.74)">
+              <rect
+                ry=".567"
+                y="147.888"
+                x="72.548"
+                height="12.001"
+                width="4.252"
+                fill="#ececec"></rect>
+              <g class="candle__flame">
+                <path
+                  class="candle__flame-outer"
+                  d="M75.672 145.92c.608 1.207.086 2.224-.749 2.224s-1.512-.037-1.512-1.388.558-3.566 1.98-3.973c1.007-.288-.855.884.281 3.138z"
+                  fill="#f60"></path>
+                <path
+                  class="candle__flame-inner"
+                  d="M75.081 146.449c.41.51.266 1.043-.13 1.128-.394.084-.682-.228-.822-.866 0 0-.13-1.382.502-1.719.447-.238-.315.505.45 1.457z"
+                  fill="#ff0"></path>
+              </g>
+            </g>
+            <clipPath id="face-clip">
+              <rect
+                transform="translate(-48.82 -138.799)"
+                width="63.5"
+                height="26.458"
+                x="55.374"
+                y="159.984"
+                ry="3.402"></rect>
+            </clipPath>
+            <clipPath id="sprinkle-clip">
+              <rect
+                width="63.5"
+                height="26.458"
+                x="55.374"
+                y="159.984"
+                ry="3.402"></rect>
+            </clipPath>
+            <g id="sprinkles" transform="translate(63.93)">
+              <rect
+                class="cake__sprinkle"
+                transform="rotate(-44.064)"
+                ry=".567"
+                y="167.592"
+                x="-91.837"
+                height="1.228"
+                width="3.307"></rect>
+              <rect
+                class="cake__sprinkle"
+                transform="rotate(127.01)"
+                ry=".567"
+                y="165.35"
+                x="76.642"
+                height="1.228"
+                width="3.307"></rect>
+              <rect
+                class="cake__sprinkle"
+                transform="rotate(85.232)"
+                width="3.307"
+                height="1.228"
+                x="182.37"
+                y="3.842"
+                ry=".567"></rect>
+              <rect
+                class="cake__sprinkle"
+                transform="rotate(136.794)"
+                ry=".567"
+                y="-137.013"
+                x="122.349"
+                height="1.228"
+                width="3.307"></rect>
+              <rect
+                class="cake__sprinkle"
+                transform="rotate(-28.569)"
+                width="3.307"
+                height="1.228"
+                x="-90.997"
+                y="160.466"
+                ry=".567"></rect>
+            </g>
+            <path
+              id="frosting"
+              d="M58.311 159.194c-1.915 0-3.283-.087-3.986 1.098-.392.661-.073 1.766.529 2.243 1.054.834 2.689 0 4.034 0H115.36c1.344 0 2.979.834 4.033 0 .602-.477.921-1.582.53-2.243-.703-1.185-2.072-1.098-3.987-1.098z"
+            ></path>
+          </defs>
+          <g class="cake-decoration" transform="translate(-48.82 -138.799)">
+            <g class="cake__frosting-group">
+              <use xlink:href="#frosting" fill="#ff69b4"></use>
+            </g>
+            <g class="cake__sprinkles-group" clip-path="url(#sprinkle-clip)">
+              <use xlink:href="#sprinkles"></use>
+            </g>
+          </g>
+          <g clip-path="url(#face-clip)">
+            <g class="cake__face" transform="translate(-48.82 -138.799)">
+              <g class="cake__eyes">
+                <g
+                  class="cake__eye"
+                  transform="matrix(1.38031 0 0 1.38031 34.723 -33.58)"
+                >
+                  <circle
+                    class="cake__eye-body"
+                    cx="29.86"
+                    cy="149.022"
+                    r="2.457"
+                    fill="#1a1a1a"></circle>
+                  <circle
+                    class="cake__eye-pupil"
+                    cx="28.773"
+                    cy="148.162"
+                    r=".756"
+                    fill="#fff"></circle>
+                </g>
+                <g
+                  class="cake__eye"
+                  transform="matrix(1.38031 0 0 1.38031 57.092 -33.58)"
+                >
+                  <circle
+                    class="cake__eye-body"
+                    r="2.457"
+                    cy="149.022"
+                    cx="29.86"
+                    fill="#1a1a1a"></circle>
+                  <circle
+                    class="cake__eye-pupil"
+                    r=".756"
+                    cy="148.162"
+                    cx="28.773"
+                    fill="#fff"></circle>
+                </g>
+              </g>
+              <g class="cake__mouth">
+                <path
+                  class="cake__mouth-opening"
+                  d="M83.607 174.436a3.652 3.652 0 003.518 2.674 3.652 3.652 0 003.515-2.674z"
+                  stroke="#1a1a1a"
+                  fill="#1a1a1a"></path>
+              </g>
+            </g>
+          </g>
+          <g class="cake__candles">
+            <g class="cake__candle candle-1">
+              <use xlink:href="#candle"></use>
+            </g>
+            <g class="cake__candle candle-2">
+              <use xlink:href="#candle" transform="translate(25 0)"></use>
+            </g>
+            <g class="cake__candle candle-3">
+              <use xlink:href="#candle" transform="translate(12 0.5)"></use>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Greeting Message (Below Cake) -->
+      <div
+        id="greeting-container"
+        class="absolute bottom-20 left-1/2 transform -translate-x-1/2 text-center px-8 max-w-2xl"
+        style="z-index: 15;"
+      >
+        <p
+          id="greeting-text"
+          class="text-white text-xl md:text-2xl font-semibold drop-shadow-lg"
+        >
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark Overlay for Candle Lighting -->
+  <div
+    id="dark-overlay"
+    class="fixed inset-0 bg-black opacity-0 pointer-events-none"
+    style="z-index: 25;"
+  >
+  </div>
 
   <style>
-    canvas {
-      display: block;
+    .birthday-trigger-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2rem 3rem;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
-    body {
-      margin: 0;
-      overflow: hidden;
+
+    .birthday-trigger-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .birthday-cake-wrapper {
+      position: relative;
+      width: 300px;
+      height: 200px;
+    }
+
+    .birthday-cake {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    }
+
+    .cake__sprinkle {
+      fill: hsl(calc(var(--sprinkle-hue, 0) * 1deg), 100%, 75%);
+    }
+
+    .candle__flame {
+      opacity: 0;
+      transform-origin: center;
+    }
+
+    .candle__flame.lit {
+      opacity: 1;
+      animation: flicker 0.3s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% {
+        transform: scale(1) translateY(0);
+      }
+      100% {
+        transform: scale(1.1) translateY(-2px);
+      }
+    }
+
+    .birthday-photo {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 15px;
+      border: 4px solid white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(100vh);
+    }
+
+    #photo1 {
+      left: -200px;
+      top: -50px;
+    }
+    #photo2 {
+      right: -200px;
+      top: -50px;
+    }
+    #photo3 {
+      left: 50%;
+      transform: translateX(-50%) translateY(100vh);
+      top: -180px;
+    }
+
+    @media (max-width: 768px) {
+      .birthday-cake-wrapper {
+        width: 200px;
+        height: 150px;
+      }
+
+      .birthday-photo {
+        width: 100px;
+        height: 100px;
+      }
+
+      #photo1 {
+        left: -120px;
+        top: -30px;
+      }
+      #photo2 {
+        right: -120px;
+        top: -30px;
+      }
+      #photo3 {
+        top: -120px;
+      }
     }
   </style>
 
-  <script is:inline>
-    const c = document.getElementById("c");
-    let w = (c.width = window.innerWidth),
-      h = (c.height = window.innerHeight),
-      ctx = c.getContext("2d"),
-      hw = w / 2,
-      hh = h / 2,
-      opts = {
-        strings: ["HAPPY", "BIRTHDAY", "MUKTI!"],
-        charSize: 35,
-        charSpacing: 40,
-        lineHeight: 50,
-        cx: w / 2,
-        cy: h / 2,
-        fireworkPrevPoints: 10,
-        fireworkBaseLineWidth: 5,
-        fireworkAddedLineWidth: 8,
-        fireworkSpawnTime: 200,
-        fireworkBaseReachTime: 30,
-        fireworkAddedReachTime: 30,
-        fireworkCircleBaseSize: 20,
-        fireworkCircleAddedSize: 10,
-        fireworkCircleBaseTime: 30,
-        fireworkCircleAddedTime: 30,
-        fireworkCircleFadeBaseTime: 10,
-        fireworkCircleFadeAddedTime: 5,
-        fireworkBaseShards: 5,
-        fireworkAddedShards: 5,
-        fireworkShardPrevPoints: 3,
-        fireworkShardBaseVel: 4,
-        fireworkShardAddedVel: 2,
-        fireworkShardBaseSize: 3,
-        fireworkShardAddedSize: 3,
-        gravity: 0.1,
-        upFlow: -0.1,
-        letterContemplatingWaitTime: 400,
-        balloonSpawnTime: 20,
-        balloonBaseInflateTime: 10,
-        balloonAddedInflateTime: 10,
-        balloonBaseSize: 20,
-        balloonAddedSize: 20,
-        balloonBaseVel: 0.4,
-        balloonAddedVel: 0.4,
-        balloonBaseRadian: -(Math.PI / 2 - 0.5),
-        balloonAddedRadian: -1,
-      },
-      calc = {
-        totalWidth:
-          opts.charSpacing *
-          Math.max(...opts.strings.map(s => s.length)),
-      },
-      Tau = Math.PI * 2,
-      TauQuarter = Tau / 4,
-      letters = [];
+  <script>
+    import { gsap } from "gsap";
+    import { birthdayConfig } from "../config/birthdayConfig";
 
-    ctx.font = opts.charSize + "px Verdana";
+    // Load configuration
+    const config = birthdayConfig;
 
-    function Letter(char, x, y) {
-      this.char = char;
-      this.x = x;
-      this.y = y;
-      this.dx = -ctx.measureText(char).width / 2;
-      this.dy = +opts.charSize / 2;
-      this.fireworkDy = this.y - hh;
-      var hue = (x / calc.totalWidth) * 360;
-      this.color = "hsl(hue,80%,50%)".replace("hue", hue);
-      this.lightAlphaColor = "hsla(hue,80%,light%,alp)".replace("hue", hue);
-      this.lightColor = "hsl(hue,80%,light%)".replace("hue", hue);
-      this.alphaColor = "hsla(hue,80%,50%,alp)".replace("hue", hue);
-      this.reset();
-    }
+    // Set background image
+    const bgImage = document.getElementById(
+      "bg-image",
+    ) as HTMLImageElement | null;
+    if (bgImage) bgImage.src = config.backgroundImage;
 
-    Letter.prototype.reset = function () {
-      this.phase = "firework";
-      this.tick = 0;
-      this.spawned = false;
-      this.spawningTime = (opts.fireworkSpawnTime * Math.random()) | 0;
-      this.reachTime =
-        (opts.fireworkBaseReachTime + opts.fireworkAddedReachTime * Math.random()) |
-        0;
-      this.lineWidth =
-        opts.fireworkBaseLineWidth + opts.fireworkAddedLineWidth * Math.random();
-      this.prevPoints = [[0, hh, 0]];
-    };
+    // Set photos
+    const photo1 = document.getElementById("photo1") as HTMLImageElement | null;
+    const photo2 = document.getElementById("photo2") as HTMLImageElement | null;
+    const photo3 = document.getElementById("photo3") as HTMLImageElement | null;
+    if (photo1 && config.photos[0]) photo1.src = config.photos[0];
+    if (photo2 && config.photos[1]) photo2.src = config.photos[1];
+    if (photo3 && config.photos[2]) photo3.src = config.photos[2];
 
-    Letter.prototype.step = function () {
-      if (this.phase === "firework") {
-        if (!this.spawned) {
-          ++this.tick;
-          if (this.tick >= this.spawningTime) {
-            this.tick = 0;
-            this.spawned = true;
-          }
-        } else {
-          ++this.tick;
-          var linearProportion = this.tick / this.reachTime,
-            armonicProportion = Math.sin(linearProportion * TauQuarter),
-            x = linearProportion * this.x,
-            y = hh + armonicProportion * this.fireworkDy;
-          if (this.prevPoints.length > opts.fireworkPrevPoints)
-            this.prevPoints.shift();
-          this.prevPoints.push([x, y, linearProportion * this.lineWidth]);
-          var lineWidthProportion = 1 / (this.prevPoints.length - 1);
-          for (var i = 1; i < this.prevPoints.length; ++i) {
-            var point = this.prevPoints[i],
-              point2 = this.prevPoints[i - 1];
-            ctx.strokeStyle = this.alphaColor.replace(
-              "alp",
-              i / this.prevPoints.length
-            );
-            ctx.lineWidth = point[2] * lineWidthProportion * i;
-            ctx.beginPath();
-            ctx.moveTo(point[0], point[1]);
-            ctx.lineTo(point2[0], point2[1]);
-            ctx.stroke();
-          }
-          if (this.tick >= this.reachTime) {
-            this.phase = "contemplate";
-            this.circleFinalSize =
-              opts.fireworkCircleBaseSize +
-              opts.fireworkCircleAddedSize * Math.random();
-            this.circleCompleteTime =
-              (opts.fireworkCircleBaseTime +
-                opts.fireworkCircleAddedTime * Math.random()) |
-              0;
-            this.circleCreating = true;
-            this.circleFading = false;
-            this.circleFadeTime =
-              (opts.fireworkCircleFadeBaseTime +
-                opts.fireworkCircleFadeAddedTime * Math.random()) |
-              0;
-            this.tick = 0;
-            this.tick2 = 0;
-            this.shards = [];
-            var shardCount =
-                (opts.fireworkBaseShards +
-                  opts.fireworkAddedShards * Math.random()) |
-                0,
-              angle = Tau / shardCount,
-              cos = Math.cos(angle),
-              sin = Math.sin(angle),
-              sx = 1,
-              sy = 0;
-            for (var i = 0; i < shardCount; ++i) {
-              var x1 = sx;
-              sx = sx * cos - sy * sin;
-              sy = sy * cos + x1 * sin;
-              this.shards.push(new Shard(this.x, this.y, sx, sy, this.alphaColor));
-            }
-          }
-        }
-      } else if (this.phase === "contemplate") {
-        ++this.tick;
-        if (this.circleCreating) {
-          ++this.tick2;
-          var proportion = this.tick2 / this.circleCompleteTime,
-            armonic = -Math.cos(proportion * Math.PI) / 2 + 0.5;
-          ctx.beginPath();
-          ctx.fillStyle = this.lightAlphaColor
-            .replace("light", 50 + 50 * proportion)
-            .replace("alp", proportion);
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, armonic * this.circleFinalSize, 0, Tau);
-          ctx.fill();
-          if (this.tick2 > this.circleCompleteTime) {
-            this.tick2 = 0;
-            this.circleCreating = false;
-            this.circleFading = true;
-          }
-        } else if (this.circleFading) {
-          ctx.fillStyle = this.lightColor.replace("light", 70);
-          ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
-          ++this.tick2;
-          var proportion = this.tick2 / this.circleFadeTime,
-            armonic = -Math.cos(proportion * Math.PI) / 2 + 0.5;
-          ctx.beginPath();
-          ctx.fillStyle = this.lightAlphaColor
-            .replace("light", 100)
-            .replace("alp", 1 - armonic);
-          ctx.arc(this.x, this.y, this.circleFinalSize, 0, Tau);
-          ctx.fill();
-          if (this.tick2 >= this.circleFadeTime) this.circleFading = false;
-        } else {
-          ctx.fillStyle = this.lightColor.replace("light", 70);
-          ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
-        }
-        for (var i = 0; i < this.shards.length; ++i) {
-          this.shards[i].step();
-          if (!this.shards[i].alive) {
-            this.shards.splice(i, 1);
-            --i;
-          }
-        }
-        if (this.tick > opts.letterContemplatingWaitTime) {
-          this.phase = "balloon";
-          this.tick = 0;
-          this.spawning = true;
-          this.spawnTime = (opts.balloonSpawnTime * Math.random()) | 0;
-          this.inflating = false;
-          this.inflateTime =
-            (opts.balloonBaseInflateTime +
-              opts.balloonAddedInflateTime * Math.random()) |
-            0;
-          this.size =
-            (opts.balloonBaseSize + opts.balloonAddedSize * Math.random()) | 0;
-          var rad =
-              opts.balloonBaseRadian + opts.balloonAddedRadian * Math.random(),
-            vel = opts.balloonBaseVel + opts.balloonAddedVel * Math.random();
-          this.vx = Math.cos(rad) * vel;
-          this.vy = Math.sin(rad) * vel;
-        }
-      } else if (this.phase === "balloon") {
-        ctx.strokeStyle = this.lightColor.replace("light", 80);
-        if (this.spawning) {
-          ++this.tick;
-          ctx.fillStyle = this.lightColor.replace("light", 70);
-          ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
-          if (this.tick >= this.spawnTime) {
-            this.tick = 0;
-            this.spawning = false;
-            this.inflating = true;
-          }
-        } else if (this.inflating) {
-          ++this.tick;
-          var proportion = this.tick / this.inflateTime,
-            bx = (this.cx = this.x),
-            by = (this.cy = this.y - this.size * proportion);
-          ctx.fillStyle = this.alphaColor.replace("alp", proportion);
-          ctx.beginPath();
-          generateBalloonPath(bx, by, this.size * proportion);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.moveTo(bx, by);
-          ctx.lineTo(bx, this.y);
-          ctx.stroke();
-          ctx.fillStyle = this.lightColor.replace("light", 70);
-          ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
-          if (this.tick >= this.inflateTime) {
-            this.tick = 0;
-            this.inflating = false;
-          }
-        } else {
-          this.cx += this.vx;
-          this.cy += this.vy += opts.upFlow;
-          ctx.fillStyle = this.color;
-          ctx.beginPath();
-          generateBalloonPath(this.cx, this.cy, this.size);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.moveTo(this.cx, this.cy);
-          ctx.lineTo(this.cx, this.cy + this.size);
-          ctx.stroke();
-          ctx.fillStyle = this.lightColor.replace("light", 70);
-          ctx.fillText(this.char, this.cx + this.dx, this.cy + this.dy + this.size);
-          if (this.cy + this.size < -hh || this.cx < -hw || this.cy > hw)
-            this.phase = "done";
-        }
-      }
-    };
+    // Set greeting
+    const greetingText = document.getElementById(
+      "greeting-text",
+    ) as HTMLParagraphElement | null;
+    if (greetingText) greetingText.textContent = config.greeting;
 
-    function Shard(x, y, vx, vy, color) {
-      var vel =
-        opts.fireworkShardBaseVel + opts.fireworkShardAddedVel * Math.random();
-      this.vx = vx * vel;
-      this.vy = vy * vel;
-      this.x = x;
-      this.y = y;
-      this.prevPoints = [[x, y]];
-      this.color = color;
-      this.alive = true;
-      this.size =
-        opts.fireworkShardBaseSize + opts.fireworkShardAddedSize * Math.random();
-    }
+    // Animation state
+    let animationPhase = "initial";
+    let canvasAnimationStarted = false;
 
-    Shard.prototype.step = function () {
-      this.x += this.vx;
-      this.y += this.vy += opts.gravity;
-      if (this.prevPoints.length > opts.fireworkShardPrevPoints)
-        this.prevPoints.shift();
-      this.prevPoints.push([this.x, this.y]);
-      var lineWidthProportion = this.size / this.prevPoints.length;
-      for (var k = 0; k < this.prevPoints.length - 1; ++k) {
-        var point = this.prevPoints[k],
-          point2 = this.prevPoints[k + 1];
-        ctx.strokeStyle = this.color.replace("alp", k / this.prevPoints.length);
-        ctx.lineWidth = k * lineWidthProportion;
-        ctx.beginPath();
-        ctx.moveTo(point[0], point[1]);
-        ctx.lineTo(point2[0], point2[1]);
-        ctx.stroke();
-      }
-      if (this.prevPoints[0][1] > hh) this.alive = false;
-    };
+    // Trigger button click
+    const triggerBtn = document.getElementById("trigger-btn");
+    const triggerContainer = document.getElementById("trigger-container");
+    const birthdayContent = document.getElementById("birthday-content");
+    const cakeContainer = document.getElementById("cake-container");
+    const darkOverlay = document.getElementById("dark-overlay");
 
-    function generateBalloonPath(x, y, size) {
-      ctx.moveTo(x, y);
-      ctx.bezierCurveTo(
-        x - size / 2,
-        y - size / 2,
-        x - size / 4,
-        y - size,
-        x,
-        y - size
-      );
-      ctx.bezierCurveTo(x + size / 4, y - size, x + size / 2, y - size / 2, x, y);
-    }
+    triggerBtn?.addEventListener("click", () => {
+      // Hide trigger, show content
+      if (!triggerContainer || !birthdayContent || !cakeContainer) return;
 
-    function anim() {
-      window.requestAnimationFrame(anim);
-      ctx.clearRect(0, 0, w, h);
-      ctx.translate(hw, hh);
-      var done = true;
-      for (var l = 0; l < letters.length; ++l) {
-        letters[l].step();
-        if (letters[l].phase !== "done") done = false;
-      }
-      ctx.translate(-hw, -hh);
-      if (done) for (var l = 0; l < letters.length; ++l) letters[l].reset();
-    }
+      gsap.to(triggerContainer, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.5,
+        onComplete: () => {
+          if (triggerContainer) triggerContainer.style.display = "none";
+          if (birthdayContent) birthdayContent.classList.remove("hidden");
 
-    function init() {
-      letters = [];
-      for (let i = 0; i < opts.strings.length; ++i) {
-        for (var j = 0; j < opts.strings[i].length; ++j) {
-          letters.push(
-            new Letter(
-              opts.strings[i][j],
-              j * opts.charSpacing +
-                opts.charSpacing / 2 -
-                (opts.strings[i].length * opts.charSpacing) / 2,
-              i * opts.lineHeight +
-                opts.lineHeight / 2 -
-                (opts.strings.length * opts.lineHeight) / 2
-            )
+          // Animate cake appearing
+          gsap.fromTo(
+            cakeContainer,
+            { scale: 0, rotation: -180, opacity: 0 },
+            {
+              scale: 1,
+              rotation: 0,
+              opacity: 1,
+              duration: 1,
+              ease: "elastic.out(1, 0.5)",
+              onComplete: () => {
+                animationPhase = "cake-visible";
+              },
+            },
           );
-        }
+        },
+      });
+    });
+
+    // Click anywhere to light candles
+    document.addEventListener("click", (e) => {
+      if (animationPhase === "cake-visible") {
+        animationPhase = "lighting-candles";
+        lightCandles();
       }
+    });
+
+    function lightCandles() {
+      if (!darkOverlay) return;
+
+      // Darken screen
+      gsap.to(darkOverlay, {
+        opacity: 0.9,
+        duration: 0.5,
+        onComplete: () => {
+          // Light candles one by one
+          const candles = document.querySelectorAll(".candle__flame");
+
+          candles.forEach((candle, index) => {
+            setTimeout(() => {
+              candle.classList.add("lit");
+
+              // After last candle, return to normal
+              if (index === candles.length - 1) {
+                setTimeout(() => {
+                  gsap.to(darkOverlay, {
+                    opacity: 0,
+                    duration: 0.5,
+                    onComplete: () => {
+                      animationPhase = "candles-lit";
+                      startBalloons();
+                    },
+                  });
+                }, 500);
+              }
+            }, index * 500);
+          });
+        },
+      });
     }
 
-    init();
-    anim();
+    // Balloon Animation
+    function startBalloons() {
+      if (canvasAnimationStarted) return;
+      canvasAnimationStarted = true;
 
-    window.addEventListener("resize", function () {
-      w = c.width = window.innerWidth;
-      h = c.height = window.innerHeight;
-      hw = w / 2;
-      hh = h / 2;
-      ctx.font = opts.charSize + "px Verdana";
-      init();
-    });
+      const canvas = document.getElementById(
+        "balloon-canvas",
+      ) as HTMLCanvasElement | null;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      let w = (canvas.width = window.innerWidth);
+      let h = (canvas.height = window.innerHeight);
+
+      const balloons = [];
+      const balloonCount = 15;
+
+      class Balloon {
+        constructor() {
+          this.x = Math.random() * w;
+          this.y = h + 100;
+          this.size = 30 + Math.random() * 20;
+          this.speed = 1 + Math.random() * 2;
+          this.hue = Math.random() * 360;
+          this.sway = Math.random() * 2 - 1;
+        }
+
+        update() {
+          this.y -= this.speed;
+          this.x += Math.sin(this.y * 0.01) * this.sway;
+        }
+
+        draw() {
+          ctx.fillStyle = `hsl(${this.hue}, 80%, 60%)`;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+
+          // String
+          ctx.strokeStyle = `hsl(${this.hue}, 80%, 40%)`;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y + this.size);
+          ctx.lineTo(this.x, this.y + this.size + 30);
+          ctx.stroke();
+        }
+
+        isOffScreen() {
+          return this.y < -100;
+        }
+      }
+
+      // Create balloons
+      for (let i = 0; i < balloonCount; i++) {
+        setTimeout(() => {
+          balloons.push(new Balloon());
+        }, i * 100);
+      }
+
+      // Draw name with balloons
+      let nameDrawn = false;
+
+      function animate() {
+        ctx.clearRect(0, 0, w, h);
+
+        // Update and draw balloons
+        for (let i = balloons.length - 1; i >= 0; i--) {
+          balloons[i].update();
+          balloons[i].draw();
+
+          if (balloons[i].isOffScreen()) {
+            balloons.splice(i, 1);
+          }
+        }
+
+        // Draw name
+        if (!nameDrawn && balloons.length > 5) {
+          nameDrawn = true;
+          ctx.font = "bold 60px Arial";
+          ctx.fillStyle = "white";
+          ctx.strokeStyle = "#667eea";
+          ctx.lineWidth = 3;
+          ctx.textAlign = "center";
+          ctx.strokeText(config.name, w / 2, h / 2 - 150);
+          ctx.fillText(config.name, w / 2, h / 2 - 150);
+        }
+
+        // Continue animation or show photos
+        if (balloons.length > 0) {
+          requestAnimationFrame(animate);
+        } else {
+          setTimeout(showPhotos, 1000);
+        }
+      }
+
+      animate();
+
+      // Resize handler
+      window.addEventListener("resize", () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      });
+    }
+
+    // Show photos
+    function showPhotos() {
+      const photos = [photo1, photo2, photo3];
+
+      photos.forEach((photo, index) => {
+        gsap.to(photo, {
+          y: 0,
+          opacity: 1,
+          duration: 1.5,
+          delay: index * 0.3,
+          ease: "power2.out",
+        });
+      });
+
+      // Show greeting after photos
+      setTimeout(() => {
+        gsap.to("#greeting-container", {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+        });
+      }, 2000);
+    }
   </script>
 </Layout>
