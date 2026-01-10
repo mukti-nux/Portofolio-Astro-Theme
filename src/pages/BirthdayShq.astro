@@ -1,0 +1,547 @@
+---
+// BirthdayShq.astro
+import { birthdayData } from './../data/birthdayData.ts';
+---
+
+<div class="birthday-container">
+    <canvas id="balloonCanvas"></canvas>
+
+    <div class="birthday-button">
+        <button class="birthday-button__button">
+            <svg class="birthday-button__cake" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 76.609 47.643">
+                <defs>
+                    <g id="candle" transform="translate(-48.82 -137.74)">
+                        <rect ry=".567" y="147.888" x="72.548" height="12.001" width="4.252" fill="#ececec"></rect>
+                        <g class="candle__flame">
+                            <path class="candle__flame-outer" d="M75.672 145.92c.608 1.207.086 2.224-.749 2.224s-1.512-.037-1.512-1.388.558-3.566 1.98-3.973c1.007-.288-.855.884.281 3.138z" fill="#f60"></path>
+                            <path class="candle__flame-inner" d="M75.081 146.449c.41.51.266 1.043-.13 1.128-.394.084-.682-.228-.822-.866 0 0-.13-1.382.502-1.719.447-.238-.315.505.45 1.457z" fill="#ff0"></path>
+                        </g>
+                        <g style="display: none">
+                            <path id="flame-outer" d="M73.676 145.92c-.609 1.207-.086 2.224.749 2.224s1.511-.037 1.511-1.388-.557-3.566-1.98-3.973c-1.006-.288.856.884-.28 3.138z" fill="#f60"></path>
+                            <path id="flame-inner" d="M74.267 146.449c-.41.51-.266 1.043.129 1.128.395.084.683-.228.823-.866 0 0 .13-1.382-.502-1.719-.447-.238.315.505-.45 1.457z" fill="#ff0"></path>
+                        </g>
+                    </g>
+                    <clipPath id="face-clip">
+                        <rect transform="translate(-48.82 -138.799)" width="63.5" height="26.458" x="55.374" y="159.984" ry="3.402"></rect>
+                    </clipPath>
+                    <clipPath id="sprinkle-clip">
+                        <rect width="63.5" height="26.458" x="55.374" y="159.984" ry="3.402"></rect>
+                    </clipPath>
+                    <clipPath id="frosting-clip">
+                        <path d="m 58.311339,159.19367 c -1.915439,0 -3.331523,2.04311 -3.986711,3.74446 -0.778328,2.02111 -0.761971,4.73695 0.529167,6.47582 0.861406,1.16012 2.614079,1.3182 4.033715,1.5875 1.321013,0.25059 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344571,0 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344571,0 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344573,0 2.689143,0 4.033713,0 1.34457,0 2.68915,0 4.03372,0 1.34457,0 2.68914,0 4.03371,0 1.34457,0 2.71271,0.25059 4.03372,0 1.41963,-0.2693 3.17231,-0.42738 4.03371,-1.5875 1.29114,-1.73887 1.3075,-4.45471 0.52917,-6.47582 -0.65519,-1.70135 -2.07128,-3.74446 -3.98672,-3.74446 z" style="fill:#ff0041;fill-opacity:0.53424659;fill-rule:nonzero;stroke:none;stroke-width:0.90433162;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"></path>
+                    </clipPath>
+                    <g id="sprinkles" transform="translate(63.93)">
+                        <rect class="cake__sprinkle" transform="rotate(-44.064)" ry=".567" y="167.592" x="-91.837" height="1.228" width="3.307"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(127.01)" ry=".567" y="165.35" x="76.642" height="1.228" width="3.307"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(85.232)" width="3.307" height="1.228" x="182.37" y="3.842" ry=".567"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(136.794)" ry=".567" y="-137.013" x="122.349" height="1.228" width="3.307"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(-28.569)" width="3.307" height="1.228" x="-90.997" y="160.466" ry=".567"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(-134.37)" ry=".567" y="-124.272" x="-138.396" height="1.228" width="3.307"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(-37.152)" width="3.307" height="1.228" x="-101.107" y="155.28" ry=".567"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(-72.723)" ry=".567" y="77.322" x="-169.664" height="1.228" width="3.307"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(36.566)" width="3.307" height="1.228" x="124.338" y="135.065" ry=".567"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(-45)" ry=".567" y="150.009" x="-111.692" height="1.228" width="3.307"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(30)" width="3.307" height="1.228" x="119.879" y="141.701" ry=".567"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(-55.914)" ry=".567" y="139.024" x="-129.555" height="1.228" width="3.307"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(-30)" width="3.307" height="1.228" x="-60.133" y="178.671" ry=".567"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(45)" ry=".567" y="95.647" x="162.293" height="1.228" width="3.307"></rect>
+                        <rect class="cake__sprinkle" transform="rotate(45)" ry=".567" y="133.647" x="124.293" height="1.228" width="3.307"></rect>
+                    </g>
+                    <path id="frosting" d="M58.311 159.194c-1.915 0-3.283-.087-3.986 1.098-.392.661-.073 1.766.529 2.243 1.054.834 2.689 0 4.034 0H115.36c1.344 0 2.979.834 4.033 0 .602-.477.921-1.582.53-2.243-.703-1.185-2.072-1.098-3.987-1.098z"></path>
+                    <path class="cake__frosting cake__frosting--end" d="M58.311 159.194c-1.915 0-3.354 2.034-3.986 3.744-.57 1.537-.953 4.189.529 4.888 1.454.687 2.425-2.645 4.034-2.645 1.608 0 2.425 2.645 4.033 2.645 1.608 0 2.426-2.645 4.034-2.645 1.608 0 2.426 2.645 4.034 2.645 1.608 0 2.425-2.645 4.033-2.645 1.608 0 2.426 2.645 4.034 2.645 1.608 0 2.426-2.645 4.034-2.645 1.608 0 2.426 2.645 4.034 2.645 1.608 0 2.425-2.645 4.033-2.645 1.608 0 2.426 2.645 4.034 2.645 1.608 0 2.436-2.83 4.034-2.645 1.936.222 2.084 4.233 4.033 4.233 1.95 0 2.098-4.01 4.034-4.233 1.598-.184 2.426 2.645 4.034 2.645 1.608 0 2.426-2.645 4.034-2.645 1.608 0 2.58 3.332 4.033 2.645 1.482-.7 1.098-3.35.53-4.888-.633-1.71-2.072-3.744-3.987-3.744z"></path>
+                </defs>
+                <g class="cake-decoration" transform="translate(-48.82 -138.799)">
+                    <g class="cake__frosting-group" clip-path="url(#frosting-clip)">
+                        <g class="cake__frosting cake__frosting--start">
+                            <use xlink:href="#frosting"></use>
+                        </g>
+                        <g class="cake__frosting cake__frosting--duplicate">
+                            <rect class="cake__frosting-patch" width="20" height="5" x="110" y="159.25"></rect>
+                            <use xlink:href="#frosting"></use>
+                        </g>
+                    </g>
+                    <g class="cake__sprinkles-group" clip-path="url(#sprinkle-clip)">
+                        <g class="cake__sprinkles cake__sprinkles--initial">
+                            <use xlink:href="#sprinkles"></use>
+                        </g>
+                        <g class="cake__sprinkles cake__sprinkles--duplicate">
+                            <use xlink:href="#sprinkles"></use>
+                        </g>
+                    </g>
+                </g>
+                <g clip-path="url(#face-clip)">
+                    <g class="cake__face" transform="translate(-48.82 -138.799)">
+                        <g class="cake__eyes">
+                            <g class="cake__eye" transform="matrix(1.38031 0 0 1.38031 34.723 -33.58)">
+                                <circle class="cake__eye-body" cx="29.86" cy="149.022" r="2.457"></circle>
+                                <circle class="cake__eye-pupil" cx="28.773" cy="148.162" r=".756"></circle>
+                            </g>
+                            <g class="cake__eye" transform="matrix(1.38031 0 0 1.38031 57.092 -33.58)">
+                                <circle class="cake__eye-body" r="2.457" cy="149.022" cx="29.86"></circle>
+                                <circle class="cake__eye-pupil" r=".756" cy="148.162" cx="28.773"></circle>
+                            </g>
+                        </g>
+                        <g class="cake__mouth">
+                            <path class="cake__mouth-opening" d="M83.607 174.436a3.652 3.652 0 003.518 2.674 3.652 3.652 0 003.515-2.674z" stroke-width="1.1801650499999998" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path class="cake__tongue" d="M88.836 175.492a3.113 2.329 0 00-2.869 1.425 3.652 3.652 0 001.158.192 3.652 3.652 0 002.899-1.44 3.113 2.329 0 00-1.188-.177z"></path>
+                        </g>
+                    </g>
+                    <g class="cake__face--straining" transform="translate(-48.82 -138.799)">
+                        <path d="M100.673 173.886l-5.248-2.073 5.713-1.466M73.574 173.886l5.248-2.073-5.713-1.466" fill="none" stroke="#000" stroke-width="1.01590816" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M85.016 175.773h4.216" fill="none" stroke="#000" stroke-width=".86683468" stroke-linecap="round"></path>
+                    </g>
+                </g>
+                <g class="cake__candles">
+                    <g class="cake__candle">
+                        <use xlink:href="#candle"></use>
+                    </g>
+                    <g class="cake__candle">
+                        <use xlink:href="#candle" transform="translate(25 0)"></use>
+                    </g>
+                    <g class="cake__candle">
+                        <use xlink:href="#candle" transform="translate(12 0.5)"></use>
+                    </g>
+                </g>
+            </svg>
+            <span class="birthday-button__text" data-splitting="">Happy Birthday!</span>
+        </button>
+    </div>
+
+    <!-- Personalized Content Overlay -->
+    <div class="content-overlay" style="display: none; opacity: 0;">
+        <div class="message-card">
+            <h1 class="target-name">{birthdayData.name}</h1>
+            <p class="birthday-message">{birthdayData.message}</p>
+            {birthdayData.githubLink && (
+                <a href={birthdayData.githubLink} target="_blank" class="github-btn">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                    </svg>
+                    Visit GitHub
+                </a>
+            )}
+        </div>
+        
+        <div class="photo-gallery">
+            {birthdayData.photos.map((photo, index) => (
+                <div class={`photo-card photo-card-${index}`}>
+                    <div class="photo-wrapper">
+                        <img src={photo.url} alt={photo.caption} />
+                    </div>
+                    <p class="photo-caption">{photo.caption}</p>
+                </div>
+            ))}
+        </div>
+    </div>
+
+    <input id="volume" type="checkbox" style="display: none;"/>
+    <label for="volume" title="Toggle sound">
+        <svg class="icon-audio icon-audio-on" viewBox="0 0 24 24">
+            <path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"></path>
+        </svg>
+        <svg class="icon-audio icon-audio-off" viewBox="0 0 24 24" style="display: none;">
+            <path d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z"></path>
+        </svg>
+    </label>
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap');
+
+    .birthday-container {
+        --tongue: #c12115;
+        --pupil: #fff;
+        --icing: #f2f2f2;
+        --stroke: #1a1a1a;
+        --frosting-hue: 0;
+        --lightness: 50;
+        --flame: 0;
+        --glow-hue: 40;
+        --glow-saturation: 50;
+        --glow-lightness: 35;
+        --glow-alpha: 0.4;
+        --transparency-alpha: 0;
+        
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: hsl(180, 30%, calc(var(--lightness, 50) * 1%));
+        transition: background 0.3s ease;
+    }
+
+    #balloonCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .birthday-button {
+        position: relative;
+        transform: scale(0.6);
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    .birthday-button__text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+    }
+
+    .birthday-button__text .char {
+        display: inline-block;
+        color: hsl(var(--hue, 0), calc(var(--char-sat, 0) * 1%), calc(var(--char-light, 0) * 1%));
+    }
+
+    .birthday-button:before {
+        content: '';
+        position: absolute;
+        height: 240px;
+        width: 240px;
+        --glow: hsla(var(--glow-hue), calc(var(--glow-saturation) * 1%), calc(var(--glow-lightness) * 1%), var(--glow-alpha));
+        --transparent: hsla(0, 0%, 0%, var(--transparency-alpha));
+        background: radial-gradient(var(--glow), var(--transparent) 30%), radial-gradient(var(--glow), var(--transparent) 50%);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -70%) scale(calc(var(--flame) * 3));
+        z-index: 2;
+        filter: blur(15px);
+        opacity: var(--flame);
+    }
+
+    .birthday-button:after {
+        content: '';
+        height: 30px;
+        width: 400px;
+        filter: blur(15px);
+        position: absolute;
+        --glow: hsla(var(--glow-hue), calc(var(--glow-saturation) * 1%), calc(var(--glow-lightness) * 1%), var(--glow-alpha));
+        --transparent: hsla(0, 0%, 0%, var(--transparency-alpha));
+        background: radial-gradient(var(--glow), var(--transparent) 20%), radial-gradient(var(--glow), var(--transparent));
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(calc(var(--flame) * 1));
+        opacity: var(--flame);
+    }
+
+    .birthday-button__button {
+        width: 240px;
+        height: 100px;
+        position: relative;
+        border: 0;
+        background: var(--icing);
+        border-radius: 14px;
+        cursor: pointer;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+    }
+
+    .birthday-button__cake {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 289.5px;
+        display: none;
+    }
+
+    .cake__eye-body { fill: var(--stroke); }
+    .cake__eye-pupil { fill: var(--pupil); }
+    .cake__tongue { fill: var(--tongue); }
+    .cake__mouth-opening { fill: var(--stroke); stroke: var(--stroke); }
+    .cake__sprinkle {
+        --sprinkle: hsl(var(--sprinkle-hue, 0), 100%, 75%);
+        fill: var(--sprinkle);
+    }
+    .cake__frosting--start, .cake__frosting--duplicate {
+        fill: hsl(var(--frosting-hue, 0), 100%, 55%);
+    }
+    .candle__flame { opacity: var(--flame, 0); }
+    .candle__flame-outer { fill: #ff711f; }
+    .candle__flame-inner { fill: #edca1d; }
+
+    label {
+        height: 44px;
+        width: 44px;
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        cursor: pointer;
+        z-index: 100;
+    }
+    
+    label svg {
+        height: 100%;
+        width: 100%;
+        fill: #476b6b;
+    }
+
+    /* Content Overlay Styles */
+    .content-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 4rem 2rem;
+        background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+        backdrop-filter: blur(8px);
+        overflow-y: auto;
+    }
+
+    .message-card {
+        text-align: center;
+        color: white;
+        max-width: 700px;
+        margin-bottom: 4rem;
+    }
+
+    .target-name {
+        font-size: clamp(3rem, 10vw, 5rem);
+        font-family: 'Dancing Script', cursive;
+        margin-bottom: 1rem;
+        background: linear-gradient(to right, #ff9a9e 0%, #fecfef 99%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 5px 15px rgba(255,154,158,0.3);
+    }
+
+    .birthday-message {
+        font-size: clamp(1.1rem, 4vw, 1.4rem);
+        line-height: 1.6;
+        font-family: 'Poppins', sans-serif;
+        opacity: 0.9;
+        font-weight: 300;
+    }
+
+    .github-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 2rem;
+        padding: 12px 24px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 50px;
+        color: white;
+        text-decoration: none;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .github-btn:hover {
+        background: white;
+        color: black;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .photo-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2.5rem;
+        width: 100%;
+        max-width: 1200px;
+        padding-bottom: 4rem;
+    }
+
+    .photo-card {
+        background: white;
+        padding: 12px 12px 35px 12px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        transform: rotate(var(--rotation, 0deg));
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        width: 280px;
+    }
+
+    .photo-card-0 { --rotation: -6deg; }
+    .photo-card-1 { --rotation: 4deg; }
+    .photo-card-2 { --rotation: -3deg; }
+
+    .photo-wrapper {
+        width: 100%;
+        aspect-ratio: 1/1;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .photo-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .photo-caption {
+        font-family: 'Dancing Script', cursive;
+        color: #222;
+        font-size: 1.6rem;
+        text-align: center;
+    }
+
+    @media (max-width: 600px) {
+        .birthday-button { transform: scale(0.5); }
+        .photo-card { width: 240px; }
+    }
+</style>
+
+<script is:inline define:vars={{ birthdayData }} src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script is:inline src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+<script is:inline src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin3.min.js"></script>
+
+<script is:inline define:vars={{ birthdayData }}>
+    const { gsap, Splitting } = window;
+    Splitting();
+
+    const BTN = document.querySelector('.birthday-button__button');
+    const CONTAINER = document.querySelector('.birthday-container');
+    const OVERLAY = document.querySelector('.content-overlay');
+    
+    const SOUNDS = {
+        CHEER: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/cheer.mp3'),
+        MATCH: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/match-strike-trimmed.mp3'),
+        TUNE: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/happy-birthday-trimmed.mp3'),
+        ON: new Audio('https://assets.codepen.io/605876/switch-on.mp3'),
+        BLOW: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/blow-out.mp3'),
+        POP: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/pop-trimmed.mp3'),
+        HORN: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/horn.mp3')
+    };
+
+    const EYES = document.querySelector('.cake__eyes');
+    const BLINK = eyes => {
+        gsap.set(eyes, { scaleY: 1 });
+        if (eyes.BLINK_TL) eyes.BLINK_TL.kill();
+        eyes.BLINK_TL = gsap.timeline({
+            delay: Math.floor(Math.random() * 4) + 1,
+            onComplete: () => BLINK(eyes)
+        });
+        eyes.BLINK_TL.to(eyes, {
+            duration: 0.05, transformOrigin: '50% 50%', scaleY: 0, yoyo: true, repeat: 1
+        });
+    };
+    BLINK(EYES);
+
+    const FLICKER_TL = gsap.timeline({ paused: true })
+        .to('.candle__flame-outer', { duration: 0.1, repeat: -1, yoyo: true, morphSVG: '#flame-outer' })
+        .to('.candle__flame-inner', { duration: 0.1, repeat: -1, yoyo: true, morphSVG: '#flame-inner' }, 0);
+
+    const RESET = () => {
+        stopBalloons();
+        gsap.set('.char', { '--hue': () => Math.random() * 360, '--char-sat': 0, '--char-light': 0, x: 0, y: 0, opacity: 1 });
+        gsap.set(CONTAINER, { '--frosting-hue': Math.random() * 360, '--lightness': 50, '--flame': 0 });
+        gsap.set('.cake__candle', { '--flame': 0, scaleY: 0, transformOrigin: '50% 100%' });
+        gsap.set('#frosting', { transformOrigin: '50% 10%', scaleX: 0, scaleY: 0 });
+        gsap.set('.cake__face', { x: -110 });
+        gsap.set('.birthday-button', { scale: 0.6, x: 0, y: 0, opacity: 1, display: 'block' });
+        gsap.set('.birthday-button__cake', { display: 'none' });
+        gsap.set(OVERLAY, { display: 'none', opacity: 0 });
+        FLICKER_TL.pause();
+    };
+
+    const SHOW_CONTENT = () => {
+        gsap.set(OVERLAY, { display: 'flex' });
+        const tl = gsap.timeline();
+        tl.to(OVERLAY, { opacity: 1, duration: 1.5 })
+            .from('.target-name', { y: 50, opacity: 0, duration: 1.2, ease: 'back.out' }, '-=0.5')
+            .from('.birthday-message', { y: 30, opacity: 0, duration: 1 }, '-=0.8')
+            .from('.github-btn', { scale: 0, opacity: 0, duration: 0.8, ease: 'back.out' }, '-=0.5')
+            .from('.photo-card', { y: 100, opacity: 0, scale: 0.5, duration: 1, stagger: 0.2, rotate: 45, ease: 'power3.out' }, '-=1');
+    };
+
+    const MASTER_TL = gsap.timeline({
+        onStart: () => SOUNDS.ON.play(),
+        onComplete: () => {
+            gsap.to(CONTAINER, { '--lightness': 50, duration: 0.5, onComplete: () => {
+                startBalloons();
+                gsap.to('.birthday-button', { opacity: 0, duration: 0.8, onComplete: () => gsap.set('.birthday-button', { display: 'none' }) });
+                gsap.delayedCall(1.5, SHOW_CONTENT);
+                gsap.delayedCall(60, RESET); 
+                gsap.delayedCall(61, () => BTN.removeAttribute('disabled'));
+            }});
+        },
+        paused: true
+    })
+    .set('.birthday-button__cake', { display: 'block' })
+    .to('.birthday-button', { onStart: () => SOUNDS.CHEER.play(), scale: 1, duration: 0.2 })
+    .to('.char', { '--char-sat': 70, '--char-light': 65, duration: 0.2 }, 0)
+    .to('.char', { onStart: () => SOUNDS.HORN.play(), delay: 0.75, y: () => gsap.utils.random(-100, -200), x: () => gsap.utils.random(-50, 50), duration: () => gsap.utils.random(0.5, 1) })
+    .to('.char', { opacity: 0, duration: 0.25 }, '>-0.5')
+    .add(gsap.timeline().to('#frosting', { scaleX: 1.015, duration: 0.25 }, 0).to('#frosting', { scaleY: 1, duration: 1 }, 0).to('#frosting', { duration: 1, morphSVG: '.cake__frosting--end' }, 0))
+    .add(gsap.timeline().to('.cake__sprinkle', { scale: 1, duration: 0.06, stagger: 0.02 }))
+    .add(gsap.timeline().set('.cake__frosting-patch', { display: 'block' }).to(['.cake__frosting--duplicate', '.cake__sprinkles--duplicate'], { x: 0, duration: 1 }, 0).to(['.cake__frosting--start', '.cake__sprinkles--initial'], { x: 65, duration: 1 }, 0).to('.cake__face', { duration: 1, x: -48.82 }, 0))
+    .add(gsap.timeline({ delay: 0.5 }).set('.cake__face', { display: 'none' }).set('.cake__face--straining', { display: 'block' }).to('.birthday-button', { onComplete: () => { gsap.set('.cake__face--straining', { display: 'none' }); gsap.set('.cake__face', { display: 'block' }); }, x: 1, y: 1, repeat: 13, duration: 0.1 }, 0).to('.cake__candle', { onComplete: () => FLICKER_TL.play(), onStart: () => { SOUNDS.POP.play(); gsap.delayedCall(0.2, () => SOUNDS.POP.play()); gsap.delayedCall(0.4, () => SOUNDS.POP.play()); }, ease: 'Elastic.easeOut', duration: 0.2, stagger: 0.2, scaleY: 1 }, 0.2))
+    .add(gsap.timeline().to('.cake__candle', { '--flame': 1, stagger: 0.2, duration: 0.1 }).to(CONTAINER, { '--flame': 1, '--lightness': 5, duration: 0.2, delay: 0.2 }), 'FLAME_ON')
+    .add(gsap.timeline().to(CONTAINER, { onStart: () => SOUNDS.BLOW.play(), delay: 0.5, '--lightness': 0, duration: 0.1, '--glow-saturation': 0, '--glow-lightness': 0, '--glow-alpha': 1, '--transparency-alpha': 1 }), 'LIGHTS_OUT');
+
+    SOUNDS.TUNE.onended = SOUNDS.MATCH.onended = () => MASTER_TL.play();
+    MASTER_TL.addPause('FLAME_ON', () => { SOUNDS.MATCH.play(); if (SOUNDS.MATCH.muted) MASTER_TL.play(); });
+    MASTER_TL.addPause('LIGHTS_OUT', () => { SOUNDS.TUNE.play(); if (SOUNDS.TUNE.muted) MASTER_TL.play(); });
+    BTN.addEventListener('click', () => { BTN.setAttribute('disabled', true); MASTER_TL.restart(); });
+
+    Object.values(SOUNDS).forEach(s => s.muted = true);
+    const toggleAudio = () => {
+        const isMuted = !SOUNDS.CHEER.muted;
+        Object.values(SOUNDS).forEach(s => s.muted = isMuted);
+        document.querySelector('.icon-audio-on').style.display = isMuted ? 'none' : 'block';
+        document.querySelector('.icon-audio-off').style.display = isMuted ? 'block' : 'none';
+        document.querySelector('#volume').checked = !isMuted;
+    };
+    document.querySelector('label[for="volume"]').addEventListener('click', toggleAudio);
+
+    // --- BALLOON ANIMATION LOGIC ---
+    const canvas = document.getElementById('balloonCanvas');
+    const ctx = canvas.getContext('2d');
+    let w, h, hw, hh, lettersArr = [], animationFrameId;
+    const canvasOpts = { strings: ["HAPPY", "BIRTHDAY!", "DEAR!"], charSpacing: 35, lineHeight: 40, upFlow: -0.05, balloonBaseSize: 20, balloonAddedSize: 20 };
+    function initCanvas() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; hw = w / 2; hh = h / 2; ctx.font = "30px Verdana"; }
+    window.addEventListener('resize', initCanvas);
+    initCanvas();
+    function CanvasLetter(char, x, y) { this.char = char; this.x = x; this.y = y; this.reset(); }
+    CanvasLetter.prototype.reset = function() {
+        this.size = canvasOpts.balloonBaseSize + canvasOpts.balloonAddedSize * Math.random();
+        this.cx = this.x + hw; this.cy = h + 150;
+        this.vx = (Math.random() - 0.5) * 2; this.vy = -2 - Math.random() * 3;
+        const hue = Math.random() * 360; this.color = `hsl(${hue}, 80%, 60%)`; this.lightColor = `hsl(${hue}, 80%, 80%)`;
+    };
+    CanvasLetter.prototype.step = function() {
+        this.cy += this.vy; this.cx += this.vx; this.vy += canvasOpts.upFlow;
+        ctx.fillStyle = this.color; ctx.beginPath(); ctx.moveTo(this.cx, this.cy);
+        ctx.bezierCurveTo(this.cx - this.size/2, this.cy - this.size/2, this.cx - this.size/4, this.cy - this.size, this.cx, this.cy - this.size);
+        ctx.bezierCurveTo(this.cx + this.size/4, this.cy - this.size, this.cx + this.size/2, this.cy - this.size/2, this.cx, this.cy);
+        ctx.fill(); ctx.strokeStyle = this.lightColor; ctx.beginPath(); ctx.moveTo(this.cx, this.cy); ctx.lineTo(this.cx, this.cy + this.size); ctx.stroke();
+        ctx.fillStyle = "white"; ctx.fillText(this.char, this.cx - 10, this.cy + 15);
+        if (this.cy + this.size < -100) this.reset();
+    };
+    function startBalloons() {
+        lettersArr = [];
+        canvasOpts.strings.forEach((str, i) => { for(let j=0; j<str.length; j++) { lettersArr.push(new CanvasLetter(str[j], (j - str.length/2) * canvasOpts.charSpacing, (i - canvasOpts.strings.length/2) * canvasOpts.lineHeight)); } });
+        animateBalloons();
+    }
+    function animateBalloons() { ctx.clearRect(0, 0, w, h); lettersArr.forEach(l => l.step()); animationFrameId = requestAnimationFrame(animateBalloons); }
+    function stopBalloons() { cancelAnimationFrame(animationFrameId); ctx.clearRect(0, 0, w, h); }
+    RESET();
+</script>
