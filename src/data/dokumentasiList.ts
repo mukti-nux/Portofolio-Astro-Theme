@@ -16,6 +16,27 @@ const dokumentasiList: DokumentasiItem[] = [
   },
   //----- paling duwur -----//
   {
+    id: "DokSekolah07012026mssanto",
+    title: "Dok. Sekolah 7-9012026 (MS Santo😘)",
+    description: "Documentation of the study tour event of Muhammadiyah Tempuran Middle School with MasDan Tour to Jakarta.",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/bWhatsApp%20Image%202026-01-10%20at%2017.31.05.jpeg?raw=true",
+    link: "https://drive.google.com/drive/folders/1OE5GfquSRoTaqZZzneu1pvvYiEXAnQEO",
+  },
+  {
+    id: "DokSekolah07012026",
+    title: "Dok. Sekolah 7-9012026",
+    description: "Documentation of the study tour event of Muhammadiyah Tempuran Middle School with MasDan Tour to Jakarta.",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/bWhatsApp%20Image%202026-01-10%20at%2017.31.05.jpeg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/Qxi2Ki4LkmWp2Wq",
+  },
+  {
+    id: "DokUmum03012026",
+    title: "Dok. Umum 03012026",
+    description: "Documentation of the joint archery training event between Magelang and Purworejo districts at SDKUB Muhammadiyah Purworejo.",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-01-10%20at%2017.31.05.jpeg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/YqHidA6zykygtRm",
+  },
+  {
     id: "DokSekolah23122025",
     title: "Dok. Sekolah 23122025",
     description: "Documentation of the visit to Borobudur Temple and the annual group photo",
