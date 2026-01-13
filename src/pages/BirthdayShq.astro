@@ -427,222 +427,147 @@ import { birthdayData } from './../data/birthdayData.ts';
 <script is:inline src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin3.min.js"></script>
 
 <script is:inline define:vars={{ birthdayData }}>
-    const { gsap, Splitting } = window;
-    Splitting();
+    // Move DOM-related initialization inside DOMContentLoaded to avoid runtime errors
+    document.addEventListener('DOMContentLoaded', () => {
+        const { gsap } = window;
+        // call Splitting safely
+        try { if (window.Splitting) window.Splitting(); } catch (e) { console.warn('Splitting not available', e); }
 
-    const BTN = document.querySelector('.birthday-button__button');
-    const CONTAINER = document.querySelector('.birthday-container');
-    const OVERLAY = document.querySelector('.content-overlay');
-    
-    const SOUNDS = {
-        CHEER: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/cheer.mp3'),
-        MATCH: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/match-strike-trimmed.mp3'),
-        TUNE: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/happy-birthday-trimmed.mp3'),
-        ON: new Audio('https://assets.codepen.io/605876/switch-on.mp3'),
-        BLOW: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/blow-out.mp3'),
-        POP: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/pop-trimmed.mp3'),
-        HORN: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/horn.mp3')
-    };
+        // query DOM after it's ready
+        const BTN = document.querySelector('.birthday-button__button');
+        const CONTAINER = document.querySelector('.birthday-container');
+        const OVERLAY = document.querySelector('.content-overlay');
+        const EYES = document.querySelector('.cake__eyes');
 
-    const EYES = document.querySelector('.cake__eyes');
-    // smoother blink
-    const BLINK = eyes => {
-        gsap.set(eyes, { scaleY: 1 });
-        if (eyes.BLINK_TL) eyes.BLINK_TL.kill();
-        eyes.BLINK_TL = gsap.timeline({
-            delay: Math.floor(Math.random() * 5) + 1, // slightly larger/random delay
-            onComplete: () => BLINK(eyes)
-        });
-        eyes.BLINK_TL.to(eyes, {
-            duration: 0.08,
-            transformOrigin: '50% 50%',
-            scaleY: 0,
-            yoyo: true,
-            repeat: 1,
-            ease: 'power1.inOut'
-        });
-    };
-    BLINK(EYES);
+        // define face swap via fade (used later in timeline)
+        const showStrainFace = () => {
+            if (!gsap) return;
+            gsap.to('.cake__face', { opacity: 0, duration: 0.18, ease: 'power1.in' });
+            gsap.to('.cake__face--straining', { opacity: 1, duration: 0.18, ease: 'power1.out' });
+        };
+        const showNormalFace = () => {
+            if (!gsap) return;
+            gsap.to('.cake__face--straining', { opacity: 0, duration: 0.18, ease: 'power1.in' });
+            gsap.to('.cake__face', { opacity: 1, duration: 0.18, ease: 'power1.out' });
+        };
 
-    const FLICKER_TL = gsap.timeline({ paused: true })
-        .to('.candle__flame-outer', { duration: 0.1, repeat: -1, yoyo: true, morphSVG: '#flame-outer' })
-        .to('.candle__flame-inner', { duration: 0.1, repeat: -1, yoyo: true, morphSVG: '#flame-inner' }, 0);
+        // smoother blink — only start if eyes exist
+        if (EYES && gsap) {
+            const BLINK = eyes => {
+                gsap.set(eyes, { scaleY: 1 });
+                if (eyes.BLINK_TL) eyes.BLINK_TL.kill();
+                eyes.BLINK_TL = gsap.timeline({
+                    delay: Math.floor(Math.random() * 5) + 1,
+                    onComplete: () => BLINK(eyes)
+                });
+                eyes.BLINK_TL.to(eyes, {
+                    duration: 0.08,
+                    transformOrigin: '50% 50%',
+                    scaleY: 0,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: 'power1.inOut'
+                });
+            };
+            BLINK(EYES);
+        }
 
-    const RESET = () => {
-        stopBalloons();
-        gsap.set('.char', { '--hue': () => Math.random() * 360, '--char-sat': 0, '--char-light': 0, x: 0, y: 0, opacity: 1 });
-        gsap.set(CONTAINER, { '--frosting-hue': Math.random() * 360, '--lightness': 50, '--flame': 0 });
-        gsap.set('.cake__candle', { '--flame': 0, scaleY: 0, transformOrigin: '50% 100%' });
-        gsap.set('#frosting', { transformOrigin: '50% 10%', scaleX: 0, scaleY: 0 });
-        gsap.set('.cake__face', { x: -110 });
-        gsap.set('.birthday-button', { scale: 0.6, x: 0, y: 0, opacity: 1, display: 'block' });
-        gsap.set('.birthday-button__cake', { display: 'none' });
-        gsap.set(OVERLAY, { display: 'none', opacity: 0 });
-        FLICKER_TL.pause();
-    };
-
-    const SHOW_CONTENT = () => {
-        gsap.set(OVERLAY, { display: 'flex' });
-        const tl = gsap.timeline();
-        tl.to(OVERLAY, { opacity: 1, duration: 1.5 })
-            .from('.target-name', { y: 50, opacity: 0, duration: 1.2, ease: 'back.out' }, '-=0.5')
-            .from('.birthday-message', { y: 30, opacity: 0, duration: 1 }, '-=0.8')
-            .from('.github-btn', { scale: 0, opacity: 0, duration: 0.8, ease: 'back.out' }, '-=0.5')
-            .from('.photo-card', { y: 100, opacity: 0, scale: 0.5, duration: 1, stagger: 0.2, rotate: 45, ease: 'power3.out' }, '-=1');
-    };
-
-    // improve MASTER_TL smoothing (adjust durations/eases for smoother feel)
-    const MASTER_TL = gsap.timeline({
-        onStart: () => SOUNDS.ON.play(),
-        onComplete: () => {
-            gsap.to(CONTAINER, { '--lightness': 50, duration: 0.6, onComplete: () => {
-                startBalloons();
-                gsap.to('.birthday-button', { opacity: 0, duration: 0.9, onComplete: () => gsap.set('.birthday-button', { display: 'none' }) });
-                gsap.delayedCall(1.5, SHOW_CONTENT);
-                gsap.delayedCall(60, RESET); 
-                gsap.delayedCall(61, () => BTN.removeAttribute('disabled'));
-            }});
-        },
-        paused: true
-    })
-    .set('.birthday-button__cake', { display: 'block' })
-    .to('.birthday-button', { onStart: () => SOUNDS.CHEER.play(), scale: 1, duration: 0.3, ease: 'power2.out' })
-    .to('.char', { '--char-sat': 70, '--char-light': 65, duration: 0.3 }, 0)
-    .to('.char', { onStart: () => SOUNDS.HORN.play(), delay: 0.75, y: () => gsap.utils.random(-80, -160), x: () => gsap.utils.random(-40, 40), duration: 0.8, ease: 'power2.out', stagger: 0.02 })
-    .to('.char', { opacity: 0, duration: 0.45 }, '>-0.6')
-    .add(gsap.timeline().to('#frosting', { scaleX: 1.015, duration: 0.25 }, 0).to('#frosting', { scaleY: 1, duration: 1 }, 0).to('#frosting', { duration: 1, morphSVG: '.cake__frosting--end' }, 0))
-    .add(gsap.timeline().to('.cake__sprinkle', { scale: 1, duration: 0.06, stagger: 0.02 }))
-    .add(gsap.timeline().set('.cake__frosting-patch', { display: 'block' }).to(['.cake__frosting--duplicate', '.cake__sprinkles--duplicate'], { x: 0, duration: 1 }, 0).to(['.cake__frosting--start', '.cake__sprinkles--initial'], { x: 65, duration: 1 }, 0).to('.cake__face', { duration: 1, x: -48.82 }, 0))
-    .add(gsap.timeline({ delay: 0.5 })
-        .call(showStrainFace, null, 0)
-        .to('.birthday-button', { 
-            onComplete: () => { 
-                showNormalFace();
-            }, 
-            x: 1, y: 1, repeat: 13, duration: 0.1 
-        }, 0)
-        .to('.cake__candle', { 
-            onComplete: () => FLICKER_TL.play(), 
-            onStart: () => { 
-                SOUNDS.POP.play(); 
-                gsap.delayedCall(0.2, () => SOUNDS.POP.play()); 
-                gsap.delayedCall(0.4, () => SOUNDS.POP.play()); 
-            }, 
-            ease: 'Elastic.easeOut', 
-            duration: 0.2, 
-            stagger: 0.2, 
-            scaleY: 1 
-        }, 0.2)
-    )
-    .add(gsap.timeline()
-        .to('.cake__candle', { '--flame': 1, stagger: 0.2, duration: 0.1 })
-        .to(CONTAINER, { '--flame': 1, '--lightness': 5, duration: 0.2, delay: 0.2 }), 'FLAME_ON')
-    .add(gsap.timeline().to(CONTAINER, { onStart: () => SOUNDS.BLOW.play(), delay: 0.5, '--lightness': 0, duration: 0.1, '--glow-saturation': 0, '--glow-lightness': 0, '--glow-alpha': 1, '--transparency-alpha': 1 }), 'LIGHTS_OUT');
-
-    SOUNDS.TUNE.onended = SOUNDS.MATCH.onended = () => MASTER_TL.play();
-    MASTER_TL.addPause('FLAME_ON', () => { SOUNDS.MATCH.play(); if (SOUNDS.MATCH.muted) MASTER_TL.play(); });
-    MASTER_TL.addPause('LIGHTS_OUT', () => { SOUNDS.TUNE.play(); if (SOUNDS.TUNE.muted) MASTER_TL.play(); });
-    BTN.addEventListener('click', () => { BTN.setAttribute('disabled', true); MASTER_TL.restart(); });
-
-    Object.values(SOUNDS).forEach(s => s.muted = true);
-    const toggleAudio = () => {
-        const isMuted = !SOUNDS.CHEER.muted;
-        Object.values(SOUNDS).forEach(s => s.muted = isMuted);
-        document.querySelector('.icon-audio-on').style.display = isMuted ? 'none' : 'block';
-        document.querySelector('.icon-audio-off').style.display = isMuted ? 'block' : 'none';
-        document.querySelector('#volume').checked = !isMuted;
-    };
-    document.querySelector('label[for="volume"]').addEventListener('click', toggleAudio);
-
-    // --- BALLOON ANIMATION LOGIC (optimize canvas for high-dpi and smoother physics) ---
-    const canvas = document.getElementById('balloonCanvas');
-    const ctx = canvas.getContext('2d');
-    let w, h, hw, hh, lettersArr = [], animationFrameId = null;
-    const canvasOpts = { strings: ["HAPPY", "BIRTHDAY!", "DEAR!"], charSpacing: 35, lineHeight: 40, upFlow: -0.05, balloonBaseSize: 20, balloonAddedSize: 20 };
-
-    let resizeTimeout;
-    function initCanvas() {
-        const dpr = Math.max(1, window.devicePixelRatio || 1);
-        const vw = Math.max(1, window.innerWidth);
-        const vh = Math.max(1, window.innerHeight);
-
-        // scale canvas for high-DPI screens
-        w = canvas.width = Math.floor(vw * dpr);
-        h = canvas.height = Math.floor(vh * dpr);
-        canvas.style.width = vw + 'px';
-        canvas.style.height = vh + 'px';
-
-        // set transform to map drawing to CSS pixels
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-        hw = vw / 2;
-        hh = vh / 2;
-        ctx.font = "30px Verdana";
-        // clear buffer to avoid artifacts on resize
-        ctx.clearRect(0, 0, w, h);
-    }
-    window.addEventListener('resize', () => { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(initCanvas, 150); });
-    initCanvas();
-
-    function CanvasLetter(char, x, y) { this.char = char; this.x = x; this.y = y; this.reset(); }
-    CanvasLetter.prototype.reset = function() {
-        const dpr = Math.max(1, window.devicePixelRatio || 1);
-        this.size = (canvasOpts.balloonBaseSize + canvasOpts.balloonAddedSize * Math.random()) * dpr;
-        this.cx = this.x + hw;
-        this.cy = (h / (window.devicePixelRatio || 1)) + 150; // start offscreen at bottom
-        this.vx = (Math.random() - 0.5) * 1.2; // gentler horizontal speed
-        this.vy = -1.4 - Math.random() * 1.6; // gentler upward speed
-        const hue = Math.random() * 360;
-        this.color = `hsl(${hue}, 80%, 60%)`;
-        this.lightColor = `hsl(${hue}, 80%, 80%)`;
-        this.sway = Math.random() * Math.PI * 2;
-    };
-    CanvasLetter.prototype.step = function() {
-        this.sway += 0.02;
-        this.cy += this.vy;
-        this.cx += this.vx + Math.sin(this.sway) * 0.6; // gentle sway
-        this.vy += canvasOpts.upFlow * 0.5; // gentler acceleration
-
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.moveTo(this.cx, this.cy);
-        ctx.bezierCurveTo(this.cx - this.size/2, this.cy - this.size/2, this.cx - this.size/4, this.cy - this.size, this.cx, this.cy - this.size);
-        ctx.bezierCurveTo(this.cx + this.size/4, this.cy - this.size, this.cx + this.size/2, this.cy - this.size/2, this.cx, this.cy);
-        ctx.fill();
-
-        ctx.strokeStyle = this.lightColor;
-        ctx.beginPath();
-        ctx.moveTo(this.cx, this.cy);
-        ctx.lineTo(this.cx, this.cy + this.size);
-        ctx.stroke();
-
-        ctx.fillStyle = "white";
-        ctx.fillText(this.char, this.cx - 10, this.cy + 15);
-
-        if (this.cy + this.size < -100) this.reset();
-    };
-
-    function startBalloons() {
-        if (animationFrameId) return; // avoid double-starting
-        let localLetters = [];
-        canvasOpts.strings.forEach((str, i) => {
-            for (let j=0; j<str.length; j++) {
-                localLetters.push(new CanvasLetter(str[j], (j - str.length/2) * canvasOpts.charSpacing, (i - canvasOpts.strings.length/2) * canvasOpts.lineHeight));
+        // safe FLICKER_TL construction (guard plugin issues)
+        let FLICKER_TL;
+        if (gsap) {
+            try {
+                FLICKER_TL = gsap.timeline({ paused: true })
+                    .to('.candle__flame-outer', { duration: 0.1, repeat: -1, yoyo: true, morphSVG: '#flame-outer' })
+                    .to('.candle__flame-inner', { duration: 0.1, repeat: -1, yoyo: true, morphSVG: '#flame-inner' }, 0);
+            } catch (e) {
+                console.warn('MorphSVG not available, falling back to simple flicker', e);
+                FLICKER_TL = gsap.timeline({ paused: true })
+                    .to('.candle__flame-outer, .candle__flame-inner', { duration: 0.15, repeat: -1, yoyo: true, opacity: 0.85 });
             }
-        });
-        lettersArr = localLetters;
-        animateBalloons();
-    }
-    function animateBalloons() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        lettersArr.forEach(l => l.step());
-        animationFrameId = requestAnimationFrame(animateBalloons);
-    }
-    function stopBalloons() {
-        if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+        }
 
-    RESET();
+        const RESET = () => {
+            stopBalloons();
+            gsap.set('.char', { '--hue': () => Math.random() * 360, '--char-sat': 0, '--char-light': 0, x: 0, y: 0, opacity: 1 });
+            gsap.set(CONTAINER, { '--frosting-hue': Math.random() * 360, '--lightness': 50, '--flame': 0 });
+            gsap.set('.cake__candle', { '--flame': 0, scaleY: 0, transformOrigin: '50% 100%' });
+            gsap.set('#frosting', { transformOrigin: '50% 10%', scaleX: 0, scaleY: 0 });
+            gsap.set('.cake__face', { x: -110 });
+            gsap.set('.birthday-button', { scale: 0.6, x: 0, y: 0, opacity: 1, display: 'block' });
+            gsap.set('.birthday-button__cake', { display: 'none' });
+            gsap.set(OVERLAY, { display: 'none', opacity: 0 });
+            FLICKER_TL.pause();
+        };
+
+        const SHOW_CONTENT = () => {
+            gsap.set(OVERLAY, { display: 'flex' });
+            const tl = gsap.timeline();
+            tl.to(OVERLAY, { opacity: 1, duration: 1.5 })
+                .from('.target-name', { y: 50, opacity: 0, duration: 1.2, ease: 'back.out' }, '-=0.5')
+                .from('.birthday-message', { y: 30, opacity: 0, duration: 1 }, '-=0.8')
+                .from('.github-btn', { scale: 0, opacity: 0, duration: 0.8, ease: 'back.out' }, '-=0.5')
+                .from('.photo-card', { y: 100, opacity: 0, scale: 0.5, duration: 1, stagger: 0.2, rotate: 45, ease: 'power3.out' }, '-=1');
+        };
+
+        // improve MASTER_TL smoothing (adjust durations/eases for smoother feel)
+        const MASTER_TL = gsap.timeline({
+            onStart: () => SOUNDS.ON.play(),
+            onComplete: () => {
+                gsap.to(CONTAINER, { '--lightness': 50, duration: 0.6, onComplete: () => {
+                    startBalloons();
+                    gsap.to('.birthday-button', { opacity: 0, duration: 0.9, onComplete: () => gsap.set('.birthday-button', { display: 'none' }) });
+                    gsap.delayedCall(1.5, SHOW_CONTENT);
+                    gsap.delayedCall(60, RESET); 
+                    gsap.delayedCall(61, () => BTN.removeAttribute('disabled'));
+                }});
+            },
+            paused: true
+        })
+        .set('.birthday-button__cake', { display: 'block' })
+        .to('.birthday-button', { onStart: () => SOUNDS.CHEER.play(), scale: 1, duration: 0.3, ease: 'power2.out' })
+        .to('.char', { '--char-sat': 70, '--char-light': 65, duration: 0.3 }, 0)
+        .to('.char', { onStart: () => SOUNDS.HORN.play(), delay: 0.75, y: () => gsap.utils.random(-80, -160), x: () => gsap.utils.random(-40, 40), duration: 0.8, ease: 'power2.out', stagger: 0.02 })
+        .to('.char', { opacity: 0, duration: 0.45 }, '>-0.6')
+        .add(gsap.timeline().to('#frosting', { scaleX: 1.015, duration: 0.25 }, 0).to('#frosting', { scaleY: 1, duration: 1 }, 0).to('#frosting', { duration: 1, morphSVG: '.cake__frosting--end' }, 0))
+        .add(gsap.timeline().to('.cake__sprinkle', { scale: 1, duration: 0.06, stagger: 0.02 }))
+        .add(gsap.timeline().set('.cake__frosting-patch', { display: 'block' }).to(['.cake__frosting--duplicate', '.cake__sprinkles--duplicate'], { x: 0, duration: 1 }, 0).to(['.cake__frosting--start', '.cake__sprinkles--initial'], { x: 65, duration: 1 }, 0).to('.cake__face', { duration: 1, x: -48.82 }, 0))
+        .add(gsap.timeline({ delay: 0.5 })
+            .call(showStrainFace, null, 0)
+            .to('.birthday-button', { 
+                onComplete: () => { 
+                    showNormalFace();
+                }, 
+                x: 1, y: 1, repeat: 13, duration: 0.1 
+            }, 0)
+            .to('.cake__candle', { 
+                onComplete: () => FLICKER_TL.play(), 
+                onStart: () => { 
+                    SOUNDS.POP.play(); 
+                    gsap.delayedCall(0.2, () => SOUNDS.POP.play()); 
+                    gsap.delayedCall(0.4, () => SOUNDS.POP.play()); 
+                }, 
+                ease: 'Elastic.easeOut', 
+                duration: 0.2, 
+                stagger: 0.2, 
+                scaleY: 1 
+            }, 0.2)
+        )
+        .add(gsap.timeline()
+            .to('.cake__candle', { '--flame': 1, stagger: 0.2, duration: 0.1 })
+            .to(CONTAINER, { '--flame': 1, '--lightness': 5, duration: 0.2, delay: 0.2 }), 'FLAME_ON')
+        .add(gsap.timeline().to(CONTAINER, { onStart: () => SOUNDS.BLOW.play(), delay: 0.5, '--lightness': 0, duration: 0.1, '--glow-saturation': 0, '--glow-lightness': 0, '--glow-alpha': 1, '--transparency-alpha': 1 }), 'LIGHTS_OUT');
+
+        SOUNDS.TUNE.onended = SOUNDS.MATCH.onended = () => MASTER_TL.play();
+        MASTER_TL.addPause('FLAME_ON', () => { SOUNDS.MATCH.play(); if (SOUNDS.MATCH.muted) MASTER_TL.play(); });
+        MASTER_TL.addPause('LIGHTS_OUT', () => { SOUNDS.TUNE.play(); if (SOUNDS.TUNE.muted) MASTER_TL.play(); });
+        // attach click handler only if the button exists
+        if (BTN) {
+            BTN.addEventListener('click', () => {
+                BTN.setAttribute('disabled', true);
+                try { MASTER_TL.restart(); } catch (err) { console.error('MASTER_TL failed:', err); BTN.removeAttribute('disabled'); }
+            });
+        } else {
+            console.warn('Birthday button not found - click will not work');
+        }
+    });
 </script>
