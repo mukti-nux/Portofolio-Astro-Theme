@@ -103,7 +103,7 @@ import { birthdayData } from './../data/birthdayData.ts';
                     </g>
                 </g>
             </svg>
-            <span class="birthday-button__text" data-splitting="">Happy Birthday!</span>
+            <span class="birthday-button__text">Happy Birthday!</span>
         </button>
     </div>
 
@@ -149,7 +149,7 @@ import { birthdayData } from './../data/birthdayData.ts';
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap');
 
     .birthday-container {
-        --bg-image: url('');
+        --bg-image: url('./../../public/shq.JPG');
         --bg-overlay: rgba(0,0,0,0.1);
 
         --tongue: #c12115;
@@ -174,8 +174,6 @@ import { birthdayData } from './../data/birthdayData.ts';
         overflow: hidden;
         background: var(--bg-image) center/cover no-repeat, hsl(180, 30%, calc(var(--lightness, 50) * 1%));
         transition: background 0.3s ease;
-
-        /* make sure this layer is GPU-accelerated */
         transform: translateZ(0);
         will-change: background, transform;
     }
@@ -209,6 +207,17 @@ import { birthdayData } from './../data/birthdayData.ts';
         transform-origin: center;
     }
 
+    .birthday-button__button {
+        position: relative;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        outline: none;
+        width: 400px;
+        height: 150px;
+    }
+
     .birthday-button__text {
         position: absolute;
         top: 0;
@@ -219,28 +228,40 @@ import { birthdayData } from './../data/birthdayData.ts';
         text-align: center;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         font-family: 'Poppins', sans-serif;
         font-weight: bold;
-    }
-
-    .birthday-button__text .char {
-        display: inline-block;
-        color: hsl(var(--hue, 0), calc(var(--char-sat, 0) * 1%), calc(var(--char-light, 0) * 1%));
+        color: #fff;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        z-index: 2;
     }
 
     .birthday-button__cake {
         position: absolute;
         bottom: 0;
         left: 50%;
-        /* Perbaiki posisi dan skala agar cake center dan selai tidak menceng */
         transform: translate(-50%, 5%) scale(1.08);
         width: 289.5px;
         height: auto;
         max-height: 120%;
-        display: none;
         pointer-events: none;
         z-index: 3;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .birthday-button__button:active {
+        transform: scale(0.95);
+    }
+
+    .birthday-button__button:hover .birthday-button__text {
+        color: #ffeb3b;
+        text-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
+    }
+
+    .cake-visible .birthday-button__cake {
+        opacity: 1 !important;
+        display: block !important;
     }
 
     /* Hilangkan efek lingkaran hitam/glow pada lilin */
@@ -418,6 +439,8 @@ import { birthdayData } from './../data/birthdayData.ts';
 
     @media (max-width: 600px) {
         .birthday-button { transform: scale(0.5); }
+        .birthday-button__button { width: 300px; height: 120px; }
+        .birthday-button__text { font-size: 1.4rem; }
         .photo-card { width: 240px; }
     }
 </style>
@@ -427,33 +450,67 @@ import { birthdayData } from './../data/birthdayData.ts';
 <script is:inline src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin3.min.js"></script>
 
 <script is:inline define:vars={{ birthdayData }}>
-    // Move DOM-related initialization inside DOMContentLoaded to avoid runtime errors
-    document.addEventListener('DOMContentLoaded', () => {
-        const { gsap } = window;
-        // call Splitting safely
-        try { if (window.Splitting) window.Splitting(); } catch (e) { console.warn('Splitting not available', e); }
+    console.log('Birthday script loading...');
+    
+    // Tunggu semua script dan DOM siap
+    window.addEventListener('load', function() {
+        console.log('Window loaded, initializing...');
+        initBirthdayAnimation();
+    });
 
-        // query DOM after it's ready
+    function initBirthdayAnimation() {
+        const { gsap } = window;
+        
+        if (!gsap) {
+            console.error('GSAP not loaded!');
+            return;
+        }
+
+        console.log('GSAP loaded:', gsap.version);
+        
+        // Inisialisasi Splitting jika ada
+        if (window.Splitting) {
+            try {
+                window.Splitting();
+                console.log('Splitting initialized');
+            } catch (e) {
+                console.warn('Splitting error:', e);
+            }
+        }
+
         const BTN = document.querySelector('.birthday-button__button');
         const CONTAINER = document.querySelector('.birthday-container');
         const OVERLAY = document.querySelector('.content-overlay');
+        const CAKE = document.querySelector('.birthday-button__cake');
+        
+        if (!BTN) {
+            console.error('Button not found!');
+            return;
+        }
+        
+        console.log('Elements found:', { BTN, CONTAINER, OVERLAY, CAKE });
+
+        // Buat audio objects
+        const SOUNDS = {
+            CHEER: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/cheer.mp3'),
+            MATCH: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/match-strike-trimmed.mp3'),
+            TUNE: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/happy-birthday-trimmed.mp3'),
+            ON: new Audio('https://assets.codepen.io/605876/switch-on.mp3'),
+            BLOW: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/blow-out.mp3'),
+            POP: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/pop-trimmed.mp3'),
+            HORN: new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/horn.mp3')
+        };
+
+        // Mute semua audio di awal
+        Object.values(SOUNDS).forEach(sound => {
+            sound.muted = true;
+            sound.preload = 'auto';
+        });
+
+        // Setup mata berkedip
         const EYES = document.querySelector('.cake__eyes');
-
-        // define face swap via fade (used later in timeline)
-        const showStrainFace = () => {
-            if (!gsap) return;
-            gsap.to('.cake__face', { opacity: 0, duration: 0.18, ease: 'power1.in' });
-            gsap.to('.cake__face--straining', { opacity: 1, duration: 0.18, ease: 'power1.out' });
-        };
-        const showNormalFace = () => {
-            if (!gsap) return;
-            gsap.to('.cake__face--straining', { opacity: 0, duration: 0.18, ease: 'power1.in' });
-            gsap.to('.cake__face', { opacity: 1, duration: 0.18, ease: 'power1.out' });
-        };
-
-        // smoother blink — only start if eyes exist
-        if (EYES && gsap) {
-            const BLINK = eyes => {
+        if (EYES) {
+            const BLINK = (eyes) => {
                 gsap.set(eyes, { scaleY: 1 });
                 if (eyes.BLINK_TL) eyes.BLINK_TL.kill();
                 eyes.BLINK_TL = gsap.timeline({
@@ -472,102 +529,20 @@ import { birthdayData } from './../data/birthdayData.ts';
             BLINK(EYES);
         }
 
-        // safe FLICKER_TL construction (guard plugin issues)
-        let FLICKER_TL;
-        if (gsap) {
-            try {
-                FLICKER_TL = gsap.timeline({ paused: true })
-                    .to('.candle__flame-outer', { duration: 0.1, repeat: -1, yoyo: true, morphSVG: '#flame-outer' })
-                    .to('.candle__flame-inner', { duration: 0.1, repeat: -1, yoyo: true, morphSVG: '#flame-inner' }, 0);
-            } catch (e) {
-                console.warn('MorphSVG not available, falling back to simple flicker', e);
-                FLICKER_TL = gsap.timeline({ paused: true })
-                    .to('.candle__flame-outer, .candle__flame-inner', { duration: 0.15, repeat: -1, yoyo: true, opacity: 0.85 });
-            }
-        }
+        // Setup flicker lilin
+        const FLICKER_TL = gsap.timeline({ paused: true })
+            .to('.candle__flame-outer', { 
+                duration: 0.1, 
+                repeat: -1, 
+                yoyo: true, 
+                morphSVG: '#flame-outer' 
+            })
+            .to('.candle__flame-inner', { 
+                duration: 0.1, 
+                repeat: -1, 
+                yoyo: true, 
+                morphSVG: '#flame-inner' 
+            }, 0);
 
+        // Fungsi reset
         const RESET = () => {
-            stopBalloons();
-            gsap.set('.char', { '--hue': () => Math.random() * 360, '--char-sat': 0, '--char-light': 0, x: 0, y: 0, opacity: 1 });
-            gsap.set(CONTAINER, { '--frosting-hue': Math.random() * 360, '--lightness': 50, '--flame': 0 });
-            gsap.set('.cake__candle', { '--flame': 0, scaleY: 0, transformOrigin: '50% 100%' });
-            gsap.set('#frosting', { transformOrigin: '50% 10%', scaleX: 0, scaleY: 0 });
-            gsap.set('.cake__face', { x: -110 });
-            gsap.set('.birthday-button', { scale: 0.6, x: 0, y: 0, opacity: 1, display: 'block' });
-            gsap.set('.birthday-button__cake', { display: 'none' });
-            gsap.set(OVERLAY, { display: 'none', opacity: 0 });
-            FLICKER_TL.pause();
-        };
-
-        const SHOW_CONTENT = () => {
-            gsap.set(OVERLAY, { display: 'flex' });
-            const tl = gsap.timeline();
-            tl.to(OVERLAY, { opacity: 1, duration: 1.5 })
-                .from('.target-name', { y: 50, opacity: 0, duration: 1.2, ease: 'back.out' }, '-=0.5')
-                .from('.birthday-message', { y: 30, opacity: 0, duration: 1 }, '-=0.8')
-                .from('.github-btn', { scale: 0, opacity: 0, duration: 0.8, ease: 'back.out' }, '-=0.5')
-                .from('.photo-card', { y: 100, opacity: 0, scale: 0.5, duration: 1, stagger: 0.2, rotate: 45, ease: 'power3.out' }, '-=1');
-        };
-
-        // improve MASTER_TL smoothing (adjust durations/eases for smoother feel)
-        const MASTER_TL = gsap.timeline({
-            onStart: () => SOUNDS.ON.play(),
-            onComplete: () => {
-                gsap.to(CONTAINER, { '--lightness': 50, duration: 0.6, onComplete: () => {
-                    startBalloons();
-                    gsap.to('.birthday-button', { opacity: 0, duration: 0.9, onComplete: () => gsap.set('.birthday-button', { display: 'none' }) });
-                    gsap.delayedCall(1.5, SHOW_CONTENT);
-                    gsap.delayedCall(60, RESET); 
-                    gsap.delayedCall(61, () => BTN.removeAttribute('disabled'));
-                }});
-            },
-            paused: true
-        })
-        .set('.birthday-button__cake', { display: 'block' })
-        .to('.birthday-button', { onStart: () => SOUNDS.CHEER.play(), scale: 1, duration: 0.3, ease: 'power2.out' })
-        .to('.char', { '--char-sat': 70, '--char-light': 65, duration: 0.3 }, 0)
-        .to('.char', { onStart: () => SOUNDS.HORN.play(), delay: 0.75, y: () => gsap.utils.random(-80, -160), x: () => gsap.utils.random(-40, 40), duration: 0.8, ease: 'power2.out', stagger: 0.02 })
-        .to('.char', { opacity: 0, duration: 0.45 }, '>-0.6')
-        .add(gsap.timeline().to('#frosting', { scaleX: 1.015, duration: 0.25 }, 0).to('#frosting', { scaleY: 1, duration: 1 }, 0).to('#frosting', { duration: 1, morphSVG: '.cake__frosting--end' }, 0))
-        .add(gsap.timeline().to('.cake__sprinkle', { scale: 1, duration: 0.06, stagger: 0.02 }))
-        .add(gsap.timeline().set('.cake__frosting-patch', { display: 'block' }).to(['.cake__frosting--duplicate', '.cake__sprinkles--duplicate'], { x: 0, duration: 1 }, 0).to(['.cake__frosting--start', '.cake__sprinkles--initial'], { x: 65, duration: 1 }, 0).to('.cake__face', { duration: 1, x: -48.82 }, 0))
-        .add(gsap.timeline({ delay: 0.5 })
-            .call(showStrainFace, null, 0)
-            .to('.birthday-button', { 
-                onComplete: () => { 
-                    showNormalFace();
-                }, 
-                x: 1, y: 1, repeat: 13, duration: 0.1 
-            }, 0)
-            .to('.cake__candle', { 
-                onComplete: () => FLICKER_TL.play(), 
-                onStart: () => { 
-                    SOUNDS.POP.play(); 
-                    gsap.delayedCall(0.2, () => SOUNDS.POP.play()); 
-                    gsap.delayedCall(0.4, () => SOUNDS.POP.play()); 
-                }, 
-                ease: 'Elastic.easeOut', 
-                duration: 0.2, 
-                stagger: 0.2, 
-                scaleY: 1 
-            }, 0.2)
-        )
-        .add(gsap.timeline()
-            .to('.cake__candle', { '--flame': 1, stagger: 0.2, duration: 0.1 })
-            .to(CONTAINER, { '--flame': 1, '--lightness': 5, duration: 0.2, delay: 0.2 }), 'FLAME_ON')
-        .add(gsap.timeline().to(CONTAINER, { onStart: () => SOUNDS.BLOW.play(), delay: 0.5, '--lightness': 0, duration: 0.1, '--glow-saturation': 0, '--glow-lightness': 0, '--glow-alpha': 1, '--transparency-alpha': 1 }), 'LIGHTS_OUT');
-
-        SOUNDS.TUNE.onended = SOUNDS.MATCH.onended = () => MASTER_TL.play();
-        MASTER_TL.addPause('FLAME_ON', () => { SOUNDS.MATCH.play(); if (SOUNDS.MATCH.muted) MASTER_TL.play(); });
-        MASTER_TL.addPause('LIGHTS_OUT', () => { SOUNDS.TUNE.play(); if (SOUNDS.TUNE.muted) MASTER_TL.play(); });
-        // attach click handler only if the button exists
-        if (BTN) {
-            BTN.addEventListener('click', () => {
-                BTN.setAttribute('disabled', true);
-                try { MASTER_TL.restart(); } catch (err) { console.error('MASTER_TL failed:', err); BTN.removeAttribute('disabled'); }
-            });
-        } else {
-            console.warn('Birthday button not found - click will not work');
-        }
-    });
-</script>
