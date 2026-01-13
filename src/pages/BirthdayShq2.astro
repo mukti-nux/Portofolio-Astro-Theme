@@ -1,0 +1,135 @@
+---
+layout: ../../layouts/MainLayout.astro
+title: "BirthdayShq"
+description: "Halaman Ucapan Selamat Ulang Tahun"
+---
+
+<!-- <div class="birthday-button" id="birthdayButton">
+	<svg class="birthday-button__cake" viewBox="0 0 100 100">
+		<defs>
+			<filter id="frostingGlow">
+				<feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+				<feMerge>
+					<feMergeNode/>
+					<feMergeNode in="SourceGraphic"/>
+				</feMerge>
+			</filter>
+		</defs>
+		<g id="cake">
+			<path id="frosting" class="cake__frosting" d="M10,30 Q25,5 40,30 T70,30 Q85,5 100,30 V100 H0 Z" />
+			<path class="cake__sprinkle" d="M20,40 L25,35 L30,45 L35,30 L40,50 L45,35 L50,45 L55,30 L60,50 L65,35 L70,45 L75,30 L80,50 L85,35 L90,45" />
+			<path class="cake__face" d="M30,70 Q50,90 70,70" />
+			<path class="cake__face--straining" d="M30,70 Q50,100 70,70" />
+			<path class="cake__candle" d="M50,10 L52,30 L48,30 Z" />
+			<path class="cake__flame" d="M50,5 Q55,0 60,5 Q55,10 50,5" />
+		</g>
+	</svg>
+</div> -->
+
+<div class="birthday-button" id="birthdayButton">
+	<svg class="birthday-button__cake" viewBox="0 0 100 100">
+		<g id="cake">
+			<path id="frosting" class="cake__frosting" d="M10,30 Q25,5 40,30 T70,30 Q85,5 100,30 V100 H0 Z" />
+			<path class="cake__sprinkle" d="M20,40 L25,35 L30,45 L35,30 L40,50 L45,35 L50,45 L55,30 L60,50 L65,35 L70,45 L75,30 L80,50 L85,35 L90,45" />
+			<path class="cake__face" d="M30,70 Q50,90 70,70" />
+			<path class="cake__face--straining" d="M30,70 Q50,100 70,70" />
+			<path class="cake__candle" d="M50,10 L52,30 L48,30 Z" />
+			<path class="cake__flame" d="M50,5 Q55,0 60,5 Q55,10 50,5" />
+		</g>
+	</svg>
+</div>
+
+<script>
+	const BTN = document.getElementById('birthdayButton');
+	const CONTAINER = document.getElementById('birthdayContainer');
+
+	const MASTER_TL = gsap.timeline({
+		onStart: () => SOUNDS.ON.play(),
+		onComplete: () => {
+			gsap.to(CONTAINER, { '--lightness': 50, duration: 0.6, onComplete: () => {
+				startBalloons();
+				gsap.to('.birthday-button', { opacity: 0, duration: 0.9, onComplete: () => gsap.set('.birthday-button', { display: 'none' }) });
+				gsap.delayedCall(1.5, SHOW_CONTENT);
+				gsap.delayedCall(60, RESET); 
+				gsap.delayedCall(61, () => BTN.removeAttribute('disabled'));
+			}});
+		},
+		paused: true
+	})
+	.set('.birthday-button__cake', { display: 'block' })
+	.to('.birthday-button', { onStart: () => SOUNDS.CHEER.play(), scale: 1, duration: 0.3, ease: 'power2.out' })
+	.to('.char', { '--char-sat': 70, '--char-light': 65, duration: 0.3 }, 0)
+	.to('.char', { onStart: () => SOUNDS.HORN.play(), delay: 0.75, y: () => gsap.utils.random(-80, -160), x: () => gsap.utils.random(-40, 40), duration: 0.8, ease: 'power2.out', stagger: 0.02 })
+	.to('.char', { opacity: 0, duration: 0.45 }, '>-0.6')
+	.add(gsap.timeline().to('#frosting', { scaleX: 1.015, duration: 0.25 }, 0).to('#frosting', { scaleY: 1, duration: 1 }, 0).to('#frosting', { duration: 1, morphSVG: '.cake__frosting--end' }, 0))
+	.add(gsap.timeline().to('.cake__sprinkle', { scale: 1, duration: 0.06, stagger: 0.02 }))
+	.add(gsap.timeline().set('.cake__frosting-patch', { display: 'block' }).to(['.cake__frosting--duplicate', '.cake__sprinkles--duplicate'], { x: 0, duration: 1 }, 0).to(['.cake__frosting--start', '.cake__sprinkles--initial'], { x: 65, duration: 1 }, 0).to('.cake__face', { duration: 1, x: -48.82 }, 0))
+	.add(gsap.timeline({ delay: 0.5 })
+		.set('.cake__face', { opacity: 1 })
+		.set('.cake__face--straining', { opacity: 0 })
+		.to('.birthday-button', { onComplete: () => { 
+			gsap.set('.cake__face--straining', { opacity: 0 }); 
+			gsap.set('.cake__face', { opacity: 1 }); 
+		}, x: 1, y: 1, repeat: 13, duration: 0.1 }, 0)
+		.to('.cake__candle', { 
+			onComplete: () => FLICKER_TL.play(), 
+			onStart: () => { 
+				SOUNDS.POP.play(); 
+				gsap.delayedCall(0.2, () => SOUNDS.POP.play()); 
+				gsap.delayedCall(0.4, () => SOUNDS.POP.play()); 
+			}, 
+			ease: 'Elastic.easeOut', 
+			duration: 0.2, 
+			stagger: 0.2, 
+			scaleY: 1 
+		}, 0.2))
+	.add(gsap.timeline()
+		.to('.cake__candle', { '--flame': 1, stagger: 0.2, duration: 0.1 })
+		.to(CONTAINER, { '--flame': 1, '--lightness': 5, duration: 0.2, delay: 0.2 }), 'FLAME_ON')
+	.add(gsap.timeline()
+		.to(CONTAINER, { 
+			onStart: () => SOUNDS.BLOW.play(), 
+			delay: 0.5, 
+			'--lightness': 0, 
+			duration: 0.1, 
+			'--glow-saturation': 0, 
+			'--glow-lightness': 0, 
+			'--glow-alpha': 0, 
+			'--transparency-alpha': 0 
+		}), 'LIGHTS_OUT');
+
+	MASTER_TL.play();
+</script>
+
+<style>
+	.birthday-button {
+		position: relative;
+		width: 200px;
+		height: 200px;
+		cursor: pointer;
+	}
+
+	.birthday-button__cake {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translate(-50%, 0) translateZ(0);
+		width: 289.5px;
+		display: none;
+		/* ensure cake fills properly without gaps */
+		height: auto;
+		max-height: 120%;
+	}
+
+	.birthday-button:before {
+		content: '';
+		display: none;
+	}
+
+	.birthday-button:after {
+		content: '';
+		display: none;
+	}
+
+	/* ...existing styles... */
+</style>

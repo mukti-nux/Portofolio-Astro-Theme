@@ -28,7 +28,7 @@ import { birthdayData } from './../data/birthdayData.ts';
                         <rect width="63.5" height="26.458" x="55.374" y="159.984" ry="3.402"></rect>
                     </clipPath>
                     <clipPath id="frosting-clip">
-                        <path d="m 58.311339,159.19367 c -1.915439,0 -3.331523,2.04311 -3.986711,3.74446 -0.778328,2.02111 -0.761971,4.73695 0.529167,6.47582 0.861406,1.16012 2.614079,1.3182 4.033715,1.5875 1.321013,0.25059 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344571,0 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344573,0 2.689143,0 4.033713,0 1.34457,0 2.68915,0 4.03372,0 1.34457,0 2.68914,0 4.03371,0 1.34457,0 2.71271,0.25059 4.03372,0 1.41963,-0.2693 3.17231,-0.42738 4.03371,-1.5875 1.29114,-1.73887 1.3075,-4.45471 0.52917,-6.47582 -0.65519,-1.70135 -2.07128,-3.74446 -3.98672,-3.74446 z" style="fill:#ff0041;fill-opacity:0.53424659;fill-rule:nonzero;stroke:none;stroke-width:0.90433162;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"></path>
+                        <path d="m 58.311339,159.19367 c -1.915439,0 -3.331523,2.04311 -3.986711,3.74446 -0.778328,2.02111 -0.761971,4.73695 0.529167,6.47582 0.861406,1.16012 2.614079,1.3182 4.033715,1.5875 1.321013,0.25059 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344571,0 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344573,0 2.689143,0 4.033713,0 1.34457,0 2.68915,0 4.03372,0 1.34457,0 2.68914,0 4.03371,0 1.34457,0 2.71271,0.25059 4.03372,0 1.41963,-0.2693 3.17231,-0.42738 4.03371,-1.5875 1.29114,-1.73887 1.3075,-4.45471 0.52917,-6.47582 -0.65519,-1.70135 -2.07128,-3.74446 -3.98672,-3.74446 z" style="fill:#ff0041;fill-opacity:0.53424659;fill-rule:nonzero;stroke:none;stroke-width:0.90433162;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"></path>
                     </clipPath>
                     <g id="sprinkles" transform="translate(63.93)">
                         <rect class="cake__sprinkle" transform="rotate(-44.064)" ry=".567" y="167.592" x="-91.837" height="1.228" width="3.307"></rect>
@@ -229,61 +229,50 @@ import { birthdayData } from './../data/birthdayData.ts';
         color: hsl(var(--hue, 0), calc(var(--char-sat, 0) * 1%), calc(var(--char-light, 0) * 1%));
     }
 
-    .birthday-button:before {
-        content: '';
-        position: absolute;
-        height: 240px;
-        width: 240px;
-        --glow: hsla(var(--glow-hue), calc(var(--glow-saturation) * 1%), calc(var(--glow-lightness) * 1%), var(--glow-alpha));
-        --transparent: hsla(0, 0%, 0%, var(--transparency-alpha));
-        background: radial-gradient(var(--glow), var(--transparent) 30%), radial-gradient(var(--glow), var(--transparent) 50%);
-        border-radius: 50%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -70%) scale(calc(var(--flame) * 3));
-        z-index: 2;
-        filter: blur(15px);
-        opacity: var(--flame);
-    }
-
-    .birthday-button:after {
-        content: '';
-        height: 30px;
-        width: 400px;
-        filter: blur(15px);
-        position: absolute;
-        --glow: hsla(var(--glow-hue), calc(var(--glow-saturation) * 1%), calc(var(--glow-lightness) * 1%), var(--glow-alpha));
-        --transparent: hsla(0, 0%, 0%, var(--transparency-alpha));
-        background: radial-gradient(var(--glow), var(--transparent) 20%), radial-gradient(var(--glow), var(--transparent));
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(calc(var(--flame) * 1));
-        opacity: var(--flame);
-    }
-
-    .birthday-button__button {
-        width: 240px;
-        height: 100px;
-        position: relative;
-        border: 0;
-        background: var(--icing);
-        border-radius: 14px;
-        cursor: pointer;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s;
-        will-change: transform;
-        backface-visibility: hidden;
-    }
-
     .birthday-button__cake {
         position: absolute;
         bottom: 0;
         left: 50%;
-        transform: translate(-50%, 0);
+        /* Perbaiki posisi dan skala agar cake center dan selai tidak menceng */
+        transform: translate(-50%, 5%) scale(1.08);
         width: 289.5px;
+        height: auto;
+        max-height: 120%;
         display: none;
+        pointer-events: none;
+        z-index: 3;
     }
 
+    /* Hilangkan efek lingkaran hitam/glow pada lilin */
+    .birthday-button:before,
+    .birthday-button:after {
+        display: none !important;
+        content: none !important;
+        opacity: 0 !important;
+    }
+
+    /* Fade animasi untuk ekspresi wajah */
+    .cake__face,
+    .cake__face--straining {
+        transition: opacity 0.25s cubic-bezier(.4,0,.2,1);
+        will-change: opacity;
+    }
+    .cake__face--straining {
+        opacity: 0;
+        display: block !important;
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+    }
+    .cake__face {
+        opacity: 1;
+        display: block !important;
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+    }
     .cake__eye-body { fill: var(--stroke); }
     .cake__eye-pupil { fill: var(--pupil); }
     .cake__tongue { fill: var(--tongue); }
@@ -524,8 +513,30 @@ import { birthdayData } from './../data/birthdayData.ts';
     .add(gsap.timeline().to('#frosting', { scaleX: 1.015, duration: 0.25 }, 0).to('#frosting', { scaleY: 1, duration: 1 }, 0).to('#frosting', { duration: 1, morphSVG: '.cake__frosting--end' }, 0))
     .add(gsap.timeline().to('.cake__sprinkle', { scale: 1, duration: 0.06, stagger: 0.02 }))
     .add(gsap.timeline().set('.cake__frosting-patch', { display: 'block' }).to(['.cake__frosting--duplicate', '.cake__sprinkles--duplicate'], { x: 0, duration: 1 }, 0).to(['.cake__frosting--start', '.cake__sprinkles--initial'], { x: 65, duration: 1 }, 0).to('.cake__face', { duration: 1, x: -48.82 }, 0))
-    .add(gsap.timeline({ delay: 0.5 }).set('.cake__face', { display: 'none' }).set('.cake__face--straining', { display: 'block' }).to('.birthday-button', { onComplete: () => { gsap.set('.cake__face--straining', { display: 'none' }); gsap.set('.cake__face', { display: 'block' }); }, x: 1, y: 1, repeat: 13, duration: 0.1 }, 0).to('.cake__candle', { onComplete: () => FLICKER_TL.play(), onStart: () => { SOUNDS.POP.play(); gsap.delayedCall(0.2, () => SOUNDS.POP.play()); gsap.delayedCall(0.4, () => SOUNDS.POP.play()); }, ease: 'Elastic.easeOut', duration: 0.2, stagger: 0.2, scaleY: 1 }, 0.2))
-    .add(gsap.timeline().to('.cake__candle', { '--flame': 1, stagger: 0.2, duration: 0.1 }).to(CONTAINER, { '--flame': 1, '--lightness': 5, duration: 0.2, delay: 0.2 }), 'FLAME_ON')
+    .add(gsap.timeline({ delay: 0.5 })
+        .call(showStrainFace, null, 0)
+        .to('.birthday-button', { 
+            onComplete: () => { 
+                showNormalFace();
+            }, 
+            x: 1, y: 1, repeat: 13, duration: 0.1 
+        }, 0)
+        .to('.cake__candle', { 
+            onComplete: () => FLICKER_TL.play(), 
+            onStart: () => { 
+                SOUNDS.POP.play(); 
+                gsap.delayedCall(0.2, () => SOUNDS.POP.play()); 
+                gsap.delayedCall(0.4, () => SOUNDS.POP.play()); 
+            }, 
+            ease: 'Elastic.easeOut', 
+            duration: 0.2, 
+            stagger: 0.2, 
+            scaleY: 1 
+        }, 0.2)
+    )
+    .add(gsap.timeline()
+        .to('.cake__candle', { '--flame': 1, stagger: 0.2, duration: 0.1 })
+        .to(CONTAINER, { '--flame': 1, '--lightness': 5, duration: 0.2, delay: 0.2 }), 'FLAME_ON')
     .add(gsap.timeline().to(CONTAINER, { onStart: () => SOUNDS.BLOW.play(), delay: 0.5, '--lightness': 0, duration: 0.1, '--glow-saturation': 0, '--glow-lightness': 0, '--glow-alpha': 1, '--transparency-alpha': 1 }), 'LIGHTS_OUT');
 
     SOUNDS.TUNE.onended = SOUNDS.MATCH.onended = () => MASTER_TL.play();
