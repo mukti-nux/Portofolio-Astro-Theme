@@ -546,3 +546,447 @@ import { birthdayData } from './../data/birthdayData.ts';
 
         // Fungsi reset
         const RESET = () => {
+            console.log('Resetting animation...');
+            stopBalloons();
+            
+            // Reset text
+            const chars = document.querySelectorAll('.char');
+            if (chars.length > 0) {
+                gsap.set(chars, { 
+                    '--hue': () => Math.random() * 360, 
+                    '--char-sat': 0, 
+                    '--char-light': 0, 
+                    x: 0, 
+                    y: 0, 
+                    opacity: 1 
+                });
+            }
+            
+            // Reset container
+            gsap.set(CONTAINER, { 
+                '--frosting-hue': Math.random() * 360, 
+                '--lightness': 50, 
+                '--flame': 0 
+            });
+            
+            // Reset lilin
+            const candles = document.querySelectorAll('.cake__candle');
+            gsap.set(candles, { 
+                '--flame': 0, 
+                scaleY: 0, 
+                transformOrigin: '50% 100%' 
+            });
+            
+            // Reset frosting
+            const frosting = document.querySelector('#frosting');
+            if (frosting) {
+                gsap.set(frosting, { 
+                    transformOrigin: '50% 10%', 
+                    scaleX: 0, 
+                    scaleY: 0 
+                });
+            }
+            
+            // Reset wajah
+            const face = document.querySelector('.cake__face');
+            if (face) {
+                gsap.set(face, { x: -110 });
+            }
+            
+            // Reset button
+            const birthdayButton = document.querySelector('.birthday-button');
+            gsap.set(birthdayButton, { 
+                scale: 0.6, 
+                x: 0, 
+                y: 0, 
+                opacity: 1, 
+                display: 'block' 
+            });
+            
+            // Tampilkan cake (tapi transparan)
+            gsap.set(CAKE, { 
+                display: 'block',
+                opacity: 0 
+            });
+            
+            // Sembunyikan overlay
+            gsap.set(OVERLAY, { 
+                display: 'none', 
+                opacity: 0 
+            });
+            
+            FLICKER_TL.pause();
+            
+            // Enable button
+            if (BTN) BTN.removeAttribute('disabled');
+            
+            console.log('Reset complete');
+        };
+
+        // Fungsi untuk menampilkan konten
+        const SHOW_CONTENT = () => {
+            console.log('Showing content overlay...');
+            gsap.set(OVERLAY, { display: 'flex' });
+            
+            const tl = gsap.timeline();
+            tl.to(OVERLAY, { 
+                opacity: 1, 
+                duration: 1.5 
+            })
+            .from('.target-name', { 
+                y: 50, 
+                opacity: 0, 
+                duration: 1.2, 
+                ease: 'back.out' 
+            }, '-=0.5')
+            .from('.birthday-message', { 
+                y: 30, 
+                opacity: 0, 
+                duration: 1 
+            }, '-=0.8')
+            .from('.github-btn', { 
+                scale: 0, 
+                opacity: 0, 
+                duration: 0.8, 
+                ease: 'back.out' 
+            }, '-=0.5')
+            .from('.photo-card', { 
+                y: 100, 
+                opacity: 0, 
+                scale: 0.5, 
+                duration: 1, 
+                stagger: 0.2, 
+                rotate: 45, 
+                ease: 'power3.out' 
+            }, '-=1');
+        };
+
+        // Fungsi untuk wajah tegang
+        const showStrainFace = () => {
+            gsap.set('.cake__face', { opacity: 0 });
+            gsap.set('.cake__face--straining', { opacity: 1 });
+        };
+
+        // Fungsi untuk wajah normal
+        const showNormalFace = () => {
+            gsap.set('.cake__face', { opacity: 1 });
+            gsap.set('.cake__face--straining', { opacity: 0 });
+        };
+
+        // Timeline utama
+        const MASTER_TL = gsap.timeline({
+            onStart: () => {
+                console.log('Master timeline started');
+                SOUNDS.ON.play().catch(e => console.log('Audio play error:', e));
+                // Tampilkan cake dengan opacity
+                gsap.to(CAKE, { 
+                    opacity: 1, 
+                    duration: 0.3 
+                });
+                // Tambah class untuk debugging
+                CONTAINER.classList.add('cake-visible');
+            },
+            onComplete: () => {
+                console.log('Master timeline completed');
+                gsap.to(CONTAINER, { 
+                    '--lightness': 50, 
+                    duration: 0.6, 
+                    onComplete: () => {
+                        startBalloons();
+                        gsap.to('.birthday-button', { 
+                            opacity: 0, 
+                            duration: 0.9, 
+                            onComplete: () => {
+                                gsap.set('.birthday-button', { display: 'none' });
+                                SHOW_CONTENT();
+                            }
+                        });
+                        // Reset setelah 60 detik
+                        gsap.delayedCall(60, RESET);
+                    }
+                });
+            },
+            paused: true
+        })
+        // Step 1: Tampilkan cake
+        .set(CAKE, { 
+            display: 'block' 
+        })
+        // Step 2: Animasi button
+        .to('.birthday-button', { 
+            onStart: () => SOUNDS.CHEER.play().catch(e => console.log('Cheer audio error:', e)),
+            scale: 1, 
+            duration: 0.3, 
+            ease: 'power2.out' 
+        })
+        // Step 3: Animasi text
+        .to('.char', { 
+            '--char-sat': 70, 
+            '--char-light': 65, 
+            duration: 0.3 
+        }, 0)
+        .to('.char', { 
+            onStart: () => SOUNDS.HORN.play().catch(e => console.log('Horn audio error:', e)),
+            delay: 0.75, 
+            y: () => gsap.utils.random(-80, -160), 
+            x: () => gsap.utils.random(-40, 40), 
+            duration: 0.8, 
+            ease: 'power2.out', 
+            stagger: 0.02 
+        })
+        .to('.char', { 
+            opacity: 0, 
+            duration: 0.45 
+        }, '>-0.6')
+        // Step 4: Animasi frosting
+        .add(gsap.timeline()
+            .to('#frosting', { scaleX: 1.015, duration: 0.25 }, 0)
+            .to('#frosting', { scaleY: 1, duration: 1 }, 0)
+            .to('#frosting', { duration: 1, morphSVG: '.cake__frosting--end' }, 0)
+        )
+        // Step 5: Animasi sprinkle
+        .add(gsap.timeline()
+            .to('.cake__sprinkle', { scale: 1, duration: 0.06, stagger: 0.02 })
+        )
+        // Step 6: Animasi duplikat
+        .add(gsap.timeline()
+            .set('.cake__frosting-patch', { display: 'block' })
+            .to(['.cake__frosting--duplicate', '.cake__sprinkles--duplicate'], { x: 0, duration: 1 }, 0)
+            .to(['.cake__frosting--start', '.cake__sprinkles--initial'], { x: 65, duration: 1 }, 0)
+            .to('.cake__face', { duration: 1, x: -48.82 }, 0)
+        )
+        // Step 7: Animasi lilin dan wajah tegang
+        .add(gsap.timeline({ delay: 0.5 })
+            .call(showStrainFace, null, 0)
+            .to('.birthday-button', { 
+                onComplete: showNormalFace,
+                x: 1, 
+                y: 1, 
+                repeat: 13, 
+                duration: 0.1 
+            }, 0)
+            .to('.cake__candle', { 
+                onComplete: () => FLICKER_TL.play(),
+                onStart: () => { 
+                    SOUNDS.POP.play().catch(e => console.log('Pop audio error:', e));
+                    gsap.delayedCall(0.2, () => SOUNDS.POP.play().catch(e => console.log('Pop audio error:', e)));
+                    gsap.delayedCall(0.4, () => SOUNDS.POP.play().catch(e => console.log('Pop audio error:', e)));
+                },
+                ease: 'elastic.out(1, 0.5)',
+                duration: 0.2,
+                stagger: 0.2,
+                scaleY: 1
+            }, 0.2)
+        )
+        // Step 8: Nyalakan lilin
+        .add(gsap.timeline()
+            .to('.cake__candle', { 
+                '--flame': 1, 
+                stagger: 0.2, 
+                duration: 0.1 
+            })
+            .to(CONTAINER, { 
+                '--flame': 1, 
+                '--lightness': 5, 
+                duration: 0.2, 
+                delay: 0.2 
+            }), 'FLAME_ON')
+        // Step 9: Tiup lilin
+        .add(gsap.timeline()
+            .to(CONTAINER, { 
+                onStart: () => SOUNDS.BLOW.play().catch(e => console.log('Blow audio error:', e)),
+                delay: 0.5, 
+                '--lightness': 0, 
+                duration: 0.1, 
+                '--glow-saturation': 0, 
+                '--glow-lightness': 0, 
+                '--glow-alpha': 1, 
+                '--transparency-alpha': 1 
+            }), 'LIGHTS_OUT');
+
+        // Setup audio callbacks
+        SOUNDS.TUNE.onended = SOUNDS.MATCH.onended = () => {
+            console.log('Audio ended, continuing timeline');
+            MASTER_TL.play();
+        };
+
+        // Tambah pause points untuk audio sync
+        MASTER_TL.addPause('FLAME_ON', () => { 
+            console.log('Pause at FLAME_ON');
+            SOUNDS.MATCH.play().catch(e => console.log('Match audio error:', e)); 
+            if (SOUNDS.MATCH.muted) MASTER_TL.play(); 
+        });
+        
+        MASTER_TL.addPause('LIGHTS_OUT', () => { 
+            console.log('Pause at LIGHTS_OUT');
+            SOUNDS.TUNE.play().catch(e => console.log('Tune audio error:', e)); 
+            if (SOUNDS.TUNE.muted) MASTER_TL.play(); 
+        });
+
+        // Event listener untuk tombol
+        BTN.addEventListener('click', (e) => {
+            console.log('Birthday button clicked!');
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Disable button selama animasi
+            BTN.setAttribute('disabled', true);
+            
+            // Mulai animasi
+            MASTER_TL.restart();
+        });
+
+        // Audio toggle
+        const audioToggle = document.querySelector('label[for="volume"]');
+        if (audioToggle) {
+            audioToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const isMuted = !SOUNDS.CHEER.muted;
+                Object.values(SOUNDS).forEach(s => s.muted = isMuted);
+                
+                const audioOn = document.querySelector('.icon-audio-on');
+                const audioOff = document.querySelector('.icon-audio-off');
+                
+                if (audioOn) audioOn.style.display = isMuted ? 'none' : 'block';
+                if (audioOff) audioOff.style.display = isMuted ? 'block' : 'none';
+                
+                const volumeCheckbox = document.querySelector('#volume');
+                if (volumeCheckbox) volumeCheckbox.checked = !isMuted;
+                
+                console.log('Audio muted:', isMuted);
+            });
+        }
+
+        // ========== BALLOON ANIMATION ==========
+        const canvas = document.getElementById('balloonCanvas');
+        if (!canvas) {
+            console.error('Canvas not found!');
+            return;
+        }
+        
+        const ctx = canvas.getContext('2d');
+        let w, h, hw, hh, lettersArr = [], animationFrameId = null;
+        const canvasOpts = { 
+            strings: ["HAPPY", "BIRTHDAY!", "DEAR!"], 
+            charSpacing: 35, 
+            lineHeight: 40, 
+            upFlow: -0.05, 
+            balloonBaseSize: 20, 
+            balloonAddedSize: 20 
+        };
+
+        function initCanvas() {
+            const dpr = Math.max(1, window.devicePixelRatio || 1);
+            const vw = Math.max(1, window.innerWidth);
+            const vh = Math.max(1, window.innerHeight);
+
+            w = canvas.width = Math.floor(vw * dpr);
+            h = canvas.height = Math.floor(vh * dpr);
+            canvas.style.width = vw + 'px';
+            canvas.style.height = vh + 'px';
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            hw = vw / 2;
+            hh = vh / 2;
+            ctx.font = "30px Verdana";
+            ctx.clearRect(0, 0, w, h);
+        }
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(initCanvas, 150);
+        });
+
+        function CanvasLetter(char, x, y) {
+            this.char = char;
+            this.x = x;
+            this.y = y;
+            this.reset();
+        }
+
+        CanvasLetter.prototype.reset = function() {
+            const dpr = Math.max(1, window.devicePixelRatio || 1);
+            this.size = (canvasOpts.balloonBaseSize + canvasOpts.balloonAddedSize * Math.random()) * dpr;
+            this.cx = this.x + hw;
+            this.cy = (h / (window.devicePixelRatio || 1)) + 150;
+            this.vx = (Math.random() - 0.5) * 1.2;
+            this.vy = -1.4 - Math.random() * 1.6;
+            const hue = Math.random() * 360;
+            this.color = `hsl(${hue}, 80%, 60%)`;
+            this.lightColor = `hsl(${hue}, 80%, 80%)`;
+            this.sway = Math.random() * Math.PI * 2;
+        };
+
+        CanvasLetter.prototype.step = function() {
+            this.sway += 0.02;
+            this.cy += this.vy;
+            this.cx += this.vx + Math.sin(this.sway) * 0.6;
+            this.vy += canvasOpts.upFlow * 0.5;
+
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.moveTo(this.cx, this.cy);
+            ctx.bezierCurveTo(
+                this.cx - this.size/2, this.cy - this.size/2,
+                this.cx - this.size/4, this.cy - this.size,
+                this.cx, this.cy - this.size
+            );
+            ctx.bezierCurveTo(
+                this.cx + this.size/4, this.cy - this.size,
+                this.cx + this.size/2, this.cy - this.size/2,
+                this.cx, this.cy
+            );
+            ctx.fill();
+
+            ctx.strokeStyle = this.lightColor;
+            ctx.beginPath();
+            ctx.moveTo(this.cx, this.cy);
+            ctx.lineTo(this.cx, this.cy + this.size);
+            ctx.stroke();
+
+            ctx.fillStyle = "white";
+            ctx.fillText(this.char, this.cx - 10, this.cy + 15);
+
+            if (this.cy + this.size < -100) this.reset();
+        };
+
+        function startBalloons() {
+            if (animationFrameId) return;
+            
+            initCanvas();
+            let localLetters = [];
+            canvasOpts.strings.forEach((str, i) => {
+                for (let j = 0; j < str.length; j++) {
+                    localLetters.push(new CanvasLetter(
+                        str[j],
+                        (j - str.length/2) * canvasOpts.charSpacing,
+                        (i - canvasOpts.strings.length/2) * canvasOpts.lineHeight
+                    ));
+                }
+            });
+            lettersArr = localLetters;
+            animateBalloons();
+        }
+
+        function animateBalloons() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            lettersArr.forEach(l => l.step());
+            animationFrameId = requestAnimationFrame(animateBalloons);
+        }
+
+        function stopBalloons() {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+            if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Inisialisasi
+        initCanvas();
+        RESET();
+        
+        console.log('Birthday animation fully initialized!');
+        console.log('Click the "Happy Birthday" button to start animation');
+    }
+</script>
