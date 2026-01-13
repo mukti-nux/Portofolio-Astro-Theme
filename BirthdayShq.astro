@@ -28,7 +28,7 @@ import { birthdayData } from './../data/birthdayData.ts';
                         <rect width="63.5" height="26.458" x="55.374" y="159.984" ry="3.402"></rect>
                     </clipPath>
                     <clipPath id="frosting-clip">
-                        <path d="m 58.311339,159.19367 c -1.915439,0 -3.331523,2.04311 -3.986711,3.74446 -0.778328,2.02111 -0.761971,4.73695 0.529167,6.47582 0.861406,1.16012 2.614079,1.3182 4.033715,1.5875 1.321013,0.25059 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344571,0 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344573,0 2.689143,0 4.033713,0 1.34457,0 2.68915,0 4.03372,0 1.34457,0 2.68914,0 4.03371,0 1.34457,0 2.71271,0.25059 4.03372,0 1.41963,-0.2693 3.17231,-0.42738 4.03371,-1.5875 1.29114,-1.73887 1.3075,-4.45471 0.52917,-6.47582 -0.65519,-1.70135 -2.07128,-3.74446 -3.98672,-3.74446 z" style="fill:#ff0041;fill-opacity:0.53424659;fill-rule:nonzero;stroke:none;stroke-width:0.90433162;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"></path>
+                        <path d="m 58.311339,159.19367 c -1.915439,0 -3.331523,2.04311 -3.986711,3.74446 -0.778328,2.02111 -0.761971,4.73695 0.529167,6.47582 0.861406,1.16012 2.614079,1.3182 4.033715,1.5875 1.321013,0.25059 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344571,0 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344571,0 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344573,0 2.689143,0 4.033713,0 1.34457,0 2.68915,0 4.03372,0 1.34457,0 2.68914,0 4.03371,0 1.34457,0 2.71271,0.25059 4.03372,0 1.41963,-0.2693 3.17231,-0.42738 4.03371,-1.5875 1.29114,-1.73887 1.3075,-4.45471 0.52917,-6.47582 -0.65519,-1.70135 -2.07128,-3.74446 -3.98672,-3.74446 z" style="fill:#ff0041;fill-opacity:0.53424659;fill-rule:nonzero;stroke:none;stroke-width:0.90433162;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"></path>
                     </clipPath>
                     <g id="sprinkles" transform="translate(63.93)">
                         <rect class="cake__sprinkle" transform="rotate(-44.064)" ry=".567" y="167.592" x="-91.837" height="1.228" width="3.307"></rect>
@@ -149,9 +149,6 @@ import { birthdayData } from './../data/birthdayData.ts';
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap');
 
     .birthday-container {
-        --bg-image: url('/path/to/your-photo.jpg');
-        --bg-overlay: rgba(0,0,0,0.1);
-
         --tongue: #c12115;
         --pupil: #fff;
         --icing: #f2f2f2;
@@ -172,17 +169,8 @@ import { birthdayData } from './../data/birthdayData.ts';
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        background: var(--bg-image) center/cover no-repeat, hsl(180, 30%, calc(var(--lightness, 50) * 1%));
+        background: hsl(180, 30%, calc(var(--lightness, 50) * 1%));
         transition: background 0.3s ease;
-    }
-
-    .birthday-container::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: var(--bg-overlay);
-        pointer-events: none;
-        z-index: 0;
     }
 
     #balloonCanvas {
