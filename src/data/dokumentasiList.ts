@@ -15,6 +15,13 @@ const dokumentasiList: DokumentasiItem[] = [
     link: "https://cloud.portofolioku-v2.my.id/s/KHRAEysCrSbNeY9",
   },
   //----- paling duwur -----//
+   {
+    id: "DokSekolah14022026",
+    title: "Dok. Sekolah 140022026",
+    description: "Documentation of Tarhib Romadhon TK, SD, SMP Muhammadiyah Tempuran.",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-02-14%20at%2019.57.04.jpeg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/Szj83EwEb4JqFE3",
+  },
   {
     id: "DokSekolah07012026mssanto",
     title: "Dok. Sekolah 7-9012026 (MS Santo😘)",
