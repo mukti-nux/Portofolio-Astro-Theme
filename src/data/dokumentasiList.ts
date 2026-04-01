@@ -19,14 +19,14 @@ const dokumentasiList: DokumentasiItem[] = [
     id: "DokSekolah30032026",
     title: "Dok. Sekolah 30032026",
     description: "Documentation of the halal bi halal event, and first going to school Muhammadiyah Junior High School.",
-    imageUrl: "https://cdn.jsdelivr.net/gh/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-04-01%20at%2022.05.24.jpeg?raw=true",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-04-01%20at%2022.05.24.jpeg?raw=true",
     link: "https://drive.google.com/drive/folders/1Y_9A29z9PLY_PyDwdH4m3ViAa5_lVbrr?usp=sharing",
   },
   {
     id: "DokSekolah27032026",
     title: "Dok. Sekolah 27032026",
     description: "Documentation of the halal bi halal event, Friday morning dawn lecture at the Muhammadiyah Tempuran College complex.",
-    imageUrl: "https://cdn.jsdelivr.net/gh/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-04-01%20at%2022.05.00.jpeg?raw=true",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-04-01%20at%2022.05.00.jpeg?raw=true",
     link: "https://drive.google.com/drive/folders/1quJ1OVWRyGEPq0QJxyKtdP5KIOkFJyO_?usp=sharing",
   },
   {
