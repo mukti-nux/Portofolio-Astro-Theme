@@ -16,6 +16,13 @@ const dokumentasiList: DokumentasiItem[] = [
   },
   //----- paling duwur -----//
   {
+    id: "DokSekolah26052026",
+    title: "Dok. Sekolah 26052026",
+    description: "Documentation of the Eid al-Adha camp event in 1447 H which was handled by the Hizbul Wathan team.",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-05-27%20at%2018.37.40.jpeg?raw=true",
+    link: "https://drive.google.com/drive/folders/1NtY-IH-bZDadm_SrKJOOBvpMhao6viye?usp=sharing",
+  },
+  {
     id: "DokSekolah02052026",
     title: "Dok. Sekolah 02052026",
     description: "documentation of the ceremony commemorating National Education Day.",
