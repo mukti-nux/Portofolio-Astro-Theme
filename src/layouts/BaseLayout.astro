@@ -1,0 +1,157 @@
+---
+
+import { AstroFont } from "astro-font";
+import AppFooter from "../components/AppFooter.astro";
+import AppHeader from "../components/AppHeader.astro";
+import PaymentModalWrapper from "../components/PaymentModalWrapper";
+import "./../tailus.css";
+
+const {
+title = "MuktiLabs - Jasa Pembuatan Website Profesional",
+description = "MuktiLabs menyediakan jasa pembuatan website, dashboard, landing page, sistem informasi, dan solusi digital modern.",
+image = "https://muktilabs.my.id/favicon.svg",
+canonical = "https://muktilabs.my.id",
+showVideo = false,
+showImage = false,
+playAudio = false,
+hideHeader = false
+} = Astro.props;
+----------------
+
+<!DOCTYPE html>
+
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+
+<meta
+ name="viewport"
+ content="width=device-width, initial-scale=1"
+/>
+
+  <title>{title}</title>
+
+<meta
+ name="description"
+ content={description}
+/>
+
+  <link
+    rel="canonical"
+    href={canonical}
+  />
+
+  <link
+    rel="icon"
+    href="/favicon.svg"
+    type="image/svg+xml"
+  />
+
+<meta
+ name="generator"
+ content={Astro.generator}
+/>
+
+  <!-- Open Graph -->
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={image} />
+  <meta property="og:url" content={canonical} />
+
+  <!-- Twitter -->
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image} />
+
+  <!-- Theme -->
+
+  <meta name="theme-color" content="#0f172a" />
+
+  <!-- Robots -->
+
+<meta
+ name="robots"
+ content="index, follow"
+/>
+
+  <!-- Structured Data -->
+
+  <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"ProfessionalService",
+      "name":"MuktiLabs",
+      "url":"https://muktilabs.my.id",
+      "logo":"https://muktilabs.my.id/logo.png",
+      "description":"Jasa pembuatan website profesional",
+      "areaServed":"Indonesia"
+    }
+  </script>
+
+<AstroFont
+config={[
+{
+src: [],
+name: "Urbanist",
+preload: true,
+display: "swap",
+selector: "html",
+fallback: "sans-serif",
+googleFontsURL:
+"https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap"
+}
+]}
+/>
+
+</head>
+
+<body
+  class="overflow-x-hidden bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300"
+>
+
+{showVideo && ( <div class="fixed inset-0 -z-10 overflow-hidden"> <video
+     autoplay
+     muted
+     loop
+     playsinline
+     preload="metadata"
+     class="w-full h-full object-cover"
+   > <source src="/bg/videobg2.mp4" type="video/mp4" /> </video> </div>
+)}
+
+{showImage && ( <div class="fixed inset-0 -z-10 overflow-hidden"> <img
+     src="/images/bgimage.jpg"
+     alt="Background"
+     loading="eager"
+     class="w-full h-full object-cover"
+   /> </div>
+)}
+
+{!hideHeader && <AppHeader />}
+
+  <main>
+    <slot />
+  </main>
+
+  <PaymentModalWrapper client:load />
+
+  <AppFooter />
+
+{playAudio && ( <script is:inline>
+window.addEventListener(
+"click",
+() => {
+const audio = new Audio("/music/soundbg3.mp3");
+audio.loop = true;
+audio.play();
+},
+{ once: true }
+); </script>
+)}
+
+</body>
+</html>
