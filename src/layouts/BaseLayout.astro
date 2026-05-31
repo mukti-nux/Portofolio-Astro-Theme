@@ -9,149 +9,184 @@ import "./../tailus.css";
 const {
 title = "MuktiLabs - Jasa Pembuatan Website Profesional",
 description = "MuktiLabs menyediakan jasa pembuatan website, dashboard, landing page, sistem informasi, dan solusi digital modern.",
-image = "https://muktilabs.my.id/favicon.svg",
+image = "https://muktilabs.my.id/og-image.jpg",
 canonical = "https://muktilabs.my.id",
 showVideo = false,
 showImage = false,
 playAudio = false,
-hideHeader = false
+hideHeader = false,
 } = Astro.props;
-----------------
+
+const structuredData = {
+"@context": "https://schema.org",
+"@type": "ProfessionalService",
+name: "MuktiLabs",
+url: "https://muktilabs.my.id",
+logo: "https://muktilabs.my.id/logo.png",
+description:
+"MuktiLabs menyediakan jasa pembuatan website profesional, dashboard admin, landing page dan sistem informasi.",
+areaServed: "Indonesia",
+};
+---
 
 <!DOCTYPE html>
 
 <html lang="id" class="dark">
-<head>
-  <meta charset="UTF-8" />
+  <head>
+    <meta charset="UTF-8" />
 
+```
 <meta
- name="viewport"
- content="width=device-width, initial-scale=1"
+  name="viewport"
+  content="width=device-width, initial-scale=1"
 />
 
-  <title>{title}</title>
+<title>{title}</title>
 
 <meta
- name="description"
- content={description}
+  name="description"
+  content={description}
 />
-
-  <link
-    rel="canonical"
-    href={canonical}
-  />
-
-  <link
-    rel="icon"
-    href="/favicon.svg"
-    type="image/svg+xml"
-  />
 
 <meta
- name="generator"
- content={Astro.generator}
+  name="robots"
+  content="index,follow"
 />
-
-  <!-- Open Graph -->
-
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content={image} />
-  <meta property="og:url" content={canonical} />
-
-  <!-- Twitter -->
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={image} />
-
-  <!-- Theme -->
-
-  <meta name="theme-color" content="#0f172a" />
-
-  <!-- Robots -->
 
 <meta
- name="robots"
- content="index, follow"
+  name="theme-color"
+  content="#0f172a"
 />
 
-  <!-- Structured Data -->
+<link
+  rel="canonical"
+  href={canonical}
+/>
 
-  <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"ProfessionalService",
-      "name":"MuktiLabs",
-      "url":"https://muktilabs.my.id",
-      "logo":"https://muktilabs.my.id/logo.png",
-      "description":"Jasa pembuatan website profesional",
-      "areaServed":"Indonesia"
-    }
-  </script>
+<link
+  rel="icon"
+  href="/favicon.svg"
+  type="image/svg+xml"
+/>
+
+<meta
+  name="generator"
+  content={Astro.generator}
+/>
+
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content="MuktiLabs" />
+
+
+<meta
+  name="twitter:card"
+  content="summary_large_image"
+/>
+
+<meta
+  name="twitter:title"
+  content={title}
+/>
+
+<meta
+  name="twitter:description"
+  content={description}
+/>
+
+<meta
+  name="twitter:image"
+  content={image}
+/>
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(structuredData)}
+/>
 
 <AstroFont
-config={[
-{
-src: [],
-name: "Urbanist",
-preload: true,
-display: "swap",
-selector: "html",
-fallback: "sans-serif",
-googleFontsURL:
-"https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap"
-}
-]}
+  config={[
+    {
+      src: [],
+      name: "Urbanist",
+      preload: true,
+      display: "swap",
+      selector: "html",
+      fallback: "sans-serif",
+      googleFontsURL:
+        "https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap",
+    },
+  ]}
 />
+```
 
-</head>
+  </head>
 
-<body
-  class="overflow-x-hidden bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300"
->
+  <body
+    class="overflow-x-hidden bg-white text-black dark:bg-gray-950 dark:text-white transition-colors duration-300"
+  >
+    {showVideo && (
+      <div class="fixed inset-0 -z-10 overflow-hidden">
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          class="h-full w-full object-cover"
+        >
+          <source
+            src="/bg/videobg2.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+    )}
 
-{showVideo && ( <div class="fixed inset-0 -z-10 overflow-hidden"> <video
-     autoplay
-     muted
-     loop
-     playsinline
-     preload="metadata"
-     class="w-full h-full object-cover"
-   > <source src="/bg/videobg2.mp4" type="video/mp4" /> </video> </div>
+```
+{showImage && (
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <img
+      src="/images/bgimage.jpg"
+      alt="Background"
+      loading="eager"
+      class="h-full w-full object-cover"
+    />
+  </div>
 )}
 
-{showImage && ( <div class="fixed inset-0 -z-10 overflow-hidden"> <img
-     src="/images/bgimage.jpg"
-     alt="Background"
-     loading="eager"
-     class="w-full h-full object-cover"
-   /> </div>
+{!hideHeader && (
+  <AppHeader />
 )}
 
-{!hideHeader && <AppHeader />}
+<main>
+  <slot />
+</main>
 
-  <main>
-    <slot />
-  </main>
+<PaymentModalWrapper client:load />
 
-  <PaymentModalWrapper client:load />
+<AppFooter />
 
-  <AppFooter />
-
-{playAudio && ( <script is:inline>
-window.addEventListener(
-"click",
-() => {
-const audio = new Audio("/music/soundbg3.mp3");
-audio.loop = true;
-audio.play();
-},
-{ once: true }
-); </script>
+{playAudio && (
+  <script is:inline>
+    {`
+      window.addEventListener(
+        "click",
+        () => {
+          const audio = new Audio("/music/soundbg3.mp3");
+          audio.loop = true;
+          audio.play().catch(() => {});
+        },
+        { once: true }
+      );
+    `}
+  </script>
 )}
+```
 
-</body>
+  </body>
 </html>
