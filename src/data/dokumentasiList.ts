@@ -15,6 +15,14 @@ const dokumentasiList: DokumentasiItem[] = [
     link: "https://cloud.portofolioku-v2.my.id/s/KHRAEysCrSbNeY9",
   },
   //----- paling duwur -----//
+
+  {
+    id: "DokSekolaha13062026",
+    title: "Dok. Sekolah 13062026",
+    description: "Documentation of the graduation ceremony for the graduating students of Muhammadiyah Tempuran Junior High School 2026.",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-06-15%20at%2011.13.20.jpeg?raw=true",
+    link: "https://drive.google.com/drive/folders/1hf9rDDw5-YRSp_MX_oX3_4OCLdB3oDuK?usp=sharing",
+  },
   {
     id: "DokSekolah26052026",
     title: "Dok. Sekolah 26052026",
@@ -28,6 +36,14 @@ const dokumentasiList: DokumentasiItem[] = [
     description: "documentation of the ceremony commemorating National Education Day.",
     imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-05-10%20at%2020.33.08.jpeg?raw=true",
     link: "https://drive.google.com/drive/folders/1cCQPCgny6TK55pEaTuZBhFoX4QCqCYv0?usp=sharing",
+  },
+  
+  {
+    id: "DokWisDakwah19054026",
+    title: "Dok. Wisata Dakwah 19052026",
+    description: "Documentation of the 2026 Aisyiyah Islamic outreach event at Soepardi Field.",
+    imageUrl: "https://github.com/mukti-nux/portof-asset/blob/main/WhatsApp%20Image%202026-06-15%20at%2011.23.13.jpeg?raw=true",
+    link: "https://cloud.portofolioku-v2.my.id/s/4nq8EpLWZAL9Q5b",
   },
   {
     id: "DokUmum04054026",
